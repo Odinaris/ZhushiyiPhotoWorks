@@ -14,6 +14,15 @@ Page({
     this.loadContactInfo()
   },
 
+  onShow() {
+    // 设置自定义 TabBar 选中状态
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().updateSelected(2)
+      // 强制刷新 TabBar 的管理员状态
+      this.getTabBar().updateAdminStatus()
+    }
+  },
+
   // 加载联系信息
   async loadContactInfo() {
     try {

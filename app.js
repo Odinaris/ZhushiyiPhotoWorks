@@ -21,12 +21,12 @@ App({
       })
     }
 
-    // 获取用户角色
-    this.getUserRole()
+    // 自动登录（不需要用户授权）
+    this.autoLogin()
   },
 
-  // 获取用户角色
-  async getUserRole() {
+  // 自动登录（静默登录，不需要用户授权）
+  async autoLogin() {
     try {
       const res = await wx.cloud.callFunction({
         name: 'getUserRole'
@@ -34,24 +34,56 @@ App({
       
       if (res.result && res.result.success) {
         this.globalData.userRole = res.result.data.role || 'user'
-        this.globalData.isAdmin = res.result.data.role === 'admin'
+        this.globalData.isAdmin = res.result.data.isAdmin || false
         this.globalData.userInfo = res.result.data.userInfo
         this.globalData.userRoleReady = true
         
-        // 触发全局事件，通知页面用户角色已加载
-        if (this.userRoleCallback) {
-          this.userRoleCallback(this.globalData.isAdmin)
+        // 触发所有等待的回调
+        if (this.userRoleCallbacks && this.userRoleCallbacks.length > 0) {
+          this.userRoleCallbacks.forEach(callback => {
+            callback(this.globalData.isAdmin)
+          })
+          this.userRoleCallbacks = []
         }
         
-        console.log('用户角色加载完成:', this.globalData.userRole, 'isAdmin:', this.globalData.isAdmin)
+        // 通知自定义 TabBar 更新
+        this.updateTabBar()
       }
     } catch (err) {
-      console.error('获取用户角色失败:', err)
+      console.error('自动登录失败:', err)
       // 默认为普通用户
       this.globalData.userRole = 'user'
       this.globalData.isAdmin = false
       this.globalData.userRoleReady = true
+      
+      // 触发所有等待的回调
+      if (this.userRoleCallbacks && this.userRoleCallbacks.length > 0) {
+        this.userRoleCallbacks.forEach(callback => {
+          callback(false)
+        })
+        this.userRoleCallbacks = []
+      }
+      
+      // 通知自定义 TabBar 更新
+      this.updateTabBar()
     }
+  },
+
+  // 更新自定义 TabBar
+  updateTabBar() {
+    if (typeof this.getTabBar === 'function') {
+      const tabBar = this.getTabBar()
+      if (tabBar) {
+        tabBar.setData({
+          isAdmin: this.globalData.isAdmin
+        })
+      }
+    }
+  },
+
+  // 获取用户角色（保留兼容性）
+  async getUserRole() {
+    return this.autoLogin()
   },
 
   // 检查是否是管理员
@@ -59,17 +91,22 @@ App({
     return this.globalData.isAdmin
   },
 
-  // 等待用户角色加载完成
+  // 等待用户角色加载完成（支持多个监听者）
   waitForUserRole() {
     return new Promise((resolve) => {
       if (this.globalData.userRoleReady) {
         resolve(this.globalData.isAdmin)
       } else {
-        this.userRoleCallback = resolve
+        // 支持多个回调
+        if (!this.userRoleCallbacks) {
+          this.userRoleCallbacks = []
+        }
+        this.userRoleCallbacks.push(resolve)
+        
         // 设置超时
         setTimeout(() => {
           resolve(this.globalData.isAdmin)
-        }, 3000)
+        }, 5000)
       }
     })
   }

@@ -28,12 +28,6 @@
     </view>
   </view>
 
-  <!-- 管理入口(仅管理员可见) -->
-  <view class="admin-entry" wx:if="{{isAdmin}}" bindtap="goToAdmin">
-    <text class="admin-icon">⚙️</text>
-    <text class="admin-text">管理后台</text>
-  </view>
-
   <!-- 精选作品 -->
   <view class="featured-section">
     <view class="section-header">
@@ -70,4 +64,22 @@
   <view class="loading-container" wx:if="{{loading}}">
     <text>加载中...</text>
   </view>
+
+  <!-- 开发辅助：显示 openId 按钮（仅开发环境） -->
+  <button 
+    class="debug-openid-button" 
+    wx:if="{{showDebugOpenId}}"
+    bindtap="showMyOpenId"
+  >
+    📋 获取我的 openId
+  </button>
+  
+  <!-- 调试面板按钮 -->
+  <button 
+    class="debug-panel-button" 
+    wx:if="{{showDebugOpenId}}"
+    bindtap="showDebugInfo"
+  >
+    🔍 状态调试
+  </button>
 </view>

@@ -8,6 +8,10 @@ saaa_config.json
 # 环境配置 - 包含敏感信息
 env.config.js
 
+# 管理员配置 - 包含 openId 敏感信息
+cloudfunctions/admin.config.js
+cloudfunctions/*/admin.config.js
+
 # 云函数
 cloudfunctions/**/node_modules/
 

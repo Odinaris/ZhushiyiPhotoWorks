@@ -19,6 +19,7 @@
     "backgroundColor": "#f5f5f5"
   },
   "tabBar": {
+    "custom": true,
     "color": "#999999",
     "selectedColor": "#000000",
     "backgroundColor": "#ffffff",
@@ -41,6 +42,12 @@
         "text": "联系我",
         "iconPath": "images/tab-contact.png",
         "selectedIconPath": "images/tab-contact-active.png"
+      },
+      {
+        "pagePath": "pages/admin/dashboard/dashboard",
+        "text": "管理",
+        "iconPath": "images/tab-manage.png",
+        "selectedIconPath": "images/tab-manage-active.png"
       }
     ]
   },

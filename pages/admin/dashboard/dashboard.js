@@ -17,6 +17,13 @@ Page({
   },
 
   onShow() {
+    // 设置自定义 TabBar 选中状态
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().updateSelected(3)
+      // 强制刷新 TabBar 的管理员状态
+      this.getTabBar().updateAdminStatus()
+    }
+    
     // 每次显示时刷新数据
     this.loadStats()
   },

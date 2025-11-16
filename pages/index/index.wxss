@@ -114,6 +114,8 @@
   letter-spacing: 1rpx;
 }
 
+
+
 /* 精选作品 */
 .featured-section {
   margin-top: 48rpx;
@@ -201,4 +203,62 @@
 .album-count {
   color: #999;
   font-weight: 300;
+}
+
+/* 开发环境辅助按钮 */
+.debug-openid-button {
+  position: fixed;
+  bottom: 120rpx;
+  right: 30rpx;
+  z-index: 999;
+  background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+  color: #FFFFFF;
+  font-size: 26rpx;
+  padding: 20rpx 32rpx;
+  border-radius: 50rpx;
+  border: none;
+  box-shadow: 0 6rpx 24rpx rgba(74, 144, 226, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  font-weight: 500;
+  letter-spacing: 1rpx;
+}
+
+.debug-openid-button::after {
+  border: none;
+}
+
+.debug-openid-button:active {
+  opacity: 0.9;
+  transform: scale(0.98);
+}
+
+/* 调试面板按钮 */
+.debug-panel-button {
+  position: fixed;
+  bottom: 200rpx;
+  right: 30rpx;
+  z-index: 999;
+  background: linear-gradient(135deg, #FF6B35 0%, #E5533D 100%);
+  color: #FFFFFF;
+  font-size: 26rpx;
+  padding: 20rpx 32rpx;
+  border-radius: 50rpx;
+  border: none;
+  box-shadow: 0 6rpx 24rpx rgba(255, 107, 53, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  font-weight: 500;
+  letter-spacing: 1rpx;
+}
+
+.debug-panel-button::after {
+  border: none;
+}
+
+.debug-panel-button:active {
+  opacity: 0.9;
+  transform: scale(0.98);
 }

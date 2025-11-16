@@ -1,4 +1,4 @@
-// 云函数入口文件
+// 云函数：微信登录（基于 openId 白名单）
 const cloud = require('wx-server-sdk')
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 
@@ -19,9 +19,10 @@ const ADMIN_OPENIDS = adminConfig.ADMIN_OPENIDS || []
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   const openid = wxContext.OPENID
+  const { userInfo } = event // 从小程序端传来的用户信息
 
   try {
-    // 基于 openId 判断是否为管理员
+    // 判断是否为管理员
     const isAdmin = ADMIN_OPENIDS.includes(openid)
 
     // 查询用户信息
@@ -30,29 +31,36 @@ exports.main = async (event, context) => {
     }).get()
 
     let user = null
-    let role = isAdmin ? 'admin' : 'user'
+    let isNewUser = false
 
     if (userRes.data.length > 0) {
+      // 已存在用户，更新信息
       user = userRes.data[0]
       
-      // 同步角色到数据库
-      if (user.role !== role) {
-        await db.collection('users').doc(user._id).update({
-          data: {
-            role: role,
-            updateTime: new Date()
-          }
-        })
-        user.role = role
+      const updateData = {
+        updateTime: new Date(),
+        role: isAdmin ? 'admin' : 'user'
       }
+      
+      // 更新用户信息
+      if (userInfo?.nickName) updateData.nickName = userInfo.nickName
+      if (userInfo?.avatarUrl) updateData.avatarUrl = userInfo.avatarUrl
+      
+      await db.collection('users').doc(user._id).update({
+        data: updateData
+      })
+      
+      // 更新本地用户对象
+      user = { ...user, ...updateData }
     } else {
-      // 首次登录，创建用户记录
+      // 新用户，创建记录
+      isNewUser = true
       const createRes = await db.collection('users').add({
         data: {
           _openid: openid,
-          role: role,
-          nickName: '',
-          avatarUrl: '',
+          nickName: userInfo?.nickName || '',
+          avatarUrl: userInfo?.avatarUrl || '',
+          role: isAdmin ? 'admin' : 'user',
           createTime: new Date(),
           updateTime: new Date()
         }
@@ -61,22 +69,23 @@ exports.main = async (event, context) => {
       user = {
         _id: createRes._id,
         _openid: openid,
-        role: role,
-        nickName: '',
-        avatarUrl: ''
+        nickName: userInfo?.nickName || '',
+        avatarUrl: userInfo?.avatarUrl || '',
+        role: isAdmin ? 'admin' : 'user'
       }
     }
 
     return {
       success: true,
       data: {
-        role: role,
-        userInfo: user,
-        isAdmin: isAdmin
+        openid: openid,
+        user: user,
+        isAdmin: isAdmin,
+        isNewUser: isNewUser
       }
     }
   } catch (err) {
-    console.error('获取用户角色失败:', err)
+    console.error('微信登录失败:', err)
     return {
       success: false,
       message: err.message
