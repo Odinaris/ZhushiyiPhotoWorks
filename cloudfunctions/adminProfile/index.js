@@ -48,8 +48,11 @@ exports.main = async (event, context) => {
           .limit(1)
           .get()
         
+        // 过滤掉 _id 和其他系统字段
+        const { _id, _openid, ...cleanData } = data
+        
         const updateData = {
-          ...data,
+          ...cleanData,
           updateTime: new Date()
         }
         
