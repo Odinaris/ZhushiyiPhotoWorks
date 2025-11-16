@@ -1,0 +1,70 @@
+<view class="albums-container">
+  <!-- 左侧分类列表 -->
+  <scroll-view class="category-sidebar" scroll-y>
+    <view 
+      class="category-item {{currentCategoryId === '' ? 'active' : ''}}"
+      bindtap="onCategoryChange"
+      data-id=""
+    >
+      <text class="category-name">全部</text>
+      <text class="category-count">{{totalCount}}</text>
+    </view>
+    <view 
+      class="category-item {{currentCategoryId === item._id ? 'active' : ''}}"
+      wx:for="{{categories}}"
+      wx:key="_id"
+      bindtap="onCategoryChange"
+      data-id="{{item._id}}"
+      data-name="{{item.name}}"
+    >
+      <text class="category-name">{{item.name}}</text>
+      <text class="category-count">{{item.albumCount || 0}}</text>
+    </view>
+  </scroll-view>
+
+  <!-- 右侧作品集列表 -->
+  <scroll-view class="albums-content" scroll-y bindscrolltolower="onReachBottom">
+    <view class="content-header">
+      <text class="content-title">{{currentCategoryName || '全部作品'}}</text>
+      <text class="content-count">共 {{albums.length}} 个作品集</text>
+    </view>
+
+    <view class="albums-list" wx:if="{{albums.length > 0}}">
+      <view 
+        class="album-card"
+        wx:for="{{albums}}"
+        wx:key="_id"
+        bindtap="goToAlbumDetail"
+        data-id="{{item._id}}"
+      >
+        <image class="album-cover" src="{{item.coverImage}}" mode="aspectFill"></image>
+        <view class="album-overlay">
+          <view class="album-title">{{item.title}}</view>
+          <view class="album-desc">{{item.description}}</view>
+          <view class="album-footer">
+            <text class="album-category">{{item.categoryName}}</text>
+            <text class="album-count">{{item.images.length}}张</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="empty-container" wx:else>
+      <view class="empty-icon">📷</view>
+      <view class="empty-text">该分类暂无作品</view>
+    </view>
+
+    <!-- 加载更多 -->
+    <view class="load-more" wx:if="{{hasMore}}">
+      <text>加载更多...</text>
+    </view>
+    <view class="load-more" wx:elif="{{albums.length > 0}}">
+      <text>已加载全部</text>
+    </view>
+  </scroll-view>
+
+  <!-- 加载状态 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+</view>

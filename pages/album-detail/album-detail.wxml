@@ -1,0 +1,47 @@
+<view class="detail-container">
+  <!-- 头部信息 -->
+  <view class="detail-header">
+    <view class="album-title">{{album.title}}</view>
+    <view class="album-info">
+      <text class="info-item">{{album.categoryName}}</text>
+      <text class="info-divider">·</text>
+      <text class="info-item">{{album.images.length}}张照片</text>
+      <text class="info-divider">·</text>
+      <text class="info-item">{{album.viewCount || 0}}次浏览</text>
+    </view>
+    <view class="album-description" wx:if="{{album.description}}">{{album.description}}</view>
+  </view>
+
+  <!-- 图片瀑布流 -->
+  <view class="images-grid">
+    <view 
+      class="image-item"
+      wx:for="{{album.images}}"
+      wx:key="index"
+      bindtap="previewImage"
+      data-index="{{index}}"
+    >
+      <image class="item-image" src="{{item.url}}" mode="aspectFill" lazy-load></image>
+      <view class="image-desc" wx:if="{{item.description}}">{{item.description}}</view>
+    </view>
+  </view>
+
+  <!-- 分享按钮 -->
+  <view class="share-section">
+    <button class="share-btn" open-type="share">
+      <text class="share-icon">📤</text>
+      <text>分享给好友</text>
+    </button>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-container" wx:if="{{!loading && !album._id}}">
+    <view class="empty-icon">📷</view>
+    <view class="empty-text">作品集不存在</view>
+  </view>
+</view>

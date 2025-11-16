@@ -1,0 +1,73 @@
+<view class="index-container">
+  <!-- 堆叠轮播图 -->
+  <view class="banner-section">
+    <swiper 
+      class="banner-swiper" 
+      indicator-dots="{{true}}"
+      autoplay="{{true}}"
+      interval="{{3000}}"
+      duration="{{500}}"
+      circular="{{true}}"
+      previous-margin="{{banners.length > 1 ? '60rpx' : '0'}}"
+      next-margin="{{banners.length > 1 ? '60rpx' : '0'}}"
+    >
+      <swiper-item wx:for="{{banners}}" wx:key="_id" class="banner-item" bindtap="onBannerTap" data-item="{{item}}">
+        <view class="banner-card">
+          <image class="banner-image" src="{{item.imageUrl}}" mode="aspectFill"></image>
+        </view>
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <!-- 品牌信息 -->
+  <view class="brand-section">
+    <view class="brand-name">{{photographer.brandName || '朱适颐'}}</view>
+    <view class="brand-slogan">{{photographer.slogan || '光影留驻，诸事皆宜'}}</view>
+    <view class="brand-styles">
+      <text class="style-tag" wx:for="{{photographer.styles}}" wx:key="index">{{item}}</text>
+    </view>
+  </view>
+
+  <!-- 管理入口(仅管理员可见) -->
+  <view class="admin-entry" wx:if="{{isAdmin}}" bindtap="goToAdmin">
+    <text class="admin-icon">⚙️</text>
+    <text class="admin-text">管理后台</text>
+  </view>
+
+  <!-- 精选作品 -->
+  <view class="featured-section">
+    <view class="section-header">
+      <view class="section-title">精选作品</view>
+      <view class="section-more" bindtap="goToAlbums">查看全部 ></view>
+    </view>
+
+    <view class="album-grid" wx:if="{{featuredAlbums.length > 0}}">
+      <view 
+        class="album-item" 
+        wx:for="{{featuredAlbums}}" 
+        wx:key="_id"
+        bindtap="goToAlbumDetail"
+        data-id="{{item._id}}"
+      >
+        <image class="album-cover" src="{{item.coverImage}}" mode="aspectFill"></image>
+        <view class="album-info">
+          <view class="album-title">{{item.title}}</view>
+          <view class="album-meta">
+            <text class="album-category">{{item.categoryName}}</text>
+            <text class="album-count">{{item.images.length}}张</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="empty-container" wx:else>
+      <view class="empty-icon">📷</view>
+      <view class="empty-text">暂无精选作品</view>
+    </view>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+</view>

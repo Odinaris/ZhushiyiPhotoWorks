@@ -1,0 +1,58 @@
+<view class="admin-page">
+  <view class="page-header">
+    <view class="header-title">轮播图管理</view>
+    <button class="add-btn" bindtap="addBanner">+ 添加</button>
+  </view>
+
+  <view class="banner-list" wx:if="{{banners.length > 0}}">
+    <view class="banner-item" wx:for="{{banners}}" wx:key="_id">
+      <image class="banner-image" src="{{item.imageUrl}}" mode="aspectFill"></image>
+      <view class="banner-info">
+        <view class="banner-order">序号: {{item.order}}</view>
+        <view class="banner-status">{{item.isActive ? '已启用' : '已禁用'}}</view>
+      </view>
+      <view class="banner-actions">
+        <button class="action-btn edit" bindtap="editBanner" data-item="{{item}}">编辑</button>
+        <button class="action-btn delete" bindtap="deleteBanner" data-id="{{item._id}}">删除</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-container" wx:else>
+    <view class="empty-icon">🖼️</view>
+    <view class="empty-text">暂无轮播图</view>
+  </view>
+</view>
+
+<!-- 编辑弹窗 -->
+<view class="modal {{showModal ? 'show' : ''}}" catchtap="closeModal">
+  <view class="modal-content" catchtap="stopPropagation">
+    <view class="modal-title">{{modalTitle}}</view>
+    
+    <view class="form-item">
+      <view class="form-label">图片</view>
+      <view class="image-upload" bindtap="chooseImage">
+        <image wx:if="{{formData.imageUrl}}" class="upload-preview" src="{{formData.imageUrl}}" mode="aspectFill"></image>
+        <view wx:else class="upload-placeholder">
+          <text class="upload-icon">+</text>
+          <text class="upload-text">选择图片</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">排序</view>
+      <input class="form-input" type="number" value="{{formData.order}}" bindinput="onInputChange" data-field="order" placeholder="请输入排序序号"/>
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">状态</view>
+      <switch checked="{{formData.isActive}}" bindchange="onSwitchChange" data-field="isActive"/>
+    </view>
+
+    <view class="modal-actions">
+      <button class="modal-btn cancel" bindtap="closeModal">取消</button>
+      <button class="modal-btn confirm" bindtap="saveBanner">保存</button>
+    </view>
+  </view>
+</view>

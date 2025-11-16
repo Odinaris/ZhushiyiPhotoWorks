@@ -1,0 +1,71 @@
+<view class="contact-container">
+  <!-- 问答列表 -->
+  <view class="qa-section" wx:if="{{contactInfo.qaList && contactInfo.qaList.length > 0}}">
+    <view class="section-title">常见问题</view>
+    <view class="qa-list">
+      <view class="qa-item" wx:for="{{contactInfo.qaList}}" wx:key="index">
+        <view class="question">
+          <text class="q-icon">Q</text>
+          <text class="q-text">{{item.question}}</text>
+        </view>
+        <view class="answer">
+          <text class="a-icon">A</text>
+          <text class="a-text">{{item.answer}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 联系方式 -->
+  <view class="contacts-section" wx:if="{{contactInfo.contacts && contactInfo.contacts.length > 0}}">
+    <view class="section-title">联系方式</view>
+    <view class="contacts-list">
+      <view class="contact-item" wx:for="{{contactInfo.contacts}}" wx:key="index">
+        <view class="contact-icon">{{item.icon || '📞'}}</view>
+        <view class="contact-content">
+          <view class="contact-label">{{item.label}}</view>
+          <view class="contact-value">{{item.value}}</view>
+        </view>
+        <view class="contact-action" wx:if="{{item.type === 'phone'}}" bindtap="makePhoneCall" data-phone="{{item.value}}">
+          <text>拨打</text>
+        </view>
+        <view class="contact-action" wx:elif="{{item.type === 'wechat'}}" bindtap="copyText" data-text="{{item.value}}">
+          <text>复制</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 工作时间 -->
+  <view class="info-section" wx:if="{{contactInfo.workingHours}}">
+    <view class="info-card">
+      <view class="info-icon">🕐</view>
+      <view class="info-content">
+        <view class="info-label">工作时间</view>
+        <view class="info-value">{{contactInfo.workingHours}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 地址 -->
+  <view class="info-section" wx:if="{{contactInfo.location}}">
+    <view class="info-card">
+      <view class="info-icon">📍</view>
+      <view class="info-content">
+        <view class="info-label">工作室地址</view>
+        <view class="info-value">{{contactInfo.location}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-container" wx:if="{{!loading && !hasData}}">
+    <view class="empty-icon">📧</view>
+    <view class="empty-text">暂无联系信息</view>
+  </view>
+</view>

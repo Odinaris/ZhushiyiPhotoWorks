@@ -1,0 +1,27 @@
+<view class="edit-page">
+  <view class="form-section">
+    <view class="form-item">
+      <view class="form-label">品牌名称</view>
+      <input class="form-input" value="{{formData.brandName}}" bindinput="onInputChange" data-field="brandName" placeholder="请输入品牌名称"/>
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">个性签名</view>
+      <input class="form-input" value="{{formData.slogan}}" bindinput="onInputChange" data-field="slogan" placeholder="请输入个性签名"/>
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">品牌介绍</view>
+      <textarea class="form-textarea" value="{{formData.introduction}}" bindinput="onInputChange" data-field="introduction" placeholder="请输入品牌介绍" maxlength="500"></textarea>
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">主要拍摄风格(多个用逗号分隔)</view>
+      <input class="form-input" value="{{stylesStr}}" bindinput="onStylesChange" placeholder="例如: 人像,风光,纪实"/>
+    </view>
+  </view>
+
+  <view class="form-actions">
+    <button class="action-btn save" bindtap="saveProfile">保存</button>
+  </view>
+</view>

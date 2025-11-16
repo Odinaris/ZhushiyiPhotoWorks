@@ -1,0 +1,42 @@
+@import "../banners/banners.wxss";
+
+.list-item {
+  background-color: #fff;
+  border-radius: 12rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.item-info {
+  margin-bottom: 20rpx;
+}
+
+.item-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 12rpx;
+}
+
+.item-meta {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.divider {
+  margin: 0 8rpx;
+}
+
+.active {
+  color: #52c41a;
+}
+
+.inactive {
+  color: #ff4d4f;
+}
+
+.item-actions {
+  display: flex;
+  gap: 20rpx;
+}

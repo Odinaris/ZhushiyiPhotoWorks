@@ -1,0 +1,56 @@
+<view class="admin-page">
+  <view class="page-header">
+    <view class="header-title">分类管理</view>
+    <button class="add-btn" bindtap="addCategory">+ 添加</button>
+  </view>
+
+  <view class="list" wx:if="{{categories.length > 0}}">
+    <view class="list-item" wx:for="{{categories}}" wx:key="_id">
+      <view class="item-info">
+        <view class="item-name">{{item.name}}</view>
+        <view class="item-meta">
+          <text>序号: {{item.order}}</text>
+          <text class="divider">·</text>
+          <text>作品数: {{item.albumCount || 0}}</text>
+          <text class="divider">·</text>
+          <text class="{{item.isActive ? 'active' : 'inactive'}}">{{item.isActive ? '已启用' : '已禁用'}}</text>
+        </view>
+      </view>
+      <view class="item-actions">
+        <button class="action-btn edit" bindtap="editCategory" data-item="{{item}}">编辑</button>
+        <button class="action-btn delete" bindtap="deleteCategory" data-id="{{item._id}}">删除</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-container" wx:else>
+    <view class="empty-icon">🏷️</view>
+    <view class="empty-text">暂无分类</view>
+  </view>
+</view>
+
+<view class="modal {{showModal ? 'show' : ''}}" catchtap="closeModal">
+  <view class="modal-content" catchtap="stopPropagation">
+    <view class="modal-title">{{modalTitle}}</view>
+    
+    <view class="form-item">
+      <view class="form-label">分类名称</view>
+      <input class="form-input" value="{{formData.name}}" bindinput="onInputChange" data-field="name" placeholder="请输入分类名称"/>
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">排序</view>
+      <input class="form-input" type="number" value="{{formData.order}}" bindinput="onInputChange" data-field="order" placeholder="请输入排序序号"/>
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">状态</view>
+      <switch checked="{{formData.isActive}}" bindchange="onSwitchChange" data-field="isActive"/>
+    </view>
+
+    <view class="modal-actions">
+      <button class="modal-btn cancel" bindtap="closeModal">取消</button>
+      <button class="modal-btn confirm" bindtap="saveCategory">保存</button>
+    </view>
+  </view>
+</view>

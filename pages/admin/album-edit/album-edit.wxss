@@ -1,0 +1,180 @@
+.edit-page {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding: 20rpx;
+  padding-bottom: 120rpx;
+}
+
+.form-section {
+  background-color: #fff;
+  border-radius: 12rpx;
+  padding: 30rpx;
+}
+
+.form-item {
+  margin-bottom: 40rpx;
+}
+
+.form-item:last-child {
+  margin-bottom: 0;
+}
+
+.form-label {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 16rpx;
+}
+
+.form-label-inline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.form-input {
+  width: 100%;
+  padding: 20rpx;
+  border: 2rpx solid #ddd;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+.form-textarea {
+  width: 100%;
+  min-height: 150rpx;
+  padding: 20rpx;
+  border: 2rpx solid #ddd;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+.picker {
+  padding: 20rpx;
+  border: 2rpx solid #ddd;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.image-upload {
+  width: 100%;
+  height: 300rpx;
+  border: 2rpx dashed #ddd;
+  border-radius: 8rpx;
+  overflow: hidden;
+}
+
+.upload-preview {
+  width: 100%;
+  height: 100%;
+}
+
+.upload-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+}
+
+.upload-icon {
+  font-size: 60rpx;
+  margin-bottom: 10rpx;
+}
+
+.upload-text {
+  font-size: 24rpx;
+}
+
+.images-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20rpx;
+}
+
+.grid-item {
+  position: relative;
+  width: 100%;
+  height: 200rpx;
+  border-radius: 8rpx;
+  overflow: hidden;
+}
+
+.grid-image {
+  width: 100%;
+  height: 100%;
+}
+
+.grid-delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50rpx;
+  height: 50rpx;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  line-height: 1;
+}
+
+.add-item {
+  border: 2rpx dashed #ddd;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+}
+
+.add-icon {
+  font-size: 50rpx;
+  margin-bottom: 8rpx;
+}
+
+.add-text {
+  font-size: 22rpx;
+}
+
+.form-actions {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  padding: 20rpx 30rpx;
+  box-shadow: 0 -4rpx 12rpx rgba(0, 0, 0, 0.05);
+  display: flex;
+  gap: 20rpx;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 24rpx;
+  border-radius: 8rpx;
+  font-size: 30rpx;
+  border: none;
+}
+
+.action-btn::after {
+  border: none;
+}
+
+.action-btn.cancel {
+  background-color: #f5f5f5;
+  color: #666;
+}
+
+.action-btn.save {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+}

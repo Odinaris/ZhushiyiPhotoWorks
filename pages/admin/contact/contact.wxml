@@ -1,0 +1,61 @@
+<view class="edit-page">
+  <view class="section">
+    <view class="section-header">
+      <view class="section-title">问答列表</view>
+      <button class="add-btn-small" bindtap="addQA">+</button>
+    </view>
+    
+    <view class="qa-list" wx:if="{{formData.qaList.length > 0}}">
+      <view class="qa-card" wx:for="{{formData.qaList}}" wx:key="index">
+        <view class="form-item">
+          <input class="form-input" value="{{item.question}}" bindinput="onQAChange" data-index="{{index}}" data-field="question" placeholder="问题"/>
+        </view>
+        <view class="form-item">
+          <textarea class="form-textarea" value="{{item.answer}}" bindinput="onQAChange" data-index="{{index}}" data-field="answer" placeholder="回答"/>
+        </view>
+        <button class="delete-btn" bindtap="deleteQA" data-index="{{index}}">删除</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-header">
+      <view class="section-title">联系方式</view>
+      <button class="add-btn-small" bindtap="addContact">+</button>
+    </view>
+    
+    <view class="contact-list" wx:if="{{formData.contacts.length > 0}}">
+      <view class="contact-card" wx:for="{{formData.contacts}}" wx:key="index">
+        <view class="form-item">
+          <input class="form-input" value="{{item.label}}" bindinput="onContactChange" data-index="{{index}}" data-field="label" placeholder="标签(如:微信)"/>
+        </view>
+        <view class="form-item">
+          <input class="form-input" value="{{item.value}}" bindinput="onContactChange" data-index="{{index}}" data-field="value" placeholder="值(如:123456)"/>
+        </view>
+        <view class="form-item">
+          <input class="form-input" value="{{item.type}}" bindinput="onContactChange" data-index="{{index}}" data-field="type" placeholder="类型(phone/wechat/email)"/>
+        </view>
+        <view class="form-item">
+          <input class="form-input" value="{{item.icon}}" bindinput="onContactChange" data-index="{{index}}" data-field="icon" placeholder="图标(emoji)"/>
+        </view>
+        <button class="delete-btn" bindtap="deleteContact" data-index="{{index}}">删除</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="form-item">
+      <view class="form-label">工作时间</view>
+      <input class="form-input" value="{{formData.workingHours}}" bindinput="onInputChange" data-field="workingHours" placeholder="例如: 周一至周五 9:00-18:00"/>
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">工作室地址</view>
+      <textarea class="form-textarea" value="{{formData.location}}" bindinput="onInputChange" data-field="location" placeholder="请输入地址"/>
+    </view>
+  </view>
+
+  <view class="form-actions">
+    <button class="action-btn save" bindtap="saveContact">保存</button>
+  </view>
+</view>

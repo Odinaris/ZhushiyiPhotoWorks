@@ -1,0 +1,79 @@
+<view class="dashboard-container">
+  <view class="dashboard-header">
+    <view class="header-title">管理后台</view>
+    <view class="header-subtitle">欢迎回来</view>
+  </view>
+
+  <!-- 数据统计 -->
+  <view class="stats-section">
+    <view class="stat-card">
+      <view class="stat-value">{{stats.albumCount || 0}}</view>
+      <view class="stat-label">作品集</view>
+    </view>
+    <view class="stat-card">
+      <view class="stat-value">{{stats.categoryCount || 0}}</view>
+      <view class="stat-label">分类</view>
+    </view>
+    <view class="stat-card">
+      <view class="stat-value">{{stats.bannerCount || 0}}</view>
+      <view class="stat-label">轮播图</view>
+    </view>
+    <view class="stat-card">
+      <view class="stat-value">{{stats.totalViews || 0}}</view>
+      <view class="stat-label">总浏览</view>
+    </view>
+  </view>
+
+  <!-- 管理菜单 -->
+  <view class="menu-section">
+    <view class="menu-item" bindtap="navigateTo" data-url="/pages/admin/banners/banners">
+      <view class="menu-icon">🖼️</view>
+      <view class="menu-content">
+        <view class="menu-title">轮播图管理</view>
+        <view class="menu-desc">管理首页轮播图片</view>
+      </view>
+      <view class="menu-arrow">›</view>
+    </view>
+
+    <view class="menu-item" bindtap="navigateTo" data-url="/pages/admin/categories/categories">
+      <view class="menu-icon">🏷️</view>
+      <view class="menu-content">
+        <view class="menu-title">分类管理</view>
+        <view class="menu-desc">管理作品分类标签</view>
+      </view>
+      <view class="menu-arrow">›</view>
+    </view>
+
+    <view class="menu-item" bindtap="navigateTo" data-url="/pages/admin/albums/albums">
+      <view class="menu-icon">📸</view>
+      <view class="menu-content">
+        <view class="menu-title">作品集管理</view>
+        <view class="menu-desc">添加、编辑作品集</view>
+      </view>
+      <view class="menu-arrow">›</view>
+    </view>
+
+    <view class="menu-item" bindtap="navigateTo" data-url="/pages/admin/profile/profile">
+      <view class="menu-icon">👤</view>
+      <view class="menu-content">
+        <view class="menu-title">品牌信息</view>
+        <view class="menu-desc">编辑品牌和个人信息</view>
+      </view>
+      <view class="menu-arrow">›</view>
+    </view>
+
+    <view class="menu-item" bindtap="navigateTo" data-url="/pages/admin/contact/contact">
+      <view class="menu-icon">📞</view>
+      <view class="menu-content">
+        <view class="menu-title">联系方式管理</view>
+        <view class="menu-desc">管理联系信息和Q&A</view>
+      </view>
+      <view class="menu-arrow">›</view>
+    </view>
+  </view>
+
+  <!-- 返回首页 -->
+  <view class="footer-actions">
+    <button class="footer-btn" bindtap="goHome">返回首页</button>
+  </view>
+</view>
