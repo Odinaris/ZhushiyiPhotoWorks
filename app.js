@@ -1,10 +1,12 @@
 // app.js
+const envConfig = require('./env.config.js')
+
 App({
   globalData: {
     userInfo: null,
     userRole: 'user', // user | admin
     isAdmin: false,
-    cloudEnvId: 'cloud1-3g610zw50df8fd55', // 请替换为您的云开发环境ID
+    cloudEnvId: envConfig.cloudEnvId, // 从配置文件读取
     userRoleReady: false // 用户角色是否已加载完成
   },
 
