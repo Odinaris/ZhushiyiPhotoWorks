@@ -11,7 +11,8 @@ Page({
     pageSize: 10,
     hasMore: true,
     loading: true,
-    loadError: false
+    loadError: false,
+    albumCache: {}
   },
 
   onLoad() {
@@ -26,7 +27,6 @@ Page({
       // 强制刷新 TabBar 的管理员状态
       this.getTabBar().updateAdminStatus()
     }
-    // 返回时刷新分类与列表（刷新分页）
     this.loadCategories()
     this.loadAlbums(true)
   },
@@ -79,6 +79,14 @@ Page({
           loading: false,
           loadError: false
         })
+        const key = this.data.currentCategoryId || ''
+        const albumCache = this.data.albumCache
+        albumCache[key] = {
+          albums,
+          page: page,
+          hasMore: newAlbums.length >= this.data.pageSize
+        }
+        this.setData({ albumCache })
       } else {
         throw new Error(r.message || '加载失败')
       }
@@ -104,7 +112,17 @@ Page({
       hasMore: true
     })
 
-    this.loadAlbums(true)
+    const cacheKey = id || ''
+    const cache = this.data.albumCache[cacheKey]
+    if (cache) {
+      this.setData({
+        albums: cache.albums || [],
+        page: cache.page || 1,
+        hasMore: cache.hasMore != null ? cache.hasMore : true
+      })
+    } else {
+      this.loadAlbums(true)
+    }
   },
 
   // 滚动到底部
