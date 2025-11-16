@@ -1,29 +1,39 @@
 .admin-page {
   min-height: 100vh;
-  background-color: #f5f5f5;
-  padding: 20rpx;
+  background-color: #FAFAFA;
+  padding: 24rpx;
 }
 
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30rpx;
+  margin-bottom: 32rpx;
+  padding-bottom: 24rpx;
+  border-bottom: 2rpx solid rgba(0, 0, 0, 0.08);
 }
 
 .header-title {
-  font-size: 36rpx;
-  font-weight: bold;
-  color: #333;
+  font-size: 40rpx;
+  font-weight: 600;
+  color: #1A1A1A;
+  letter-spacing: 2rpx;
 }
 
 .add-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #fff;
-  border-radius: 30rpx;
-  padding: 16rpx 32rpx;
+  background-color: #1A1A1A;
+  color: #FFFFFF;
+  border-radius: 50rpx;
+  padding: 20rpx 40rpx;
   font-size: 26rpx;
   border: none;
+  font-weight: 500;
+  letter-spacing: 1rpx;
+  transition: all 0.3s ease;
+}
+
+.add-btn:active {
+  background-color: #333;
 }
 
 .add-btn::after {
@@ -34,50 +44,56 @@
 .banner-list {
   display: flex;
   flex-direction: column;
-  gap: 20rpx;
+  gap: 24rpx;
 }
 
 .banner-item {
-  background-color: #fff;
-  border-radius: 12rpx;
+  background-color: #FFFFFF;
+  border-radius: 16rpx;
   overflow: hidden;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
+  border: 1rpx solid rgba(0, 0, 0, 0.05);
 }
 
 .banner-image {
   width: 100%;
-  height: 300rpx;
+  height: 320rpx;
+  filter: contrast(1.05);
 }
 
 .banner-info {
   display: flex;
   justify-content: space-between;
-  padding: 20rpx;
-  border-bottom: 1rpx solid #f5f5f5;
+  padding: 24rpx;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.05);
 }
 
 .banner-order {
   font-size: 28rpx;
-  color: #666;
+  color: #333;
+  font-weight: 500;
 }
 
 .banner-status {
   font-size: 24rpx;
-  color: #52c41a;
+  color: #1A1A1A;
+  font-weight: 400;
 }
 
 .banner-actions {
   display: flex;
   gap: 20rpx;
-  padding: 20rpx;
+  padding: 24rpx;
 }
 
 .action-btn {
   flex: 1;
-  padding: 16rpx;
-  border-radius: 8rpx;
+  padding: 20rpx;
+  border-radius: 10rpx;
   font-size: 26rpx;
   border: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .action-btn::after {
@@ -85,27 +101,37 @@
 }
 
 .action-btn.edit {
-  background-color: #1890ff;
-  color: #fff;
+  background-color: #1A1A1A;
+  color: #FFFFFF;
+}
+
+.action-btn.edit:active {
+  background-color: #333;
 }
 
 .action-btn.delete {
-  background-color: #ff4d4f;
-  color: #fff;
+  background-color: #FFFFFF;
+  color: #1A1A1A;
+  border: 2rpx solid #1A1A1A;
 }
 
-/* 模态框 */
+.action-btn.delete:active {
+  background-color: #F5F5F5;
+}
+
+/* 模态框 - 优雅设计 */
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
   display: none;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  backdrop-filter: blur(10rpx);
 }
 
 .modal.show {
@@ -115,49 +141,69 @@
 .modal-content {
   width: 90%;
   max-height: 80vh;
-  background-color: #fff;
-  border-radius: 16rpx;
-  padding: 40rpx;
+  background-color: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 48rpx;
   overflow-y: auto;
+  box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.3);
 }
 
 .modal-title {
-  font-size: 36rpx;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 30rpx;
+  font-size: 40rpx;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 40rpx;
   text-align: center;
+  letter-spacing: 2rpx;
 }
 
 .form-item {
-  margin-bottom: 30rpx;
+  margin-bottom: 36rpx;
 }
 
 .form-label {
   font-size: 28rpx;
-  color: #333;
-  margin-bottom: 16rpx;
+  color: #1A1A1A;
+  margin-bottom: 20rpx;
+  font-weight: 500;
+  letter-spacing: 0.5rpx;
 }
 
 .form-input {
   width: 100%;
-  padding: 20rpx;
-  border: 2rpx solid #ddd;
-  border-radius: 8rpx;
+  padding: 28rpx 24rpx;
+  border: 2rpx solid rgba(0, 0, 0, 0.1);
+  border-radius: 12rpx;
   font-size: 28rpx;
+  background-color: #FAFAFA;
+  transition: all 0.3s ease;
+  min-height: 88rpx;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  border-color: #1A1A1A;
+  background-color: #FFFFFF;
 }
 
 .image-upload {
   width: 100%;
-  height: 300rpx;
-  border: 2rpx dashed #ddd;
-  border-radius: 8rpx;
+  height: 320rpx;
+  border: 2rpx dashed rgba(0, 0, 0, 0.15);
+  border-radius: 12rpx;
   overflow: hidden;
+  background-color: #FAFAFA;
+  transition: all 0.3s ease;
+}
+
+.image-upload:active {
+  border-color: #1A1A1A;
 }
 
 .upload-preview {
   width: 100%;
   height: 100%;
+  filter: contrast(1.05);
 }
 
 .upload-placeholder {
@@ -171,26 +217,31 @@
 }
 
 .upload-icon {
-  font-size: 60rpx;
-  margin-bottom: 10rpx;
+  font-size: 64rpx;
+  margin-bottom: 16rpx;
+  opacity: 0.6;
 }
 
 .upload-text {
   font-size: 24rpx;
+  font-weight: 300;
 }
 
 .modal-actions {
   display: flex;
-  gap: 20rpx;
-  margin-top: 40rpx;
+  gap: 24rpx;
+  margin-top: 48rpx;
 }
 
 .modal-btn {
   flex: 1;
-  padding: 24rpx;
-  border-radius: 8rpx;
+  padding: 28rpx;
+  border-radius: 12rpx;
   font-size: 30rpx;
   border: none;
+  font-weight: 500;
+  letter-spacing: 1rpx;
+  transition: all 0.3s ease;
 }
 
 .modal-btn::after {
@@ -198,11 +249,19 @@
 }
 
 .modal-btn.cancel {
-  background-color: #f5f5f5;
+  background-color: #F5F5F5;
   color: #666;
 }
 
+.modal-btn.cancel:active {
+  background-color: #E8E8E8;
+}
+
 .modal-btn.confirm {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #fff;
+  background-color: #1A1A1A;
+  color: #FFFFFF;
+}
+
+.modal-btn.confirm:active {
+  background-color: #333;
 }

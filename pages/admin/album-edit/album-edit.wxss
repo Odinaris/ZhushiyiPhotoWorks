@@ -1,18 +1,20 @@
 .edit-page {
   min-height: 100vh;
-  background-color: #f5f5f5;
-  padding: 20rpx;
-  padding-bottom: 120rpx;
+  background-color: #FAFAFA;
+  padding: 24rpx;
+  padding-bottom: 140rpx;
 }
 
 .form-section {
-  background-color: #fff;
-  border-radius: 12rpx;
-  padding: 30rpx;
+  background-color: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 40rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.04);
+  border: 1rpx solid rgba(0, 0, 0, 0.05);
 }
 
 .form-item {
-  margin-bottom: 40rpx;
+  margin-bottom: 48rpx;
 }
 
 .form-item:last-child {
@@ -21,9 +23,10 @@
 
 .form-label {
   font-size: 28rpx;
-  color: #333;
+  color: #1A1A1A;
   font-weight: 500;
-  margin-bottom: 16rpx;
+  margin-bottom: 20rpx;
+  letter-spacing: 0.5rpx;
 }
 
 .form-label-inline {
@@ -31,47 +34,70 @@
   justify-content: space-between;
   align-items: center;
   font-size: 28rpx;
-  color: #333;
+  color: #1A1A1A;
+  font-weight: 500;
 }
 
 .form-input {
   width: 100%;
-  padding: 20rpx;
-  border: 2rpx solid #ddd;
-  border-radius: 8rpx;
+  padding: 28rpx 24rpx;
+  border: 2rpx solid rgba(0, 0, 0, 0.1);
+  border-radius: 12rpx;
   font-size: 28rpx;
   box-sizing: border-box;
+  background-color: #FAFAFA;
+  transition: all 0.3s ease;
+  min-height: 88rpx;
+}
+
+.form-input:focus {
+  border-color: #1A1A1A;
+  background-color: #FFFFFF;
 }
 
 .form-textarea {
   width: 100%;
-  min-height: 150rpx;
-  padding: 20rpx;
-  border: 2rpx solid #ddd;
-  border-radius: 8rpx;
+  min-height: 180rpx;
+  padding: 28rpx 24rpx;
+  border: 2rpx solid rgba(0, 0, 0, 0.1);
+  border-radius: 12rpx;
   font-size: 28rpx;
   box-sizing: border-box;
+  background-color: #FAFAFA;
+  transition: all 0.3s ease;
+}
+
+.form-textarea:focus {
+  border-color: #1A1A1A;
+  background-color: #FFFFFF;
 }
 
 .picker {
-  padding: 20rpx;
-  border: 2rpx solid #ddd;
-  border-radius: 8rpx;
+  padding: 28rpx 24rpx;
+  border: 2rpx solid rgba(0, 0, 0, 0.1);
+  border-radius: 12rpx;
   font-size: 28rpx;
-  color: #333;
+  color: #1A1A1A;
+  background-color: #FAFAFA;
+  min-height: 88rpx;
+  display: flex;
+  align-items: center;
 }
 
 .image-upload {
   width: 100%;
-  height: 300rpx;
-  border: 2rpx dashed #ddd;
-  border-radius: 8rpx;
+  height: 320rpx;
+  border: 2rpx dashed rgba(0, 0, 0, 0.15);
+  border-radius: 12rpx;
   overflow: hidden;
+  background-color: #FAFAFA;
+  transition: all 0.3s ease;
 }
 
 .upload-preview {
   width: 100%;
   height: 100%;
+  filter: contrast(1.05);
 }
 
 .upload-placeholder {
@@ -85,12 +111,14 @@
 }
 
 .upload-icon {
-  font-size: 60rpx;
-  margin-bottom: 10rpx;
+  font-size: 64rpx;
+  margin-bottom: 16rpx;
+  opacity: 0.6;
 }
 
 .upload-text {
   font-size: 24rpx;
+  font-weight: 300;
 }
 
 .images-grid {
@@ -103,46 +131,57 @@
   position: relative;
   width: 100%;
   height: 200rpx;
-  border-radius: 8rpx;
+  border-radius: 12rpx;
   overflow: hidden;
+  border: 1rpx solid rgba(0, 0, 0, 0.05);
 }
 
 .grid-image {
   width: 100%;
   height: 100%;
+  filter: contrast(1.05);
 }
 
 .grid-delete {
   position: absolute;
   top: 0;
   right: 0;
-  width: 50rpx;
-  height: 50rpx;
-  background-color: rgba(0, 0, 0, 0.6);
-  color: #fff;
+  width: 54rpx;
+  height: 54rpx;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 40rpx;
   line-height: 1;
+  backdrop-filter: blur(10rpx);
 }
 
 .add-item {
-  border: 2rpx dashed #ddd;
+  border: 2rpx dashed rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   color: #999;
+  background-color: #FAFAFA;
+  transition: all 0.3s ease;
+}
+
+.add-item:active {
+  border-color: #1A1A1A;
 }
 
 .add-icon {
-  font-size: 50rpx;
-  margin-bottom: 8rpx;
+  font-size: 52rpx;
+  margin-bottom: 10rpx;
+  opacity: 0.6;
 }
 
 .add-text {
   font-size: 22rpx;
+  font-weight: 300;
 }
 
 .form-actions {
@@ -150,19 +189,22 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #fff;
-  padding: 20rpx 30rpx;
-  box-shadow: 0 -4rpx 12rpx rgba(0, 0, 0, 0.05);
+  background-color: #FFFFFF;
+  padding: 24rpx 36rpx;
+  box-shadow: 0 -6rpx 24rpx rgba(0, 0, 0, 0.06);
   display: flex;
-  gap: 20rpx;
+  gap: 24rpx;
+  border-top: 1rpx solid rgba(0, 0, 0, 0.05);
 }
 
 .action-btn {
   flex: 1;
-  padding: 24rpx;
-  border-radius: 8rpx;
+  padding: 28rpx;
+  border-radius: 12rpx;
   font-size: 30rpx;
   border: none;
+  font-weight: 500;
+  letter-spacing: 1rpx;
 }
 
 .action-btn::after {
@@ -170,11 +212,11 @@
 }
 
 .action-btn.cancel {
-  background-color: #f5f5f5;
+  background-color: #F5F5F5;
   color: #666;
 }
 
 .action-btn.save {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #fff;
+  background-color: #1A1A1A;
+  color: #FFFFFF;
 }
