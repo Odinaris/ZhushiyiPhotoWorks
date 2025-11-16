@@ -7,6 +7,7 @@ Page({
     currentCategoryId: '',
     currentCategoryName: '',
     totalCount: 0,
+    currentTotalCount: 0,
     page: 1,
     pageSize: 10,
     hasMore: true,
@@ -28,7 +29,18 @@ Page({
       this.getTabBar().updateAdminStatus()
     }
     this.loadCategories()
-    this.loadAlbums(true)
+    const key = this.data.currentCategoryId || ''
+    const cache = this.data.albumCache[key]
+    if (cache) {
+      this.setData({
+        albums: cache.albums || [],
+        page: cache.page || 1,
+        hasMore: cache.hasMore != null ? cache.hasMore : true
+      })
+      this.loadAlbums(true, true)
+    } else {
+      this.loadAlbums(true)
+    }
   },
 
   // 加载分类列表
@@ -41,6 +53,7 @@ Page({
       }, 600000)
       this.setData({ categories: data || [] })
       this.calculateTotalCount()
+      this.updateCurrentTotalCount()
     } catch (err) {
       console.error('加载分类失败:', err)
       this.setData({ loadError: true })
@@ -53,12 +66,24 @@ Page({
     this.setData({ totalCount: total })
   },
 
+  updateCurrentTotalCount() {
+    const id = this.data.currentCategoryId
+    if (!id) {
+      this.setData({ currentTotalCount: this.data.totalCount })
+      return
+    }
+    const cat = this.data.categories.find(c => c._id === id)
+    this.setData({ currentTotalCount: (cat && cat.albumCount) ? cat.albumCount : 0 })
+  },
+
   // 加载作品集列表
-  async loadAlbums(refresh = false) {
+  async loadAlbums(refresh = false, silent = false) {
     if (this.data.loading && !refresh) return
 
     try {
-      this.setData({ loading: true })
+      if (!silent) {
+        this.setData({ loading: true })
+      }
 
       const page = refresh ? 1 : this.data.page
       
@@ -72,13 +97,15 @@ Page({
         const newAlbums = r.data || []
         const albums = refresh ? newAlbums : [...this.data.albums, ...newAlbums]
         
-        this.setData({
+        const update = {
           albums,
           page: page,
           hasMore: newAlbums.length >= this.data.pageSize,
-          loading: false,
           loadError: false
-        })
+        }
+        if (!silent) update.loading = false
+        this.setData(update)
+        this.updateCurrentTotalCount()
         const key = this.data.currentCategoryId || ''
         const albumCache = this.data.albumCache
         albumCache[key] = {
@@ -93,7 +120,11 @@ Page({
     } catch (err) {
       console.error('加载作品集失败:', err)
       util.showError('加载失败，请重试')
-      this.setData({ loading: false, loadError: true })
+      if (!silent) {
+        this.setData({ loading: false, loadError: true })
+      } else {
+        this.setData({ loadError: true })
+      }
     }
   },
 
@@ -106,11 +137,9 @@ Page({
 
     this.setData({
       currentCategoryId: id,
-      currentCategoryName: name,
-      albums: [],
-      page: 1,
-      hasMore: true
+      currentCategoryName: name
     })
+    this.updateCurrentTotalCount()
 
     const cacheKey = id || ''
     const cache = this.data.albumCache[cacheKey]
@@ -120,7 +149,13 @@ Page({
         page: cache.page || 1,
         hasMore: cache.hasMore != null ? cache.hasMore : true
       })
+      this.loadAlbums(true, true)
     } else {
+      this.setData({
+        albums: [],
+        page: 1,
+        hasMore: true
+      })
       this.loadAlbums(true)
     }
   },
@@ -162,5 +197,6 @@ Page({
       title: '精彩摄影作品集',
       path: '/pages/albums/albums'
     }
-  }
+  },
+
 })

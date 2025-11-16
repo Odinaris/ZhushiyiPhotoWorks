@@ -23,10 +23,10 @@
   </scroll-view>
 
   <!-- 右侧作品集列表 -->
-  <scroll-view class="albums-content" scroll-y bindscrolltolower="onReachBottom">
+  <scroll-view class="albums-content" scroll-y show-scrollbar="false" bindscrolltolower="onReachBottom">
     <view class="content-header">
       <text class="content-title">{{currentCategoryName || '全部作品'}}</text>
-      <text class="content-count">共 {{albums.length}} 个作品集</text>
+      <text class="content-count">共 {{currentTotalCount || 0}} 个作品集</text>
     </view>
 
     <view class="albums-list" wx:if="{{albums.length > 0}}">
