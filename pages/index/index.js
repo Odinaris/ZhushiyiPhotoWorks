@@ -8,7 +8,8 @@ Page({
     featuredAlbums: [],
     loading: true,
     userInfo: null,
-    showDebugOpenId: false // 是否显示 openId 调试按钮（仅开发环境）
+    showDebugOpenId: false,
+    loadError: false
   },
 
   onLoad() {
@@ -28,36 +29,36 @@ Page({
       // 强制刷新 TabBar 的管理员状态
       this.getTabBar().updateAdminStatus()
     }
+    // 返回时刷新首页数据（利用缓存避免多余开销）
+    this.loadData()
   },
 
   // 加载首页数据
   async loadData() {
     try {
       util.showLoading('加载中...')
-      
-      const res = await wx.cloud.callFunction({
-        name: 'getHomeData'
-      })
+      const data = await util.getWithCache('homeData', async () => {
+        const r = await util.callFunction('getHomeData')
+        if (!r.ok) throw new Error(r.message || '加载失败')
+        return r.data
+      }, 600000)
 
-      if (res.result && res.result.success) {
-        const { banners, photographer, featuredAlbums } = res.result.data
-        this.setData({
-          banners: banners || [],
-          photographer: photographer || {
-            brandName: '朱适颐的摄影工作室',
-            slogan: '记录每一个美好瞬间',
-            styles: ['人像', '风光', '纪实']
-          },
-          featuredAlbums: featuredAlbums || [],
-          loading: false
-        })
-      } else {
-        throw new Error(res.result?.message || '加载失败')
-      }
+      const { banners, photographer, featuredAlbums } = data || {}
+      this.setData({
+        banners: banners || [],
+        photographer: photographer || {
+          brandName: '朱适颐的摄影工作室',
+          slogan: '记录每一个美好瞬间',
+          styles: ['人像', '风光', '纪实']
+        },
+        featuredAlbums: featuredAlbums || [],
+        loading: false,
+        loadError: false
+      })
     } catch (err) {
       console.error('加载首页数据失败:', err)
       util.showError('加载失败，请重试')
-      this.setData({ loading: false })
+      this.setData({ loading: false, loadError: true })
     } finally {
       util.hideLoading()
     }
@@ -90,6 +91,10 @@ Page({
     wx.navigateTo({
       url: `/pages/album-detail/album-detail?id=${id}`
     })
+  },
+
+  onRetry() {
+    this.loadData()
   },
 
   // 显示完整调试信息

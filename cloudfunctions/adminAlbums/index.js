@@ -3,6 +3,7 @@ const cloud = require('wx-server-sdk')
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 
 const db = cloud.database()
+const _ = db.command
 
 // 检查管理员权限
 async function checkAdmin(openid) {
@@ -11,6 +12,17 @@ async function checkAdmin(openid) {
   }).get()
   
   return userRes.data.length > 0 && userRes.data[0].role === 'admin'
+}
+
+async function updateCategoryCount(categoryId) {
+  if (!categoryId) return
+  const countRes = await db.collection('albums').where({
+    categoryId: categoryId,
+    isActive: true
+  }).count()
+  await db.collection('categories').doc(categoryId).update({
+    data: { albumCount: countRes.total }
+  })
 }
 
 // 云函数入口函数
@@ -53,6 +65,7 @@ exports.main = async (event, context) => {
             updateTime: new Date()
           }
         })
+        await updateCategoryCount(data.categoryId)
         return {
           success: true,
           data: { _id: result._id }
@@ -65,21 +78,24 @@ exports.main = async (event, context) => {
         delete updateData.viewCount
         delete updateData.shareCount
         updateData.updateTime = new Date()
-        
+        const oldRes = await db.collection('albums').doc(data._id).get()
         result = await db.collection('albums')
           .doc(data._id)
           .update({
             data: updateData
           })
+        const oldCat = oldRes.data && oldRes.data.categoryId
+        await updateCategoryCount(oldCat)
+        await updateCategoryCount(data.categoryId)
         return {
           success: true
         }
 
       case 'delete':
         // 删除
-        result = await db.collection('albums')
-          .doc(id)
-          .remove()
+        const docRes = await db.collection('albums').doc(id).get()
+        result = await db.collection('albums').doc(id).remove()
+        await updateCategoryCount(docRes.data && docRes.data.categoryId)
         return {
           success: true
         }

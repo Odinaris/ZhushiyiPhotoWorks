@@ -37,7 +37,7 @@
         bindtap="goToAlbumDetail"
         data-id="{{item._id}}"
       >
-        <image class="album-cover" src="{{item.coverImage}}" mode="aspectFill"></image>
+        <image class="album-cover" src="{{item.coverImage}}" mode="aspectFill" lazy-load></image>
         <view class="album-overlay">
           <view class="album-title">{{item.title}}</view>
           <view class="album-desc">{{item.description}}</view>
@@ -66,5 +66,9 @@
   <!-- 加载状态 -->
   <view class="loading-container" wx:if="{{loading}}">
     <text>加载中...</text>
+  </view>
+  <view class="error-container" wx:if="{{!loading && loadError}}">
+    <text>加载失败</text>
+    <button bindtap="onRetry">重试</button>
   </view>
 </view>

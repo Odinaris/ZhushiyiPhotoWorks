@@ -12,13 +12,14 @@ Page({
     stylesStr: ''
   },
 
-  onLoad() {
-    this.checkPermission()
+  async onLoad() {
+    await this.checkPermission()
     this.loadProfile()
   },
 
-  checkPermission() {
-    if (!app.globalData.isAdmin) {
+  async checkPermission() {
+    const isAdmin = await app.waitForUserRole()
+    if (!isAdmin) {
       util.showError('无权限访问')
       setTimeout(() => wx.navigateBack(), 1500)
     }
@@ -27,13 +28,9 @@ Page({
   async loadProfile() {
     try {
       util.showLoading('加载中...')
-      const res = await wx.cloud.callFunction({
-        name: 'adminProfile',
-        data: { action: 'get' }
-      })
-
-      if (res.result && res.result.success && res.result.data) {
-        const data = res.result.data
+      const r = await util.callFunction('adminProfile', { action: 'get' })
+      if (r.ok && r.data) {
+        const data = r.data
         this.setData({
           formData: data,
           stylesStr: data.styles ? data.styles.join(',') : ''
@@ -74,18 +71,11 @@ Page({
 
     try {
       util.showLoading('保存中...')
-      const res = await wx.cloud.callFunction({
-        name: 'adminProfile',
-        data: {
-          action: 'update',
-          data: this.data.formData
-        }
-      })
-
-      if (res.result && res.result.success) {
+      const r = await util.callFunction('adminProfile', { action: 'update', data: this.data.formData })
+      if (r.ok) {
         util.showSuccess('保存成功')
       } else {
-        throw new Error(res.result?.message || '保存失败')
+        throw new Error(r.message || '保存失败')
       }
     } catch (err) {
       console.error('保存失败:', err)

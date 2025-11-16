@@ -20,8 +20,8 @@ Page({
     }
   },
 
-  onLoad(options) {
-    this.checkPermission()
+  async onLoad(options) {
+    await this.checkPermission()
     this.loadCategories()
     
     if (options.id) {
@@ -33,8 +33,9 @@ Page({
     }
   },
 
-  checkPermission() {
-    if (!app.globalData.isAdmin) {
+  async checkPermission() {
+    const isAdmin = await app.waitForUserRole()
+    if (!isAdmin) {
       util.showError('无权限访问')
       setTimeout(() => wx.navigateBack(), 1500)
     }
@@ -42,12 +43,9 @@ Page({
 
   async loadCategories() {
     try {
-      const res = await wx.cloud.callFunction({
-        name: 'getCategories'
-      })
-
-      if (res.result && res.result.success) {
-        this.setData({ categories: res.result.data || [] })
+      const r = await util.callFunction('getCategories')
+      if (r.ok) {
+        this.setData({ categories: r.data || [] })
       }
     } catch (err) {
       console.error('加载分类失败:', err)
@@ -57,13 +55,9 @@ Page({
   async loadAlbumDetail(id) {
     try {
       util.showLoading('加载中...')
-      const res = await wx.cloud.callFunction({
-        name: 'getAlbumDetail',
-        data: { albumId: id }
-      })
-
-      if (res.result && res.result.success) {
-        const album = res.result.data
+      const r = await util.callFunction('getAlbumDetail', { albumId: id })
+      if (r.ok) {
+        const album = r.data
         const categoryIndex = this.data.categories.findIndex(c => c._id === album.categoryId)
         
         this.setData({
@@ -177,21 +171,16 @@ Page({
         delete submitData._id
       }
       
-      const res = await wx.cloud.callFunction({
-        name: 'adminAlbums',
-        data: {
-          action: this.data.isEdit ? 'update' : 'add',
-          data: submitData
-        }
-      })
-
-      if (res.result && res.result.success) {
+      const r = await util.callFunction('adminAlbums', { action: this.data.isEdit ? 'update' : 'add', data: submitData })
+      if (r.ok) {
         util.showSuccess('保存成功')
+        util.clearCache('homeData')
+        util.clearCache('categories')
         setTimeout(() => {
           wx.navigateBack()
         }, 1500)
       } else {
-        throw new Error(res.result?.message || '保存失败')
+        throw new Error(r.message || '保存失败')
       }
     } catch (err) {
       console.error('保存失败:', err)

@@ -10,7 +10,8 @@ Page({
     page: 1,
     pageSize: 10,
     hasMore: true,
-    loading: true
+    loading: true,
+    loadError: false
   },
 
   onLoad() {
@@ -25,23 +26,24 @@ Page({
       // 强制刷新 TabBar 的管理员状态
       this.getTabBar().updateAdminStatus()
     }
+    // 返回时刷新分类与列表（刷新分页）
+    this.loadCategories()
+    this.loadAlbums(true)
   },
 
   // 加载分类列表
   async loadCategories() {
     try {
-      const res = await wx.cloud.callFunction({
-        name: 'getCategories'
-      })
-
-      if (res.result && res.result.success) {
-        this.setData({
-          categories: res.result.data || []
-        })
-        this.calculateTotalCount()
-      }
+      const data = await util.getWithCache('categories', async () => {
+        const r = await util.callFunction('getCategories')
+        if (!r.ok) throw new Error(r.message || '加载失败')
+        return r.data || []
+      }, 600000)
+      this.setData({ categories: data || [] })
+      this.calculateTotalCount()
     } catch (err) {
       console.error('加载分类失败:', err)
+      this.setData({ loadError: true })
     }
   },
 
@@ -60,32 +62,30 @@ Page({
 
       const page = refresh ? 1 : this.data.page
       
-      const res = await wx.cloud.callFunction({
-        name: 'getAlbumsByCategory',
-        data: {
-          categoryId: this.data.currentCategoryId,
-          page,
-          pageSize: this.data.pageSize
-        }
+      const r = await util.callFunction('getAlbumsByCategory', {
+        categoryId: this.data.currentCategoryId,
+        page,
+        pageSize: this.data.pageSize
       })
 
-      if (res.result && res.result.success) {
-        const newAlbums = res.result.data || []
+      if (r.ok) {
+        const newAlbums = r.data || []
         const albums = refresh ? newAlbums : [...this.data.albums, ...newAlbums]
         
         this.setData({
           albums,
           page: page,
           hasMore: newAlbums.length >= this.data.pageSize,
-          loading: false
+          loading: false,
+          loadError: false
         })
       } else {
-        throw new Error(res.result?.message || '加载失败')
+        throw new Error(r.message || '加载失败')
       }
     } catch (err) {
       console.error('加载作品集失败:', err)
       util.showError('加载失败，请重试')
-      this.setData({ loading: false })
+      this.setData({ loading: false, loadError: true })
     }
   },
 
@@ -131,6 +131,11 @@ Page({
     this.loadAlbums(true).then(() => {
       wx.stopPullDownRefresh()
     })
+  },
+
+  onRetry() {
+    this.loadCategories()
+    this.loadAlbums(true)
   },
 
   // 分享

@@ -4,6 +4,7 @@
     "pages/albums/albums",
     "pages/album-detail/album-detail",
     "pages/contact/contact",
+    "pages/webview/webview",
     "pages/admin/dashboard/dashboard",
     "pages/admin/banners/banners",
     "pages/admin/categories/categories",
@@ -53,10 +54,6 @@
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json",
-  "lazyCodeLoading": "requiredComponents",
-  "permission": {
-    "scope.userLocation": {
-      "desc": "你的位置信息将用于小程序位置接口的效果展示"
-    }
-  }
+  "lazyCodeLoading": "requiredComponents"
+  
 }

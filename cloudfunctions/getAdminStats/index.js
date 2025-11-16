@@ -33,12 +33,14 @@ exports.main = async (event, context) => {
     const categoryCount = await db.collection('categories').count()
     const bannerCount = await db.collection('banners').count()
     
-    // 获取总浏览数
-    const albumsRes = await db.collection('albums').field({
-      viewCount: true
-    }).get()
-    
-    const totalViews = albumsRes.data.reduce((sum, album) => sum + (album.viewCount || 0), 0)
+    const $ = db.command.aggregate
+    const aggRes = await db.collection('albums').aggregate()
+      .group({
+        _id: null,
+        totalViews: $.sum('$viewCount')
+      })
+      .end()
+    const totalViews = (aggRes && aggRes.list && aggRes.list[0] && aggRes.list[0].totalViews) ? aggRes.list[0].totalViews : 0
 
     return {
       success: true,

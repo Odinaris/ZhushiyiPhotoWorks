@@ -6,16 +6,17 @@ Page({
     albums: []
   },
 
-  onLoad() {
-    this.checkPermission()
+  async onLoad() {
+    await this.checkPermission()
   },
 
   onShow() {
     this.loadAlbums()
   },
 
-  checkPermission() {
-    if (!app.globalData.isAdmin) {
+  async checkPermission() {
+    const isAdmin = await app.waitForUserRole()
+    if (!isAdmin) {
       util.showError('无权限访问')
       setTimeout(() => wx.navigateBack(), 1500)
     }
@@ -23,13 +24,9 @@ Page({
 
   async loadAlbums() {
     try {
-      const res = await wx.cloud.callFunction({
-        name: 'adminAlbums',
-        data: { action: 'list' }
-      })
-
-      if (res.result && res.result.success) {
-        this.setData({ albums: res.result.data || [] })
+      const r = await util.callFunction('adminAlbums', { action: 'list' })
+      if (r.ok) {
+        this.setData({ albums: r.data || [] })
       }
     } catch (err) {
       console.error('加载作品集失败:', err)
@@ -57,16 +54,14 @@ Page({
     if (confirm) {
       try {
         util.showLoading('删除中...')
-        const res = await wx.cloud.callFunction({
-          name: 'adminAlbums',
-          data: { action: 'delete', id }
-        })
-
-        if (res.result && res.result.success) {
+        const r = await util.callFunction('adminAlbums', { action: 'delete', id })
+        if (r.ok) {
           util.showSuccess('删除成功')
+          util.clearCache('homeData')
+          util.clearCache('categories')
           this.loadAlbums()
         } else {
-          throw new Error(res.result?.message || '删除失败')
+          throw new Error(r.message || '删除失败')
         }
       } catch (err) {
         console.error('删除失败:', err)

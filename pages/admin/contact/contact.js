@@ -11,13 +11,14 @@ Page({
     }
   },
 
-  onLoad() {
-    this.checkPermission()
+  async onLoad() {
+    await this.checkPermission()
     this.loadContact()
   },
 
-  checkPermission() {
-    if (!app.globalData.isAdmin) {
+  async checkPermission() {
+    const isAdmin = await app.waitForUserRole()
+    if (!isAdmin) {
       util.showError('无权限访问')
       setTimeout(() => wx.navigateBack(), 1500)
     }
@@ -26,13 +27,9 @@ Page({
   async loadContact() {
     try {
       util.showLoading('加载中...')
-      const res = await wx.cloud.callFunction({
-        name: 'adminContact',
-        data: { action: 'get' }
-      })
-
-      if (res.result && res.result.success && res.result.data) {
-        this.setData({ formData: res.result.data })
+      const r = await util.callFunction('adminContact', { action: 'get' })
+      if (r.ok && r.data) {
+        this.setData({ formData: r.data })
       }
     } catch (err) {
       console.error('加载联系信息失败:', err)
@@ -107,18 +104,12 @@ Page({
   async saveContact() {
     try {
       util.showLoading('保存中...')
-      const res = await wx.cloud.callFunction({
-        name: 'adminContact',
-        data: {
-          action: 'update',
-          data: this.data.formData
-        }
-      })
-
-      if (res.result && res.result.success) {
+      const r = await util.callFunction('adminContact', { action: 'update', data: this.data.formData })
+      if (r.ok) {
         util.showSuccess('保存成功')
+        util.clearCache('contactInfo')
       } else {
-        throw new Error(res.result?.message || '保存失败')
+        throw new Error(r.message || '保存失败')
       }
     } catch (err) {
       console.error('保存失败:', err)

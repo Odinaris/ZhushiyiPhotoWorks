@@ -15,13 +15,14 @@ Page({
     isEdit: false
   },
 
-  onLoad() {
-    this.checkPermission()
+  async onLoad() {
+    await this.checkPermission()
     this.loadBanners()
   },
 
-  checkPermission() {
-    if (!app.globalData.isAdmin) {
+  async checkPermission() {
+    const isAdmin = await app.waitForUserRole()
+    if (!isAdmin) {
       util.showError('无权限访问')
       setTimeout(() => wx.navigateBack(), 1500)
     }
@@ -29,13 +30,9 @@ Page({
 
   async loadBanners() {
     try {
-      const res = await wx.cloud.callFunction({
-        name: 'adminBanners',
-        data: { action: 'list' }
-      })
-
-      if (res.result && res.result.success) {
-        this.setData({ banners: res.result.data || [] })
+      const r = await util.callFunction('adminBanners', { action: 'list' })
+      if (r.ok) {
+        this.setData({ banners: r.data || [] })
       }
     } catch (err) {
       console.error('加载轮播图失败:', err)
@@ -74,19 +71,13 @@ Page({
     if (confirm) {
       try {
         util.showLoading('删除中...')
-        const res = await wx.cloud.callFunction({
-          name: 'adminBanners',
-          data: {
-            action: 'delete',
-            id
-          }
-        })
-
-        if (res.result && res.result.success) {
+        const r = await util.callFunction('adminBanners', { action: 'delete', id })
+        if (r.ok) {
           util.showSuccess('删除成功')
+          util.clearCache('homeData')
           this.loadBanners()
         } else {
-          throw new Error(res.result?.message || '删除失败')
+          throw new Error(r.message || '删除失败')
         }
       } catch (err) {
         console.error('删除失败:', err)
@@ -143,20 +134,14 @@ Page({
         delete submitData._id
       }
       
-      const res = await wx.cloud.callFunction({
-        name: 'adminBanners',
-        data: {
-          action: this.data.isEdit ? 'update' : 'add',
-          data: submitData
-        }
-      })
-
-      if (res.result && res.result.success) {
+      const r = await util.callFunction('adminBanners', { action: this.data.isEdit ? 'update' : 'add', data: submitData })
+      if (r.ok) {
         util.showSuccess('保存成功')
         this.closeModal()
+        util.clearCache('homeData')
         this.loadBanners()
       } else {
-        throw new Error(res.result?.message || '保存失败')
+        throw new Error(r.message || '保存失败')
       }
     } catch (err) {
       console.error('保存失败:', err)

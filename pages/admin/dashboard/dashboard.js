@@ -11,8 +11,8 @@ Page({
     }
   },
 
-  onLoad() {
-    this.checkPermission()
+  async onLoad() {
+    await this.checkPermission()
     this.loadStats()
   },
 
@@ -29,13 +29,12 @@ Page({
   },
 
   // 检查权限
-  checkPermission() {
-    if (!app.globalData.isAdmin) {
+  async checkPermission() {
+    const isAdmin = await app.waitForUserRole()
+    if (!isAdmin) {
       util.showError('无权限访问')
       setTimeout(() => {
-        wx.switchTab({
-          url: '/pages/index/index'
-        })
+        wx.switchTab({ url: '/pages/index/index' })
       }, 1500)
     }
   },
@@ -43,14 +42,9 @@ Page({
   // 加载统计数据
   async loadStats() {
     try {
-      const res = await wx.cloud.callFunction({
-        name: 'getAdminStats'
-      })
-
-      if (res.result && res.result.success) {
-        this.setData({
-          stats: res.result.data || {}
-        })
+      const r = await util.callFunction('getAdminStats')
+      if (r.ok) {
+        this.setData({ stats: r.data || {} })
       }
     } catch (err) {
       console.error('加载统计数据失败:', err)

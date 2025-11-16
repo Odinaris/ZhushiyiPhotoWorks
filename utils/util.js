@@ -92,7 +92,8 @@ const chooseAndUploadImage = async (count = 1, folder = 'images') => {
     const uploadPromises = res.tempFilePaths.map((filePath, index) => {
       const timestamp = Date.now()
       const random = Math.floor(Math.random() * 10000)
-      const cloudPath = `${folder}/${timestamp}_${random}_${index}.jpg`
+      const ext = (filePath.split('.').pop() || 'jpg').toLowerCase()
+      const cloudPath = `${folder}/${timestamp}_${random}_${index}.${ext}`
       return uploadImage(filePath, cloudPath)
     })
 
@@ -137,6 +138,52 @@ const debounce = (fn, delay = 500) => {
   }
 }
 
+const CACHE_PREFIX = 'cache:'
+
+const setCache = (key, data, ttlMs = 0) => {
+  try {
+    const expireAt = ttlMs > 0 ? Date.now() + ttlMs : 0
+    wx.setStorageSync(CACHE_PREFIX + key, { data, expireAt })
+  } catch (e) {}
+}
+
+const getCache = (key) => {
+  try {
+    const obj = wx.getStorageSync(CACHE_PREFIX + key)
+    if (!obj) return null
+    if (!obj.expireAt || Date.now() < obj.expireAt) return obj.data
+    return null
+  } catch (e) {
+    return null
+  }
+}
+
+const callFunction = async (name, data = {}) => {
+  try {
+    const res = await wx.cloud.callFunction({ name, data })
+    if (res && res.result && res.result.success) {
+      return { ok: true, data: res.result.data }
+    }
+    return { ok: false, message: (res && res.result && res.result.message) ? res.result.message : '请求失败' }
+  } catch (err) {
+    return { ok: false, message: err.message || '网络错误' }
+  }
+}
+
+const getWithCache = async (key, fetcher, ttlMs) => {
+  const cached = getCache(key)
+  if (cached != null) return cached
+  const data = await fetcher()
+  setCache(key, data, ttlMs)
+  return data
+}
+
+const clearCache = (key) => {
+  try {
+    wx.removeStorageSync(CACHE_PREFIX + key)
+  } catch (e) {}
+}
+
 module.exports = {
   formatTime,
   showLoading,
@@ -148,5 +195,10 @@ module.exports = {
   chooseAndUploadImage,
   deleteCloudFile,
   throttle,
-  debounce
+  debounce,
+  callFunction,
+  setCache,
+  getCache,
+  getWithCache,
+  clearCache
 }

@@ -7,7 +7,8 @@ Page({
       contacts: []
     },
     loading: true,
-    hasData: false
+    hasData: false,
+    loadError: false
   },
 
   onLoad() {
@@ -21,6 +22,8 @@ Page({
       // 强制刷新 TabBar 的管理员状态
       this.getTabBar().updateAdminStatus()
     }
+    // 返回时刷新联系信息（利用缓存避免多余开销）
+    this.loadContactInfo()
   },
 
   // 加载联系信息
@@ -28,12 +31,13 @@ Page({
     try {
       util.showLoading('加载中...')
 
-      const res = await wx.cloud.callFunction({
-        name: 'getContactInfo'
-      })
+      const contactInfo = await util.getWithCache('contactInfo', async () => {
+        const r = await util.callFunction('getContactInfo')
+        if (!r.ok) throw new Error(r.message || '加载失败')
+        return r.data || {}
+      }, 600000)
 
-      if (res.result && res.result.success) {
-        const contactInfo = res.result.data || {}
+      if (contactInfo) {
         const hasData = (contactInfo.qaList && contactInfo.qaList.length > 0) ||
                        (contactInfo.contacts && contactInfo.contacts.length > 0) ||
                        contactInfo.workingHours ||
@@ -42,15 +46,14 @@ Page({
         this.setData({
           contactInfo,
           hasData,
-          loading: false
+          loading: false,
+          loadError: false
         })
-      } else {
-        throw new Error(res.result?.message || '加载失败')
       }
     } catch (err) {
       console.error('加载联系信息失败:', err)
       util.showError('加载失败')
-      this.setData({ loading: false })
+      this.setData({ loading: false, loadError: true })
     } finally {
       util.hideLoading()
     }
@@ -82,6 +85,10 @@ Page({
     this.loadContactInfo().then(() => {
       wx.stopPullDownRefresh()
     })
+  },
+
+  onRetry() {
+    this.loadContactInfo()
   },
 
   // 分享

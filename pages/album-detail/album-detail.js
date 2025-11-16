@@ -6,7 +6,8 @@ Page({
     album: {
       images: []
     },
-    loading: true
+    loading: true,
+    loadError: false
   },
 
   onLoad(options) {
@@ -27,25 +28,20 @@ Page({
     try {
       util.showLoading('加载中...')
 
-      const res = await wx.cloud.callFunction({
-        name: 'getAlbumDetail',
-        data: {
-          albumId: this.data.albumId
-        }
-      })
-
-      if (res.result && res.result.success) {
+      const r = await util.callFunction('getAlbumDetail', { albumId: this.data.albumId })
+      if (r.ok) {
         this.setData({
-          album: res.result.data || { images: [] },
-          loading: false
+          album: r.data || { images: [] },
+          loading: false,
+          loadError: false
         })
       } else {
-        throw new Error(res.result?.message || '加载失败')
+        throw new Error(r.message || '加载失败')
       }
     } catch (err) {
       console.error('加载作品集详情失败:', err)
       util.showError('加载失败')
-      this.setData({ loading: false })
+      this.setData({ loading: false, loadError: true })
     } finally {
       util.hideLoading()
     }
@@ -54,13 +50,7 @@ Page({
   // 更新浏览次数
   async updateViewCount() {
     try {
-      await wx.cloud.callFunction({
-        name: 'updateAlbumStats',
-        data: {
-          albumId: this.data.albumId,
-          type: 'view'
-        }
-      })
+      await util.callFunction('updateAlbumStats', { albumId: this.data.albumId, type: 'view' })
     } catch (err) {
       console.error('更新浏览次数失败:', err)
     }
@@ -69,13 +59,7 @@ Page({
   // 更新分享次数
   async updateShareCount() {
     try {
-      await wx.cloud.callFunction({
-        name: 'updateAlbumStats',
-        data: {
-          albumId: this.data.albumId,
-          type: 'share'
-        }
-      })
+      await util.callFunction('updateAlbumStats', { albumId: this.data.albumId, type: 'share' })
     } catch (err) {
       console.error('更新分享次数失败:', err)
     }
@@ -112,5 +96,9 @@ Page({
       query: `id=${this.data.albumId}`,
       imageUrl: this.data.album.coverImage || this.data.album.images[0]?.url || ''
     }
+  }
+  ,
+  onRetry() {
+    this.loadAlbumDetail()
   }
 })
