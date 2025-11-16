@@ -3,20 +3,31 @@
   <view class="banner-section">
     <swiper 
       class="banner-swiper" 
-      indicator-dots="{{true}}"
+      indicator-dots="{{false}}"
       autoplay="{{true}}"
       interval="{{3000}}"
-      duration="{{500}}"
+      duration="{{450}}"
       circular="{{true}}"
-      previous-margin="{{banners.length > 1 ? '60rpx' : '0'}}"
-      next-margin="{{banners.length > 1 ? '60rpx' : '0'}}"
+      current="{{currentBannerIndex}}"
+      previous-margin="{{previousMargin}}"
+      next-margin="{{nextMargin}}"
+      easing-function="easeInOutCubic"
+      bindanimationfinish="onBannerAnimationFinish"
     >
-      <swiper-item wx:for="{{banners}}" wx:key="_id" class="banner-item" bindtap="onBannerTap" data-item="{{item}}">
-        <view class="banner-card">
+      <swiper-item wx:for="{{banners}}" wx:key="_id" class="banner-item {{index === currentBannerIndex ? 'center' : (index === prevBannerIndex ? 'adjacent-left' : (index === nextBannerIndex ? 'adjacent-right' : 'far'))}}" bindtap="onBannerTap" data-item="{{item}}">
+        <view class="banner-card {{index === currentBannerIndex ? 'center' : (index === prevBannerIndex ? 'adjacent-left' : (index === nextBannerIndex ? 'adjacent-right' : 'far'))}}">
           <image class="banner-image" src="{{item.imageUrl}}" mode="aspectFill" lazy-load></image>
         </view>
       </swiper-item>
     </swiper>
+
+    <view class="banner-indicator" wx:if="{{banners.length > 1}}">
+      <view 
+        class="indicator-dot {{index === currentBannerIndex ? 'active' : ''}}"
+        wx:for="{{banners}}"
+        wx:key="_id"
+      ></view>
+    </view>
   </view>
 
   <!-- 品牌信息 -->

@@ -1,6 +1,7 @@
 .admin-page {
   min-height: 100vh;
-  background-color: #FAFAFA;
+  background-color: #000000;
+  color: #FFFFFF;
   padding: 24rpx;
 }
 
@@ -10,13 +11,13 @@
   align-items: center;
   margin-bottom: 32rpx;
   padding-bottom: 24rpx;
-  border-bottom: 2rpx solid rgba(0, 0, 0, 0.08);
+  border-bottom: 2rpx solid rgba(255, 255, 255, 0.06);
 }
 
 .header-title {
   font-size: 40rpx;
   font-weight: 600;
-  color: #1A1A1A;
+  color: #FFFFFF;
   letter-spacing: 2rpx;
 }
 
@@ -42,11 +43,11 @@
 }
 
 .album-card {
-  background-color: #FFFFFF;
+  background-color: #000000;
   border-radius: 16rpx;
   overflow: hidden;
-  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
-  border: 1rpx solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4rpx 20rpx rgba(255, 255, 255, 0.05);
+  border: 1rpx solid rgba(255, 255, 255, 0.06);
 }
 
 .album-cover {
@@ -57,39 +58,39 @@
 
 .album-info {
   padding: 24rpx;
-  border-bottom: 1rpx solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1rpx solid rgba(255, 255, 255, 0.06);
 }
 
 .album-title {
   font-size: 32rpx;
   font-weight: 600;
-  color: #1A1A1A;
+  color: #FFFFFF;
   margin-bottom: 16rpx;
   letter-spacing: 0.5rpx;
 }
 
 .album-meta {
   font-size: 24rpx;
-  color: #999;
+  color: #DDDDDD;
   font-weight: 300;
 }
 
 .divider {
   margin: 0 12rpx;
-  color: #DDD;
+  color: #CCCCCC;
 }
 
 .active {
-  color: #1A1A1A;
+  color: #FFFFFF;
   font-weight: 500;
 }
 
 .inactive {
-  color: #999;
+  color: #999999;
 }
 
 .featured {
-  color: #1A1A1A;
+  color: #FFFFFF;
   font-weight: 600;
 }
 

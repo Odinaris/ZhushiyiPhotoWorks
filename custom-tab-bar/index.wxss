@@ -4,10 +4,10 @@
   left: 0;
   right: 0;
   height: 100rpx;
-  background: #ffffff;
+  background: #000000;
   display: flex;
   padding-bottom: env(safe-area-inset-bottom);
-  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.05);
+  box-shadow: 0 -2rpx 10rpx rgba(255, 255, 255, 0.06);
   z-index: 9999;
 }
 
@@ -25,15 +25,16 @@
   width: 48rpx;
   height: 48rpx;
   margin-bottom: 6rpx;
+  filter: brightness(1.2);
 }
 
 .tab-text {
   font-size: 20rpx;
-  color: #999999;
+  color: #DDDDDD;
   font-weight: 400;
 }
 
 .tab-bar-item.active .tab-text {
-  color: #000000;
+  color: #FFFFFF;
   font-weight: 500;
 }

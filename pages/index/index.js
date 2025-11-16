@@ -9,7 +9,12 @@ Page({
     loading: true,
     userInfo: null,
     showDebugOpenId: false,
-    loadError: false
+    loadError: false,
+    currentBannerIndex: 0,
+    prevBannerIndex: -1,
+    nextBannerIndex: -1,
+    previousMargin: '0',
+    nextMargin: '0'
   },
 
   onLoad() {
@@ -55,6 +60,19 @@ Page({
         loading: false,
         loadError: false
       })
+      const len = (banners || []).length || 0
+      let current = this.data.currentBannerIndex || 0
+      if (current < 0 || current >= len) current = 0
+      const prev = len > 0 ? (current - 1 + len) % len : -1
+      const next = len > 0 ? (current + 1) % len : -1
+      const hasMulti = len > 1
+      this.setData({ 
+        currentBannerIndex: current, 
+        prevBannerIndex: prev, 
+        nextBannerIndex: next,
+        previousMargin: hasMulti ? '32rpx' : '0',
+        nextMargin: hasMulti ? '32rpx' : '0'
+      })
     } catch (err) {
       console.error('加载首页数据失败:', err)
       util.showError('加载失败，请重试')
@@ -62,6 +80,14 @@ Page({
     } finally {
       util.hideLoading()
     }
+  },
+
+  onBannerAnimationFinish(e) {
+    const current = e.detail.current || 0
+    const len = this.data.banners.length || 0
+    const prev = len > 0 ? (current - 1 + len) % len : -1
+    const next = len > 0 ? (current + 1) % len : -1
+    this.setData({ currentBannerIndex: current, prevBannerIndex: prev, nextBannerIndex: next })
   },
 
   // 轮播图点击

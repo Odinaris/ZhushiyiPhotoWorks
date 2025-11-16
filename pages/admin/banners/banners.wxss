@@ -1,6 +1,7 @@
 .admin-page {
   min-height: 100vh;
-  background-color: #FAFAFA;
+  background-color: #000000;
+  color: #FFFFFF;
   padding: 24rpx;
 }
 
@@ -10,13 +11,13 @@
   align-items: center;
   margin-bottom: 32rpx;
   padding-bottom: 24rpx;
-  border-bottom: 2rpx solid rgba(0, 0, 0, 0.08);
+  border-bottom: 2rpx solid rgba(255, 255, 255, 0.06);
 }
 
 .header-title {
   font-size: 40rpx;
   font-weight: 600;
-  color: #1A1A1A;
+  color: #FFFFFF;
   letter-spacing: 2rpx;
 }
 
@@ -48,11 +49,11 @@
 }
 
 .banner-item {
-  background-color: #FFFFFF;
+  background-color: #000000;
   border-radius: 16rpx;
   overflow: hidden;
-  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
-  border: 1rpx solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4rpx 20rpx rgba(255, 255, 255, 0.05);
+  border: 1rpx solid rgba(255, 255, 255, 0.06);
 }
 
 .banner-image {
@@ -65,18 +66,18 @@
   display: flex;
   justify-content: space-between;
   padding: 24rpx;
-  border-bottom: 1rpx solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1rpx solid rgba(255, 255, 255, 0.06);
 }
 
 .banner-order {
   font-size: 28rpx;
-  color: #333;
+  color: #FFFFFF;
   font-weight: 500;
 }
 
 .banner-status {
   font-size: 24rpx;
-  color: #1A1A1A;
+  color: #EEEEEE;
   font-weight: 400;
 }
 
@@ -110,9 +111,9 @@
 }
 
 .action-btn.delete {
-  background-color: #FFFFFF;
-  color: #1A1A1A;
-  border: 2rpx solid #1A1A1A;
+  background-color: #000000;
+  color: #FFFFFF;
+  border: 2rpx solid #FFFFFF;
 }
 
 .action-btn.delete:active {
@@ -141,11 +142,12 @@
 .modal-content {
   width: 90%;
   max-height: 80vh;
-  background-color: #FFFFFF;
+  background-color: #000000;
+  color: #FFFFFF;
   border-radius: 24rpx;
   padding: 48rpx;
   overflow-y: auto;
-  box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20rpx 60rpx rgba(255, 255, 255, 0.12);
 }
 
 .modal-title {

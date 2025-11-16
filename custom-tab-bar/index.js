@@ -3,9 +3,9 @@ const app = getApp()
 Component({
   data: {
     selected: 0,
-    color: "#999999",
-    selectedColor: "#000000",
-    backgroundColor: "#ffffff",
+    color: "#DDDDDD",
+    selectedColor: "#FFFFFF",
+    backgroundColor: "#000000",
     isAdmin: false,
     list: [
       {
