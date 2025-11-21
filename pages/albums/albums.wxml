@@ -1,72 +1,112 @@
 <view class="albums-container">
-  <!-- 左侧分类列表 -->
-  <scroll-view class="category-sidebar" scroll-y>
-    <view 
-      class="category-item {{currentCategoryId === '' ? 'active' : ''}}"
-      bindtap="onCategoryChange"
-      data-id=""
+  <!-- 顶部分类Tab栏 -->
+  <view class="category-tabs">
+    <scroll-view 
+      class="tabs-scroll" 
+      scroll-x="{{true}}" 
+      show-scrollbar="{{false}}"
+      scroll-into-view="tab-{{currentCategoryId || 'all'}}"
     >
-      <text class="category-name">全部</text>
-      <text class="category-count">{{totalCount}}</text>
-    </view>
-    <view 
-      class="category-item {{currentCategoryId === item._id ? 'active' : ''}}"
-      wx:for="{{categories}}"
-      wx:key="_id"
-      bindtap="onCategoryChange"
-      data-id="{{item._id}}"
-      data-name="{{item.name}}"
-    >
-      <text class="category-name">{{item.name}}</text>
-      <text class="category-count">{{item.albumCount || 0}}</text>
-    </view>
-  </scroll-view>
-
-  <!-- 右侧作品集列表 -->
-  <scroll-view class="albums-content" scroll-y show-scrollbar="false" bindscrolltolower="onReachBottom">
-    <view class="content-header">
-      <text class="content-title">{{currentCategoryName || '全部作品'}}</text>
-      <text class="content-count">共 {{currentTotalCount || 0}} 个作品集</text>
-    </view>
-
-    <view class="albums-list" wx:if="{{albums.length > 0}}">
-      <view 
-        class="album-card"
-        wx:for="{{albums}}"
-        wx:key="_id"
-        bindtap="goToAlbumDetail"
-        data-id="{{item._id}}"
-      >
-        <image class="album-cover" src="{{item.coverImage}}" mode="aspectFill" lazy-load></image>
-        <view class="album-overlay">
-          <view class="album-title">{{item.title}}</view>
-          <view class="album-desc">{{item.description}}</view>
-          <view class="album-footer">
-            <text class="album-category">{{item.categoryName}}</text>
-            <text class="album-count">{{item.images.length}}张</text>
-          </view>
+      <view class="tabs-container">
+        <view 
+          id="tab-all"
+          class="tab-item {{currentCategoryId === '' ? 'active' : ''}}"
+          bindtap="onCategoryChange"
+          data-id=""
+          data-name="全部"
+        >
+          <text class="tab-text">全部</text>
+        </view>
+        <view 
+          id="tab-{{item._id}}"
+          class="tab-item {{currentCategoryId === item._id ? 'active' : ''}}"
+          wx:for="{{categories}}"
+          wx:key="_id"
+          bindtap="onCategoryChange"
+          data-id="{{item._id}}"
+          data-name="{{item.name}}"
+        >
+          <text class="tab-text">{{item.name}}</text>
         </view>
       </view>
+    </scroll-view>
+    
+    <!-- 视图切换按钮 -->
+    <view class="view-toggle">
+      <button 
+        class="view-mode-btn"
+        bindtap="onViewModeChange"
+      >
+        <text class="view-icon">{{viewMode === 'single' ? '☷' : '☰'}}</text>
+      </button>
     </view>
-
-    <view class="empty-container" wx:else>
-      <view class="empty-icon">📷</view>
-      <view class="empty-text">该分类暂无作品</view>
-    </view>
-
-    <!-- 加载更多 -->
-    <view class="load-more" wx:if="{{hasMore}}">
-      <text>加载更多...</text>
-    </view>
-    <view class="load-more" wx:elif="{{albums.length > 0}}">
-      <text>已加载全部</text>
-    </view>
-  </scroll-view>
-
-  <!-- 加载状态 -->
-  <view class="loading-container" wx:if="{{loading}}">
-    <text>加载中...</text>
   </view>
+
+  <!-- 作品集内容区域 -->
+  <swiper 
+    class="content-swiper"
+    current="{{currentIndex}}"
+    bindchange="onSwiperChange"
+    duration="300"
+    circular="{{false}}"
+  >
+    <swiper-item wx:for="{{categoriesWithAll}}" wx:key="_id" wx:if="{{item.albums}}">
+      <scroll-view 
+        class="albums-content" 
+        scroll-y 
+        show-scrollbar="false" 
+        bindscrolltolower="onReachBottom"
+      >
+        <view class="content-header">
+          <text class="content-title">{{item.name}}</text>
+          <text class="content-count">共 {{item.totalCount || 0}} 个作品集</text>
+        </view>
+
+        <!-- 作品集列表 - 支持单栏/双栏模式 -->
+        <view class="albums-list {{viewMode}}" data-view-mode="{{viewMode}}" wx:if="{{item.albums.length > 0}}">
+          <view 
+            class="album-card"
+            wx:for="{{item.albums}}"
+            wx:key="_id"
+            wx:for-item="album"
+            bindtap="goToAlbumDetail"
+            data-id="{{album._id}}"
+          >
+            <image class="album-cover" src="{{album.coverImage}}" mode="aspectFill" lazy-load></image>
+            <view class="album-overlay">
+              <view class="album-title">{{album.title}}</view>
+              <view class="album-desc">{{album.description}}</view>
+              <view class="album-footer">
+                <text class="album-category">{{album.categoryName}}</text>
+                <text class="album-count">{{album.images.length}}张</text>
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <view class="empty-container" wx:elif="{{!loading}}">
+          <view class="empty-icon">📷</view>
+          <view class="empty-text">该分类暂无作品</view>
+        </view>
+        
+        <!-- 加载动画 -->
+        <view class="loading-container" wx:else>
+          <view class="loading-spinner"></view>
+          <text class="loading-text">加载中...</text>
+        </view>
+
+        <!-- 加载更多状态 -->
+        <view class="load-more" wx:if="{{item.hasMore && item.page > 1}}">
+          <text>加载更多...</text>
+        </view>
+        <view class="load-more" wx:elif="{{item.albums.length > 0 && !item.hasMore && item.page > 1}}">
+          <text>已加载全部</text>
+        </view>
+      </scroll-view>
+    </swiper-item>
+  </swiper>
+
+  <!-- 错误状态 -->
   <view class="error-container" wx:if="{{!loading && loadError}}">
     <text>加载失败</text>
     <button bindtap="onRetry">重试</button>

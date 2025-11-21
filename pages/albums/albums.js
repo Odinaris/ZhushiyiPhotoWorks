@@ -3,22 +3,19 @@ const util = require('../../utils/util.js')
 Page({
   data: {
     categories: [],
-    albums: [],
+    categoriesWithAll: [], // 包含"全部"的完整分类列表
     currentCategoryId: '',
     currentCategoryName: '',
-    totalCount: 0,
-    currentTotalCount: 0,
-    page: 1,
-    pageSize: 10,
-    hasMore: true,
+    currentIndex: 0, // 当前Swiper索引
+    viewMode: 'single', // 'single' | 'double'
     loading: true,
     loadError: false,
-    albumCache: {}
+    albumCache: {}, // 每个分类的缓存数据
+    page: 1,
+    pageSize: 10
   },
 
   onLoad(options) {
-    console.log('Albums页面 onLoad options:', options)
-    
     // 处理从首页跳转过来的分类筛选
     let categoryId = options.categoryId
     let categoryName = options.categoryName ? decodeURIComponent(options.categoryName) : ''
@@ -28,33 +25,18 @@ Page({
     if (categoryParams) {
       categoryId = categoryParams.categoryId
       categoryName = categoryParams.categoryName
-      console.log('从缓存获取分类参数:', categoryParams)
       
       // 清除缓存，避免影响下次
       wx.removeStorageSync('category_params')
     }
     
-    if (categoryId) {
-      this.setData({
-        currentCategoryId: categoryId,
-        currentCategoryName: categoryName || '全部'
-      })
-      console.log('设置分类筛选:', {
-        categoryId: categoryId,
-        categoryName: categoryName,
-        currentCategoryId: this.data.currentCategoryId,
-        currentCategoryName: this.data.currentCategoryName
-      })
-    } else {
-      console.log('未找到分类ID，显示全部')
-      this.setData({
-        currentCategoryId: '',
-        currentCategoryName: '全部'
-      })
-    }
+    this.setData({
+      currentCategoryId: categoryId || '',
+      currentCategoryName: categoryName || '全部',
+      viewMode: wx.getStorageSync('albums_viewMode') || 'single' // 读取视图模式设置
+    })
     
     this.loadCategories()
-    this.loadAlbums()
   },
 
   onShow() {
@@ -68,41 +50,24 @@ Page({
     // 检查是否有新的分类参数（从首页跳转过来）
     const categoryParams = wx.getStorageSync('category_params')
     if (categoryParams) {
-      console.log('onShow 检测到新的分类参数:', categoryParams)
-      
-      // 更新分类设置
-      this.setData({
-        currentCategoryId: categoryParams.categoryId,
-        currentCategoryName: categoryParams.categoryName || '全部'
-      })
-      
       // 清除缓存，避免影响下次
       wx.removeStorageSync('category_params')
       
-      // 重新加载作品集
-      this.setData({
-        albums: [],
-        page: 1,
-        hasMore: true
-      })
-      this.loadAlbums(true)
-    } else {
-      // 没有新参数，使用现有设置
-      const key = this.data.currentCategoryId || ''
-      const cache = this.data.albumCache[key]
-      if (cache) {
+      // 更新分类并跳转到对应位置
+      const currentIndex = this.data.categoriesWithAll.findIndex(cat => cat._id === categoryParams.categoryId)
+      if (currentIndex !== -1) {
         this.setData({
-          albums: cache.albums || [],
-          page: cache.page || 1,
-          hasMore: cache.hasMore != null ? cache.hasMore : true
+          currentCategoryId: categoryParams.categoryId,
+          currentCategoryName: categoryParams.categoryName || '全部',
+          currentIndex
         })
-        this.loadAlbums(true, true)
-      } else {
-        this.loadAlbums(true)
+        
+        // 加载该分类的作品集
+        this.loadCategoryAlbums(categoryParams.categoryId)
       }
     }
     
-    // 只有在首次加载时才加载分类，避免重置 currentCategoryId
+    // 只有在首次加载时才加载分类，避免重复加载
     if (!this.data.categories || this.data.categories.length === 0) {
       this.loadCategories()
     }
@@ -116,83 +81,90 @@ Page({
         if (!r.ok) throw new Error(r.message || '加载失败')
         return r.data || []
       }, 600000)
-      this.setData({ categories: data || [] })
-      this.calculateTotalCount()
-      this.updateCurrentTotalCount()
+      
+      // 构建包含"全部"的完整分类列表
+      const allCategory = {
+        _id: '',
+        name: '全部',
+        albumCount: data.reduce((sum, cat) => sum + (cat.albumCount || 0), 0),
+        albums: this.data.albumCache['']?.albums || [],
+        hasMore: this.data.albumCache['']?.hasMore !== false,
+        totalCount: data.reduce((sum, cat) => sum + (cat.albumCount || 0), 0)
+      }
+      
+      const categoriesWithAll = [allCategory, ...data.map(cat => ({
+        ...cat,
+        albums: this.data.albumCache[cat._id]?.albums || [],
+        hasMore: this.data.albumCache[cat._id]?.hasMore !== false,
+        totalCount: cat.albumCount || 0
+      }))]
+      
+      this.setData({ 
+        categories: data || [], 
+        categoriesWithAll 
+      })
+      
+      // 更新当前索引
+      const currentIndex = categoriesWithAll.findIndex(cat => cat._id === this.data.currentCategoryId)
+      if (currentIndex !== -1) {
+        this.setData({ currentIndex })
+      }
+      
+      // 加载当前选中分类的数据
+      this.loadCategoryAlbums(this.data.currentCategoryId)
+      
     } catch (err) {
       console.error('加载分类失败:', err)
       this.setData({ loadError: true })
     }
   },
 
-  // 计算总数
-  calculateTotalCount() {
-    const total = this.data.categories.reduce((sum, cat) => sum + (cat.albumCount || 0), 0)
-    this.setData({ totalCount: total })
-  },
 
-  updateCurrentTotalCount() {
-    const id = this.data.currentCategoryId
-    if (!id) {
-      this.setData({ currentTotalCount: this.data.totalCount })
-      return
-    }
-    const cat = this.data.categories.find(c => c._id === id)
-    this.setData({ currentTotalCount: (cat && cat.albumCount) ? cat.albumCount : 0 })
-  },
 
-  // 加载作品集列表
-  async loadAlbums(refresh = false, silent = false) {
-    if (this.data.loading && !refresh) return
 
+
+  // 加载指定分类的作品集
+  async loadAlbumsForCategory(categoryId, page = 1) {
     try {
-      if (!silent) {
-        this.setData({ loading: true })
-      }
+      this.setData({ loading: true })
 
-      const page = refresh ? 1 : this.data.page
-      
       const params = {
-        categoryId: this.data.currentCategoryId,
+        categoryId,
         page,
         pageSize: this.data.pageSize
       }
-      console.log('调用 getAlbumsByCategory 参数:', params)
       
       const r = await util.callFunction('getAlbumsByCategory', params)
 
       if (r.ok) {
         const newAlbums = r.data || []
-        const albums = refresh ? newAlbums : [...this.data.albums, ...newAlbums]
+        const cacheKey = categoryId || ''
+        const existingAlbums = this.data.albumCache[cacheKey]?.albums || []
+        const albums = page === 1 ? newAlbums : [...existingAlbums, ...newAlbums]
         
-        const update = {
-          albums,
-          page: page,
-          hasMore: newAlbums.length >= this.data.pageSize,
-          loadError: false
+        const hasMore = newAlbums.length >= this.data.pageSize
+        
+        // 如果是全部分类的第一页，更新实际总数
+        if (categoryId === '' && page === 1 && r.totalCount !== undefined) {
+          const categoriesWithAll = this.data.categoriesWithAll.map(cat => {
+            if (cat._id === '') {
+              return { ...cat, totalCount: r.totalCount }
+            }
+            return cat
+          })
+          this.setData({ categoriesWithAll })
         }
-        if (!silent) update.loading = false
-        this.setData(update)
-        this.updateCurrentTotalCount()
-        const key = this.data.currentCategoryId || ''
-        const albumCache = this.data.albumCache
-        albumCache[key] = {
-          albums,
-          page: page,
-          hasMore: newAlbums.length >= this.data.pageSize
-        }
-        this.setData({ albumCache })
+        
+        // 更新数据
+        this.updateCategoryData(categoryId, albums, hasMore, page)
+        this.setData({ loading: false, loadError: false })
       } else {
         throw new Error(r.message || '加载失败')
       }
     } catch (err) {
       console.error('加载作品集失败:', err)
       util.showError('加载失败，请重试')
-      if (!silent) {
-        this.setData({ loading: false, loadError: true })
-      } else {
-        this.setData({ loadError: true })
-      }
+      this.setData({ loading: false, loadError: true })
     }
   },
 
@@ -207,34 +179,82 @@ Page({
       currentCategoryId: id,
       currentCategoryName: name
     })
-    this.updateCurrentTotalCount()
 
-    const cacheKey = id || ''
-    const cache = this.data.albumCache[cacheKey]
-    if (cache) {
+    // 更新索引
+    const currentIndex = this.data.categoriesWithAll.findIndex(cat => cat._id === id)
+    this.setData({ currentIndex })
+    
+    // 加载该分类的作品集
+    this.loadCategoryAlbums(id)
+  },
+
+  // 视图模式切换
+  onViewModeChange(e) {
+    const currentMode = this.data.viewMode
+    const newMode = currentMode === 'single' ? 'double' : 'single'
+    console.log('切换视图模式:', newMode)
+    this.setData({ viewMode: newMode })
+    // 保存到本地存储
+    wx.setStorageSync('albums_viewMode', newMode)
+  },
+
+  // Swiper切换事件
+  onSwiperChange(e) {
+    const currentIndex = e.detail.current
+    const category = this.data.categoriesWithAll[currentIndex]
+    
+    if (category && category._id !== this.data.currentCategoryId) {
       this.setData({
-        albums: cache.albums || [],
-        page: cache.page || 1,
-        hasMore: cache.hasMore != null ? cache.hasMore : true
+        currentIndex,
+        currentCategoryId: category._id,
+        currentCategoryName: category.name
       })
-      this.loadAlbums(true, true)
-    } else {
-      this.setData({
-        albums: [],
-        page: 1,
-        hasMore: true
-      })
-      this.loadAlbums(true)
+      
+      // 加载该分类的作品集
+      this.loadCategoryAlbums(category._id)
     }
+  },
+
+  // 加载指定分类的作品集
+  async loadCategoryAlbums(categoryId) {
+    const cacheKey = categoryId || ''
+    const cache = this.data.albumCache[cacheKey]
+    
+    if (cache && cache.albums && cache.albums.length > 0) {
+      // 使用缓存数据
+      this.updateCategoryData(categoryId, cache.albums, cache.hasMore, cache.page || 1)
+    } else {
+      // 从服务器加载
+      this.updateCategoryData(categoryId, [], true, 1)
+      await this.loadAlbumsForCategory(categoryId, 1)
+    }
+  },
+
+  // 更新分类数据
+  updateCategoryData(categoryId, albums, hasMore, page) {
+    const cacheKey = categoryId || ''
+    
+    // 更新缓存
+    const albumCache = this.data.albumCache
+    albumCache[cacheKey] = { albums, hasMore, page }
+    
+    // 更新分类列表中的数据
+    const categoriesWithAll = this.data.categoriesWithAll.map(cat => {
+      if (cat._id === categoryId) {
+        return { ...cat, albums, hasMore, page }
+      }
+      return cat
+    })
+    
+    this.setData({ albumCache, categoriesWithAll })
   },
 
   // 滚动到底部
   onReachBottom() {
-    if (this.data.hasMore && !this.data.loading) {
-      this.setData({
-        page: this.data.page + 1
-      })
-      this.loadAlbums()
+    // 获取当前活跃分类的数据
+    const currentCategory = this.data.categoriesWithAll[this.data.currentIndex]
+    if (currentCategory && currentCategory.hasMore && !this.data.loading) {
+      this.loadAlbumsForCategory(currentCategory._id, (currentCategory.page || 1) + 1)
     }
   },
 
@@ -249,14 +269,26 @@ Page({
   // 下拉刷新
   onPullDownRefresh() {
     this.loadCategories()
-    this.loadAlbums(true).then(() => {
+    
+    // 刷新当前分类的数据
+    const currentCategory = this.data.categoriesWithAll[this.data.currentIndex]
+    if (currentCategory) {
+      this.loadAlbumsForCategory(currentCategory._id, 1).then(() => {
+        wx.stopPullDownRefresh()
+      })
+    } else {
       wx.stopPullDownRefresh()
-    })
+    }
   },
 
   onRetry() {
     this.loadCategories()
-    this.loadAlbums(true)
+    
+    // 重试当前分类的数据
+    const currentCategory = this.data.categoriesWithAll[this.data.currentIndex]
+    if (currentCategory) {
+      this.loadAlbumsForCategory(currentCategory._id, 1)
+    }
   },
 
   // 分享

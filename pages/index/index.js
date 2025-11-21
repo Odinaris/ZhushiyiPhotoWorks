@@ -43,10 +43,16 @@ Page({
           const r = await util.callFunction('getCategories')
           if (!r.ok) throw new Error(r.message || '加载分类失败')
           return r.data
-        }, 300000) // 分类缓存5分钟
+        }, 60000) // 分类缓存1分钟，确保更新能及时显示
       ])
 
       const { banners, photographer, featuredAlbums } = homeDataResult || {}
+      
+      // 在分类列表前添加"全部"选项
+      const categoriesWithAll = [
+        { _id: '', name: '全部', coverImage: '/images/tab-album.png' },
+        ...(categoriesResult || [])
+      ]
       
       this.setData({
         banners: banners || [],
@@ -56,7 +62,7 @@ Page({
           styles: ['人像', '风光', '纪实']
         },
         featuredAlbums: featuredAlbums || [],
-        categories: categoriesResult || [],
+        categories: categoriesWithAll,
         loading: false,
         loadError: false
       })
@@ -95,7 +101,7 @@ Page({
   goToCategoryAlbums(e) {
     const category = e.currentTarget.dataset.category
     
-    if (!category || !category._id) {
+    if (!category) {
       wx.showToast({
         title: '分类信息错误',
         icon: 'none'
@@ -106,8 +112,8 @@ Page({
     // albums 是 tabBar 页面，需要使用 switchTab
     // 使用小程序缓存机制传递分类参数
     const categoryParams = {
-      categoryId: category._id,
-      categoryName: category.name
+      categoryId: category._id || '', // 支持空字符串表示全部
+      categoryName: category.name || '全部'
     }
     
     // 将分类参数存入缓存
