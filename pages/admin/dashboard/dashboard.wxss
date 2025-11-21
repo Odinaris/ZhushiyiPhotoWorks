@@ -2,7 +2,7 @@
   min-height: 100vh;
   background: #000000;
   padding: 48rpx 24rpx;
-  padding-bottom: 48rpx;
+  padding-bottom: 160rpx; /* 为底部TabBar和安全区域留出空间 */
 }
 
 /* 头部 */

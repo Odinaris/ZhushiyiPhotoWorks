@@ -16,7 +16,43 @@ Page({
     albumCache: {}
   },
 
-  onLoad() {
+  onLoad(options) {
+    console.log('Albums页面 onLoad options:', options)
+    
+    // 处理从首页跳转过来的分类筛选
+    let categoryId = options.categoryId
+    let categoryName = options.categoryName ? decodeURIComponent(options.categoryName) : ''
+    
+    // 总是优先从缓存获取最新的分类参数（因为switchTab跳转会通过缓存传递）
+    const categoryParams = wx.getStorageSync('category_params')
+    if (categoryParams) {
+      categoryId = categoryParams.categoryId
+      categoryName = categoryParams.categoryName
+      console.log('从缓存获取分类参数:', categoryParams)
+      
+      // 清除缓存，避免影响下次
+      wx.removeStorageSync('category_params')
+    }
+    
+    if (categoryId) {
+      this.setData({
+        currentCategoryId: categoryId,
+        currentCategoryName: categoryName || '全部'
+      })
+      console.log('设置分类筛选:', {
+        categoryId: categoryId,
+        categoryName: categoryName,
+        currentCategoryId: this.data.currentCategoryId,
+        currentCategoryName: this.data.currentCategoryName
+      })
+    } else {
+      console.log('未找到分类ID，显示全部')
+      this.setData({
+        currentCategoryId: '',
+        currentCategoryName: '全部'
+      })
+    }
+    
     this.loadCategories()
     this.loadAlbums()
   },
@@ -28,18 +64,47 @@ Page({
       // 强制刷新 TabBar 的管理员状态
       this.getTabBar().updateAdminStatus()
     }
-    this.loadCategories()
-    const key = this.data.currentCategoryId || ''
-    const cache = this.data.albumCache[key]
-    if (cache) {
+    
+    // 检查是否有新的分类参数（从首页跳转过来）
+    const categoryParams = wx.getStorageSync('category_params')
+    if (categoryParams) {
+      console.log('onShow 检测到新的分类参数:', categoryParams)
+      
+      // 更新分类设置
       this.setData({
-        albums: cache.albums || [],
-        page: cache.page || 1,
-        hasMore: cache.hasMore != null ? cache.hasMore : true
+        currentCategoryId: categoryParams.categoryId,
+        currentCategoryName: categoryParams.categoryName || '全部'
       })
-      this.loadAlbums(true, true)
-    } else {
+      
+      // 清除缓存，避免影响下次
+      wx.removeStorageSync('category_params')
+      
+      // 重新加载作品集
+      this.setData({
+        albums: [],
+        page: 1,
+        hasMore: true
+      })
       this.loadAlbums(true)
+    } else {
+      // 没有新参数，使用现有设置
+      const key = this.data.currentCategoryId || ''
+      const cache = this.data.albumCache[key]
+      if (cache) {
+        this.setData({
+          albums: cache.albums || [],
+          page: cache.page || 1,
+          hasMore: cache.hasMore != null ? cache.hasMore : true
+        })
+        this.loadAlbums(true, true)
+      } else {
+        this.loadAlbums(true)
+      }
+    }
+    
+    // 只有在首次加载时才加载分类，避免重置 currentCategoryId
+    if (!this.data.categories || this.data.categories.length === 0) {
+      this.loadCategories()
     }
   },
 
@@ -87,11 +152,14 @@ Page({
 
       const page = refresh ? 1 : this.data.page
       
-      const r = await util.callFunction('getAlbumsByCategory', {
+      const params = {
         categoryId: this.data.currentCategoryId,
         page,
         pageSize: this.data.pageSize
-      })
+      }
+      console.log('调用 getAlbumsByCategory 参数:', params)
+      
+      const r = await util.callFunction('getAlbumsByCategory', params)
 
       if (r.ok) {
         const newAlbums = r.data || []

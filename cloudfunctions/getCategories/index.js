@@ -14,6 +14,23 @@ exports.main = async (event, context) => {
 
     const categories = catRes.data || []
 
+    // 获取每个分类的第一个作品作为封面
+    const coverRes = await db.collection('albums')
+      .where({ 
+        isActive: true,
+        categoryId: db.command.in(categories.map(cat => cat._id))
+      })
+      .orderBy('order', 'asc')
+      .get()
+
+    // 按分类ID分组封面图
+    const coverMap = {}
+    coverRes.data.forEach(album => {
+      if (!coverMap[album.categoryId] && album.coverImage) {
+        coverMap[album.categoryId] = album.coverImage
+      }
+    })
+
     const $ = db.command.aggregate
     const aggRes = await db.collection('albums').aggregate()
       .match({ isActive: true })
@@ -30,6 +47,7 @@ exports.main = async (event, context) => {
 
     categories.forEach(cat => {
       cat.albumCount = countsMap[cat._id] || 0
+      cat.coverImage = coverMap[cat._id] || cat.coverImage || '/images/tab-album.png'
     })
 
     return {

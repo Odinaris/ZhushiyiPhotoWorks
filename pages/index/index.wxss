@@ -1,224 +1,143 @@
 .index-container {
   min-height: 100vh;
   background: #000000;
-  padding-bottom: 40rpx;
+  padding-bottom: 160rpx; /* 为底部TabBar和安全区域留出空间 */
+  padding-top: 100rpx; /* 为自定义导航栏留出空间 */
 }
 
-/* 轮播图区域 */
+/* 轮播图区域 - 延伸到标题栏 */
 .banner-section {
-  padding: 0rpx 0 0rpx;
-  background: transparent;
+  width: 100%;
+  height: 500rpx; /* 轮播图高度 */
+  position: relative;
+  margin-top: -100rpx; /* 向上延伸到状态栏和导航栏区域 */
 }
 
 .banner-swiper {
-  height: 900rpx;
-  width: 100%;
-  overflow: visible;
-}
-
-.banner-item {
-  padding: 0;
-  box-sizing: border-box;
-  overflow: visible;
-  position: relative;
-}
-
-.banner-item.center { z-index: 30; }
-.banner-item.adjacent-left { z-index: 20; }
-.banner-item.adjacent-right { z-index: 20; }
-.banner-item.far { z-index: 10; }
-
-.banner-card {
   width: 100%;
   height: 100%;
-  border-radius: 24rpx;
-  overflow: hidden;
-  position: relative;
-  transition: transform 0.2s ease-out;
-  will-change: transform;
-  backface-visibility: hidden;
 }
-
-.banner-card.center { transform: scale(1.00); box-shadow: 0 12rpx 40rpx rgba(0, 0, 0, 0.25); }
-.banner-card.adjacent-left { transform-origin: center; transform: translateX(60rpx) scale(0.86); }
-.banner-card.adjacent-right { transform-origin: center; transform: translateX(-60rpx) scale(0.86); }
-.banner-card.far { transform-origin: center; transform: scale(0.82); will-change: transform; backface-visibility: hidden; }
 
 .banner-image {
   width: 100%;
   height: 100%;
-  filter: contrast(1.1) brightness(1.05);
+  display: block;
 }
 
-.banner-indicator {
+.banner-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* 分类区域 */
+.categories-section {
+  padding: 40rpx 24rpx 20rpx;
+  background: #000000;
+  margin-top: 0; /* 确保紧接轮播图 */
+}
+
+.categories-scroll {
+  width: 100%;
+  white-space: nowrap;
+}
+
+.categories-list {
   display: flex;
-  justify-content: center;
+  gap: 32rpx;
+  padding-bottom: 10rpx;
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 16rpx;
-  padding-top: 24rpx;
+  min-width: 120rpx;
+  flex-shrink: 0;
 }
 
-.indicator-dot {
-  width: 14rpx;
-  height: 14rpx;
-  border-radius: 14rpx;
-  background-color: rgba(255,255,255,0.5);
+.category-cover {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 60rpx;
+  background: #1A1A1A;
+  border: 2rpx solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
 }
 
-.indicator-dot.active {
-  width: 28rpx;
-  border-radius: 28rpx;
-  background-color: #FFFFFF;
-  box-shadow: 0 0 8rpx rgba(255,255,255,0.6);
+.category-item:active .category-cover {
+  transform: scale(0.95);
+  opacity: 0.8;
 }
 
-/* 品牌信息 - 黑白优雅设计 */
-.brand-section {
-  background-color: #000000;
-  padding: 48rpx 36rpx;
+.category-name {
+  font-size: 24rpx;
+  color: #FFFFFF;
   text-align: center;
-  margin: 0 24rpx;
-  border-radius: 20rpx;
-  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.08);
-  margin-top: 24rpx;
-  position: relative;
-  border: 1rpx solid rgba(255, 255, 255, 0.06);
+  line-height: 1.4;
 }
-
-.brand-name {
-  font-size: 48rpx;
-  font-weight: 600;
-  color: #FFFFFF;
-  margin-bottom: 20rpx;
-  letter-spacing: 4rpx;
-  font-family: 'Georgia', serif;
-}
-
-.brand-slogan {
-  font-size: 26rpx;
-  color: #EEEEEE;
-  margin-bottom: 32rpx;
-  line-height: 1.8;
-  font-weight: 300;
-  letter-spacing: 2rpx;
-}
-
-.brand-styles {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 16rpx;
-}
-
-.style-tag {
-  display: inline-block;
-  padding: 12rpx 28rpx;
-  background-color: #1A1A1A;
-  color: #FFFFFF;
-  border-radius: 50rpx;
-  font-size: 24rpx;
-  font-weight: 400;
-  letter-spacing: 1rpx;
-  transition: all 0.3s ease;
-}
-
-/* 管理入口 - 极简设计 */
-.admin-entry {
-  position: fixed;
-  top: 100rpx;
-  right: 30rpx;
-  z-index: 1000;
-  background-color: #1A1A1A;
-  color: #FFFFFF;
-  padding: 18rpx 32rpx;
-  border-radius: 50rpx;
-  display: flex;
-  align-items: center;
-  gap: 12rpx;
-  box-shadow: 0 6rpx 20rpx rgba(0, 0, 0, 0.3);
-  border: 1rpx solid rgba(255, 255, 255, 0.1);
-}
-
-.admin-icon {
-  font-size: 32rpx;
-}
-
-.admin-text {
-  font-size: 24rpx;
-  font-weight: 500;
-  letter-spacing: 1rpx;
-}
-
-
 
 /* 精选作品 */
 .featured-section {
-  margin-top: 48rpx;
   padding: 0 24rpx;
 }
 
 .section-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 28rpx;
+  margin-bottom: 32rpx;
 }
 
 .section-title {
-  font-size: 38rpx;
+  font-size: 36rpx;
   font-weight: 600;
   color: #FFFFFF;
-  letter-spacing: 2rpx;
+  letter-spacing: 1rpx;
+  text-align: center;
 }
 
-.section-more {
-  font-size: 26rpx;
-  color: #EEEEEE;
-  font-weight: 300;
-}
-
-.album-grid {
+.album-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 24rpx;
+  margin-bottom: 40rpx;
 }
 
 .album-item {
-  background-color: #000000;
+  background: #111111;
   border-radius: 16rpx;
   overflow: hidden;
-  box-shadow: 0 4rpx 20rpx rgba(255, 255, 255, 0.05);
-  border: 1rpx solid rgba(255, 255, 255, 0.06);
   transition: all 0.3s ease;
+  border: 1rpx solid rgba(255, 255, 255, 0.08);
 }
 
 .album-item:active {
   transform: translateY(-4rpx);
-  box-shadow: 0 8rpx 28rpx rgba(0, 0, 0, 0.12);
+  box-shadow: 0 12rpx 32rpx rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 .album-cover {
   width: 100%;
-  height: 320rpx;
+  height: 280rpx;
   display: block;
-  filter: contrast(1.05);
 }
 
 .album-info {
-  padding: 24rpx;
-  color: #FFFFFF;
+  padding: 20rpx;
 }
 
 .album-title {
   font-size: 28rpx;
   font-weight: 500;
   color: #FFFFFF;
-  margin-bottom: 16rpx;
+  margin-bottom: 12rpx;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  letter-spacing: 0.5rpx;
+  line-height: 1.4;
 }
 
 .album-meta {
@@ -226,76 +145,96 @@
   justify-content: space-between;
   align-items: center;
   font-size: 24rpx;
-  color: #EEEEEE;
+  color: #999999;
 }
 
 .album-category {
-  background-color: rgba(255, 255, 255, 0.12);
-  color: #FFFFFF;
-  padding: 6rpx 16rpx;
+  background: rgba(255, 255, 255, 0.1);
+  color: #CCCCCC;
+  padding: 4rpx 12rpx;
   border-radius: 6rpx;
-  font-weight: 400;
+  font-size: 20rpx;
 }
 
 .album-count {
-  color: #DDDDDD;
-  font-weight: 300;
+  color: #666666;
+  font-size: 20rpx;
 }
 
-/* 开发环境辅助按钮 */
-.debug-openid-button {
-  position: fixed;
-  bottom: 120rpx;
-  right: 30rpx;
-  z-index: 999;
-  background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+/* 空状态 */
+.empty-container {
+  text-align: center;
+  padding: 80rpx 0;
+  color: #666666;
+}
+
+.empty-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #666666;
+}
+
+/* 查看全部按钮容器 */
+.view-all-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 60rpx;
+  margin-bottom: 40rpx;
+  padding: 0 24rpx;
+}
+
+.view-all-button {
+  background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
   color: #FFFFFF;
-  font-size: 26rpx;
-  padding: 20rpx 32rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+  padding: 24rpx 80rpx;
   border-radius: 50rpx;
   border: none;
-  box-shadow: 0 6rpx 24rpx rgba(74, 144, 226, 0.4);
-  display: flex;
-  align-items: center;
-  gap: 8rpx;
-  font-weight: 500;
-  letter-spacing: 1rpx;
+  box-shadow: 0 8rpx 32rpx rgba(59, 130, 246, 0.3);
+  letter-spacing: 2rpx;
+  width: 100%;
+  max-width: 500rpx;
 }
 
-.debug-openid-button::after {
+.view-all-button::after {
   border: none;
 }
 
-.debug-openid-button:active {
+.view-all-button:active {
   opacity: 0.9;
   transform: scale(0.98);
+  box-shadow: 0 4rpx 16rpx rgba(59, 130, 246, 0.4);
 }
 
-/* 调试面板按钮 */
-.debug-panel-button {
-  position: fixed;
-  bottom: 200rpx;
-  right: 30rpx;
-  z-index: 999;
-  background: linear-gradient(135deg, #FF6B35 0%, #E5533D 100%);
+/* 加载状态 */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60rpx;
+  color: #999999;
+}
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx;
+  gap: 20rpx;
+  color: #FF6B6B;
+}
+
+.error-container button {
+  background: rgba(255, 255, 255, 0.1);
   color: #FFFFFF;
+  border: 1rpx solid rgba(255, 255, 255, 0.2);
+  padding: 16rpx 32rpx;
+  border-radius: 24rpx;
   font-size: 26rpx;
-  padding: 20rpx 32rpx;
-  border-radius: 50rpx;
-  border: none;
-  box-shadow: 0 6rpx 24rpx rgba(255, 107, 53, 0.4);
-  display: flex;
-  align-items: center;
-  gap: 8rpx;
-  font-weight: 500;
-  letter-spacing: 1rpx;
 }
 
-.debug-panel-button::after {
-  border: none;
-}
-
-.debug-panel-button:active {
-  opacity: 0.9;
-  transform: scale(0.98);
-}

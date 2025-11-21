@@ -1,52 +1,50 @@
 <view class="index-container">
-  <!-- 堆叠轮播图 -->
+  <!-- 轮播图 - 延伸到标题栏 -->
   <view class="banner-section">
     <swiper 
       class="banner-swiper" 
-      indicator-dots="{{false}}"
+      indicator-dots="{{true}}"
       autoplay="{{true}}"
       interval="{{3000}}"
-      duration="{{450}}"
+      duration="{{500}}"
       circular="{{true}}"
-      current="{{currentBannerIndex}}"
-      previous-margin="{{previousMargin}}"
-      next-margin="{{nextMargin}}"
-      easing-function="easeInOutCubic"
-      bindanimationfinish="onBannerAnimationFinish"
     >
-      <swiper-item wx:for="{{banners}}" wx:key="_id" class="banner-item {{index === currentBannerIndex ? 'center' : (index === prevBannerIndex ? 'adjacent-left' : (index === nextBannerIndex ? 'adjacent-right' : 'far'))}}" bindtap="onBannerTap" data-item="{{item}}">
-        <view class="banner-card {{index === currentBannerIndex ? 'center' : (index === prevBannerIndex ? 'adjacent-left' : (index === nextBannerIndex ? 'adjacent-right' : 'far'))}}">
-          <image class="banner-image" src="{{item.imageUrl}}" mode="aspectFill" lazy-load></image>
-        </view>
+      <swiper-item wx:for="{{banners}}" wx:key="_id" bindtap="onBannerTap" data-item="{{item}}">
+        <image class="banner-image" src="{{item.imageUrl}}" mode="aspectFill" lazy-load></image>
       </swiper-item>
     </swiper>
-
-    <view class="banner-indicator" wx:if="{{banners.length > 1}}">
-      <view 
-        class="indicator-dot {{index === currentBannerIndex ? 'active' : ''}}"
-        wx:for="{{banners}}"
-        wx:key="_id"
-      ></view>
-    </view>
   </view>
 
-  <!-- 品牌信息 -->
-  <view class="brand-section">
-    <view class="brand-name">{{photographer.brandName || '朱适颐'}}</view>
-    <view class="brand-slogan">{{photographer.slogan || '光影留驻，诸事皆宜'}}</view>
-    <view class="brand-styles">
-      <text class="style-tag" wx:for="{{photographer.styles}}" wx:key="index">{{item}}</text>
-    </view>
+  <!-- 作品集分类 -->
+  <view class="categories-section">
+    <scroll-view 
+      class="categories-scroll" 
+      scroll-x="{{true}}" 
+      show-scrollbar="{{false}}"
+      enable-flex="{{true}}"
+    >
+      <view class="categories-list">
+        <view 
+          class="category-item" 
+          wx:for="{{categories}}" 
+          wx:key="_id"
+          bindtap="goToCategoryAlbums"
+          data-category="{{item}}"
+        >
+          <image class="category-cover" src="{{item.coverImage || '/images/tab-album.png'}}" mode="aspectFill" binderror="onCategoryCoverError" data-category="{{item}}"></image>
+          <view class="category-name">{{item.name}}</view>
+        </view>
+      </view>
+    </scroll-view>
   </view>
 
   <!-- 精选作品 -->
   <view class="featured-section">
     <view class="section-header">
-      <view class="section-title">精选作品</view>
-      <view class="section-more" bindtap="goToAlbums">查看全部 ></view>
+      <view class="section-title">作品展示/Production</view>
     </view>
 
-    <view class="album-grid" wx:if="{{featuredAlbums.length > 0}}">
+    <view class="album-list" wx:if="{{featuredAlbums.length > 0}}">
       <view 
         class="album-item" 
         wx:for="{{featuredAlbums}}" 
@@ -69,6 +67,11 @@
       <view class="empty-icon">📷</view>
       <view class="empty-text">暂无精选作品</view>
     </view>
+
+    <!-- 查看全部按钮 -->
+    <view class="view-all-container">
+      <button class="view-all-button" bindtap="goToAllAlbums">查看全部作品</button>
+    </view>
   </view>
 
   <!-- 加载状态 -->
@@ -81,21 +84,5 @@
     <button bindtap="onRetry">重试</button>
   </view>
 
-  <!-- 开发辅助：显示 openId 按钮（仅开发环境） -->
-  <button 
-    class="debug-openid-button" 
-    wx:if="{{showDebugOpenId}}"
-    bindtap="showMyOpenId"
-  >
-    📋 获取我的 openId
-  </button>
-  
-  <!-- 调试面板按钮 -->
-  <button 
-    class="debug-panel-button" 
-    wx:if="{{showDebugOpenId}}"
-    bindtap="showDebugInfo"
-  >
-    🔍 状态调试
-  </button>
+
 </view>
