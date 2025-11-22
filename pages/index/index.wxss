@@ -1,6 +1,6 @@
 .index-container {
   min-height: 100vh;
-  background: #000000;
+  background: #FFFFFF;
   padding-bottom: 160rpx; /* 为底部TabBar和安全区域留出空间 */
   padding-top: 100rpx; /* 为自定义导航栏留出空间 */
 }
@@ -33,7 +33,7 @@
 /* 分类区域 */
 .categories-section {
   padding: 40rpx 24rpx 20rpx;
-  background: #000000;
+  background: #FFFFFF;
   margin-top: 0; /* 确保紧接轮播图 */
 }
 
@@ -61,8 +61,8 @@
   width: 120rpx;
   height: 120rpx;
   border-radius: 60rpx;
-  background: #1A1A1A;
-  border: 2rpx solid rgba(255, 255, 255, 0.1);
+  background: #F5F5F5;
+  border: 2rpx solid rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 
@@ -73,7 +73,7 @@
 
 .category-name {
   font-size: 24rpx;
-  color: #FFFFFF;
+  color: #000000;
   text-align: center;
   line-height: 1.4;
 }
@@ -93,7 +93,7 @@
 .section-title {
   font-size: 36rpx;
   font-weight: 600;
-  color: #FFFFFF;
+  color: #000000;
   letter-spacing: 1rpx;
   text-align: center;
 }
@@ -106,17 +106,18 @@
 }
 
 .album-item {
-  background: #111111;
+  background: #FFFFFF;
   border-radius: 16rpx;
   overflow: hidden;
   transition: all 0.3s ease;
-  border: 1rpx solid rgba(255, 255, 255, 0.08);
+  border: 1rpx solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.06);
 }
 
 .album-item:active {
   transform: translateY(-4rpx);
-  box-shadow: 0 12rpx 32rpx rgba(0, 0, 0, 0.3);
-  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12rpx 32rpx rgba(0, 0, 0, 0.12);
+  border-color: rgba(0, 0, 0, 0.15);
 }
 
 .album-cover {
@@ -132,7 +133,7 @@
 .album-title {
   font-size: 28rpx;
   font-weight: 500;
-  color: #FFFFFF;
+  color: #000000;
   margin-bottom: 12rpx;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -145,19 +146,20 @@
   justify-content: space-between;
   align-items: center;
   font-size: 24rpx;
-  color: #999999;
+  color: #666666;
 }
 
 .album-category {
-  background: rgba(255, 255, 255, 0.1);
-  color: #CCCCCC;
+  background: rgba(0, 0, 0, 0.05);
+  color: #333333;
   padding: 4rpx 12rpx;
   border-radius: 6rpx;
   font-size: 20rpx;
+  border: 1rpx solid rgba(0, 0, 0, 0.08);
 }
 
 .album-count {
-  color: #666666;
+  color: #999999;
   font-size: 20rpx;
 }
 
@@ -188,14 +190,14 @@
 }
 
 .view-all-button {
-  background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
+  background: #000000;
   color: #FFFFFF;
   font-size: 32rpx;
   font-weight: 500;
   padding: 24rpx 80rpx;
   border-radius: 50rpx;
   border: none;
-  box-shadow: 0 8rpx 32rpx rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.15);
   letter-spacing: 2rpx;
   width: 100%;
   max-width: 500rpx;

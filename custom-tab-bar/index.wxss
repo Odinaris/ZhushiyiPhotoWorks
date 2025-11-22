@@ -4,11 +4,12 @@
   left: 0;
   right: 0;
   height: 100rpx;
-  background: #000000;
+  background: #FFFFFF;
   display: flex;
   padding-bottom: env(safe-area-inset-bottom);
-  box-shadow: 0 -2rpx 10rpx rgba(255, 255, 255, 0.06);
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.06);
   z-index: 9999;
+  border-top: 1rpx solid rgba(0, 0, 0, 0.08);
 }
 
 .tab-bar-item {
@@ -30,11 +31,11 @@
 
 .tab-text {
   font-size: 20rpx;
-  color: #DDDDDD;
+  color: #999999;
   font-weight: 400;
 }
 
 .tab-bar-item.active .tab-text {
-  color: #FFFFFF;
+  color: #000000;
   font-weight: 500;
 }

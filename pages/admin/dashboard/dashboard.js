@@ -55,12 +55,5 @@ Page({
   navigateTo(e) {
     const url = e.currentTarget.dataset.url
     wx.navigateTo({ url })
-  },
-
-  // 返回首页
-  goHome() {
-    wx.switchTab({
-      url: '/pages/index/index'
-    })
   }
 })

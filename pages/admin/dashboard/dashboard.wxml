@@ -72,8 +72,5 @@
     </view>
   </view>
 
-  <!-- 返回首页 -->
-  <view class="footer-actions">
-    <button class="footer-btn" bindtap="goHome">返回首页</button>
-  </view>
+
 </view>

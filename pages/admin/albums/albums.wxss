@@ -1,7 +1,7 @@
 .admin-page {
   min-height: 100vh;
   background-color: #000000;
-  color: #FFFFFF;
+  color: #000000;
   padding: 24rpx;
 }
 
@@ -17,13 +17,13 @@
 .header-title {
   font-size: 40rpx;
   font-weight: 600;
-  color: #FFFFFF;
+  color: #000000;
   letter-spacing: 2rpx;
 }
 
 .add-btn {
   background-color: #1A1A1A;
-  color: #FFFFFF;
+  color: #000000;
   border-radius: 50rpx;
   padding: 20rpx 40rpx;
   font-size: 26rpx;
@@ -43,11 +43,11 @@
 }
 
 .album-card {
-  background-color: #000000;
+  background-color: #FFFFFF;
   border-radius: 16rpx;
   overflow: hidden;
-  box-shadow: 0 4rpx 20rpx rgba(255, 255, 255, 0.05);
-  border: 1rpx solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+  border: 1rpx solid rgba(0, 0, 0, 0.06);
 }
 
 .album-cover {
@@ -58,13 +58,13 @@
 
 .album-info {
   padding: 24rpx;
-  border-bottom: 1rpx solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.06);
 }
 
 .album-title {
   font-size: 32rpx;
   font-weight: 600;
-  color: #FFFFFF;
+  color: #000000;
   margin-bottom: 16rpx;
   letter-spacing: 0.5rpx;
 }
@@ -81,7 +81,7 @@
 }
 
 .active {
-  color: #FFFFFF;
+  color: #000000;
   font-weight: 500;
 }
 
@@ -90,7 +90,7 @@
 }
 
 .featured {
-  color: #FFFFFF;
+  color: #000000;
   font-weight: 600;
 }
 
@@ -114,14 +114,14 @@
 }
 
 .action-btn.edit {
-  background-color: #1A1A1A;
+  background-color: #000000;
   color: #FFFFFF;
 }
 
 .action-btn.delete {
   background-color: #FFFFFF;
-  color: #1A1A1A;
-  border: 2rpx solid #1A1A1A;
+  color: #000000;
+  border: 2rpx solid #000000;
 }
 
 .empty-container {
@@ -130,7 +130,7 @@
   align-items: center;
   justify-content: center;
   padding: 120rpx 0;
-  color: #999;
+  color: #666666;
 }
 
 .empty-icon {

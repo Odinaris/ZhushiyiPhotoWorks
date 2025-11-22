@@ -1,6 +1,6 @@
 .dashboard-container {
   min-height: 100vh;
-  background: #000000;
+  background: #FFFFFF;
   padding: 48rpx 24rpx;
   padding-bottom: 160rpx; /* 为底部TabBar和安全区域留出空间 */
 }
@@ -8,7 +8,7 @@
 /* 头部 */
 .dashboard-header {
   text-align: center;
-  color: #FFFFFF;
+  color: #000000;
   margin-bottom: 48rpx;
 }
 
@@ -24,6 +24,7 @@
   opacity: 0.85;
   font-weight: 300;
   letter-spacing: 1rpx;
+  color: #666666;
 }
 
 /* 统计卡片 */
@@ -35,43 +36,43 @@
 }
 
 .stat-card {
-  background-color: #000000;
+  background-color: #FFFFFF;
   border-radius: 16rpx;
   padding: 44rpx 24rpx;
   text-align: center;
-  box-shadow: 0 6rpx 24rpx rgba(255, 255, 255, 0.06);
-  border: 1rpx solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 6rpx 24rpx rgba(0, 0, 0, 0.06);
+  border: 1rpx solid rgba(0, 0, 0, 0.06);
   transition: all 0.3s ease;
 }
 
 .stat-card:active {
   transform: translateY(-4rpx);
-  box-shadow: 0 10rpx 32rpx rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10rpx 32rpx rgba(0, 0, 0, 0.12);
 }
 
 .stat-value {
   font-size: 52rpx;
   font-weight: 600;
-  color: #FFFFFF;
+  color: #000000;
   margin-bottom: 16rpx;
   letter-spacing: 1rpx;
 }
 
 .stat-label {
   font-size: 24rpx;
-  color: #DDDDDD;
+  color: #666666;
   font-weight: 300;
   letter-spacing: 0.5rpx;
 }
 
 /* 菜单列表 */
 .menu-section {
-  background-color: #000000;
+  background-color: #FFFFFF;
   border-radius: 16rpx;
   overflow: hidden;
-  box-shadow: 0 4rpx 20rpx rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
   margin-bottom: 48rpx;
-  border: 1rpx solid rgba(255, 255, 255, 0.06);
+  border: 1rpx solid rgba(0, 0, 0, 0.06);
 }
 
 .menu-item {
@@ -87,7 +88,7 @@
 }
 
 .menu-item:active {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .menu-icon {
@@ -101,7 +102,7 @@
 
 .menu-title {
   font-size: 30rpx;
-  color: #FFFFFF;
+  color: #000000;
   font-weight: 500;
   margin-bottom: 10rpx;
   letter-spacing: 0.5rpx;
@@ -109,13 +110,13 @@
 
 .menu-desc {
   font-size: 24rpx;
-  color: #DDDDDD;
+  color: #666666;
   font-weight: 300;
 }
 
 .menu-arrow {
   font-size: 48rpx;
-  color: #DDD;
+  color: #999999;
 }
 
 /* 底部按钮 */
@@ -127,7 +128,7 @@
   width: 100%;
   background-color: #000000;
   color: #FFFFFF;
-  border: 2rpx solid #FFFFFF;
+  border: 2rpx solid #000000;
   border-radius: 50rpx;
   padding: 28rpx;
   font-size: 30rpx;
