@@ -48,12 +48,6 @@ Page({
 
       const { banners, photographer, featuredAlbums } = homeDataResult || {}
       
-      // 在分类列表前添加"全部"选项
-      const categoriesWithAll = [
-        { _id: '', name: '全部', coverImage: '/images/tab-album.png' },
-        ...(categoriesResult || [])
-      ]
-      
       this.setData({
         banners: banners || [],
         photographer: photographer || {
@@ -62,7 +56,7 @@ Page({
           styles: ['人像', '风光', '纪实']
         },
         featuredAlbums: featuredAlbums || [],
-        categories: categoriesWithAll,
+        categories: categoriesResult,
         loading: false,
         loadError: false
       })

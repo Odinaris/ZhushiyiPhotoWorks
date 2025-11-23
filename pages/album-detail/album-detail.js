@@ -7,7 +7,9 @@ Page({
       images: []
     },
     loading: true,
-    loadError: false
+    loadError: false,
+    viewMode: 'grid', // 'grid' 瀑布流模式, 'list' 单栏模式
+    imageHeights: {} // 存储每张图片的高度
   },
 
   onLoad(options) {
@@ -63,6 +65,36 @@ Page({
     } catch (err) {
       console.error('更新分享次数失败:', err)
     }
+  },
+
+  // 切换浏览模式
+  toggleViewMode() {
+    const newMode = this.data.viewMode === 'grid' ? 'list' : 'grid'
+    this.setData({
+      viewMode: newMode
+    })
+  },
+
+  // 图片加载完成事件
+  onImageLoad(e) {
+    const { index } = e.currentTarget.dataset
+    const { width, height } = e.detail
+    
+    // 根据模式计算容器宽度
+    const screenWidth = wx.getSystemInfoSync().windowWidth
+    const padding = 4 // 左右各2rpx
+    const containerWidth = this.data.viewMode === 'grid' ? 
+      (screenWidth - padding - 2) / 2 : // 瀑布流模式：双栏，减去2rpx间距
+      (screenWidth - padding) // 单栏模式：全宽
+    
+    // 计算图片高度
+    const imageHeight = (height / width) * containerWidth
+    const heights = this.data.imageHeights
+    heights[index] = imageHeight
+    
+    this.setData({
+      imageHeights: heights
+    })
   },
 
   // 预览图片

@@ -1,28 +1,75 @@
 <view class="detail-container">
   <!-- 头部信息 -->
   <view class="detail-header">
-    <view class="album-title">{{album.title}}</view>
-    <view class="album-info">
-      <text class="info-item">{{album.categoryName}}</text>
-      <text class="info-divider">·</text>
-      <text class="info-item">{{album.images.length}}张照片</text>
-      <text class="info-divider">·</text>
-      <text class="info-item">{{album.viewCount || 0}}次浏览</text>
+    <view class="header-content">
+      <view class="header-left">
+        <view class="album-title">{{album.title}}</view>
+        <view class="album-info">
+          <text class="info-item">{{album.categoryName}}</text>
+          <text class="info-divider">·</text>
+          <text class="info-item">{{album.images.length}}张照片</text>
+          <text class="info-divider">·</text>
+          <text class="info-item">{{album.viewCount || 0}}次浏览</text>
+        </view>
+        <view class="album-description" wx:if="{{album.description}}">{{album.description}}</view>
+      </view>
+      <!-- 视图切换按钮 -->
+      <view class="view-toggle">
+        <button class="view-mode-btn" bindtap="toggleViewMode">
+          <text class="view-icon">{{viewMode === 'grid' ? '⊞' : '☰'}}</text>
+        </button>
+      </view>
     </view>
-    <view class="album-description" wx:if="{{album.description}}">{{album.description}}</view>
   </view>
 
-  <!-- 图片瀑布流 -->
-  <view class="images-grid">
-    <view 
-      class="image-item"
-      wx:for="{{album.images}}"
-      wx:key="index"
-      bindtap="previewImage"
-      data-index="{{index}}"
-    >
-      <image class="item-image" src="{{item.url}}" mode="aspectFill" lazy-load></image>
-      <view class="image-desc" wx:if="{{item.description}}">{{item.description}}</view>
+  <!-- 图片展示区域 -->
+  <view class="images-container">
+    <!-- 瀑布流模式 - 双栏 -->
+    <view class="images-grid grid" wx:if="{{viewMode === 'grid'}}">
+      <view class="waterfall-column" wx:for="{{2}}" wx:key="index" wx:for-item="colIndex">
+        <view 
+          class="image-item"
+          wx:for="{{album.images}}"
+          wx:key="index"
+          wx:for-index="imgIndex"
+          wx:if="{{imgIndex % 2 === colIndex}}"
+          bindtap="previewImage"
+          data-index="{{imgIndex}}"
+        >
+          <image 
+            class="item-image" 
+            src="{{item.url}}" 
+            mode="widthFix" 
+            lazy-load
+            bindload="onImageLoad"
+            data-index="{{imgIndex}}"
+            style="height: {{imageHeights[imgIndex] || 300}}rpx"
+          ></image>
+          <view class="image-desc" wx:if="{{item.description}}">{{item.description}}</view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 单栏模式 -->
+    <view class="images-grid list" wx:else>
+      <view 
+        class="image-item"
+        wx:for="{{album.images}}"
+        wx:key="index"
+        bindtap="previewImage"
+        data-index="{{index}}"
+      >
+        <image 
+          class="item-image" 
+          src="{{item.url}}" 
+          mode="widthFix" 
+          lazy-load
+          bindload="onImageLoad"
+          data-index="{{index}}"
+          style="height: {{imageHeights[index] || 300}}rpx"
+        ></image>
+        <view class="image-desc" wx:if="{{item.description}}">{{item.description}}</view>
+      </view>
     </view>
   </view>
 

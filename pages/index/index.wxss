@@ -200,7 +200,7 @@
   box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.15);
   letter-spacing: 2rpx;
   width: 100%;
-  max-width: 500rpx;
+  max-width: 700rpx;
 }
 
 .view-all-button::after {
