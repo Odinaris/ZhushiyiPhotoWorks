@@ -14,10 +14,10 @@
     "pages/admin/profile/profile"
   ],
   "window": {
-    "navigationBarTextStyle": "white",
+    "navigationBarTextStyle": "black",
     "navigationBarTitleText": "摄影作品",
-    "navigationBarBackgroundColor": "#000000",
-    "backgroundColor": "#000000"
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "backgroundColor": "#FFFFFF"
   },
   "tabBar": {
     "custom": true,
@@ -40,7 +40,7 @@
       },
       {
         "pagePath": "pages/contact/contact",
-        "text": "联系我",
+        "text": "关于",
         "iconPath": "images/tab-contact.png",
         "selectedIconPath": "images/tab-contact-active.png"
       },

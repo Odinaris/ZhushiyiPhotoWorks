@@ -22,7 +22,7 @@ Component({
       },
       {
         pagePath: "/pages/contact/contact",
-        text: "联系我",
+        text: "关于",
         iconPath: "/images/tab-contact.png",
         selectedIconPath: "/images/tab-contact-active.png"
       },

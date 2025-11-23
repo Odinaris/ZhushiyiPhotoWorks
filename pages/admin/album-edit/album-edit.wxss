@@ -35,19 +35,19 @@
   justify-content: space-between;
   align-items: center;
   font-size: 28rpx;
-  color: #FFFFFF;
+  color: #000000;
   font-weight: 500;
 }
 
 .form-input {
   width: 100%;
   padding: 28rpx 24rpx;
-  border: 2rpx solid rgba(255, 255, 255, 0.15);
+  border: 2rpx solid rgba(0, 0, 0, 0.15);
   border-radius: 12rpx;
   font-size: 28rpx;
   box-sizing: border-box;
   background-color: #FFFFFF;
-  color: #FFFFFF;
+  color: #000000;
   transition: all 0.3s ease;
   min-height: 88rpx;
 }
@@ -82,7 +82,7 @@
   font-size: 28rpx;
   color: #000000;
   background-color: #FFFFFF;
-  min-height: 88rpx;
+  min-height: 38rpx;
   display: flex;
   align-items: center;
 }
@@ -162,12 +162,12 @@
 }
 
 .add-item {
-  border: 2rpx dashed rgba(255, 255, 255, 0.2);
+  border: 2rpx dashed rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #DDDDDD;
+  color: #000000;
   background-color: #FFFFFF;
   transition: all 0.3s ease;
 }
@@ -194,10 +194,10 @@
   right: 0;
   background-color: #FFFFFF;
   padding: 24rpx 36rpx;
-  box-shadow: 0 -6rpx 24rpx rgba(255, 255, 255, 0.06);
+  box-shadow: 0 -6rpx 24rpx rgba(0, 0, 0, 0.06);
   display: flex;
   gap: 24rpx;
-  border-top: 1rpx solid rgba(255, 255, 255, 0.06);
+  border-top: 1rpx solid rgba(0, 0, 0, 0.06);
 }
 
 .action-btn {
@@ -216,7 +216,7 @@
 
 .action-btn.cancel {
   background-color: #FFFFFF;
-  color: #666;
+  color: #000000;
 }
 
 .action-btn.save {

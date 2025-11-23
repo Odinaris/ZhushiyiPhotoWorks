@@ -1,6 +1,6 @@
 .admin-page {
   min-height: 100vh;
-  background-color: #000000;
+  background-color: #ffffff;
   color: #000000;
   padding: 24rpx;
 }
@@ -23,7 +23,7 @@
 
 .add-btn {
   background-color: #1A1A1A;
-  color: #000000;
+  color: #ffffff;
   border-radius: 50rpx;
   padding: 20rpx 40rpx;
   font-size: 26rpx;
@@ -47,7 +47,7 @@
   border-radius: 16rpx;
   overflow: hidden;
   box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
-  border: 1rpx solid rgba(0, 0, 0, 0.06);
+  border: 2rpx solid rgba(0, 0, 0, 0.1);
 }
 
 .album-cover {
@@ -71,7 +71,7 @@
 
 .album-meta {
   font-size: 24rpx;
-  color: #DDDDDD;
+  color: #242424;
   font-weight: 300;
 }
 
@@ -114,13 +114,14 @@
 }
 
 .action-btn.edit {
-  background-color: #000000;
-  color: #FFFFFF;
+  background-color: #ffffff;
+  color: #000000;
+  border: 2rpx solid #000000;
 }
 
 .action-btn.delete {
   background-color: #FFFFFF;
-  color: #000000;
+  color: #ff0000;
   border: 2rpx solid #000000;
 }
 
