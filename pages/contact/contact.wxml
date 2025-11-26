@@ -1,60 +1,73 @@
 <view class="contact-container">
-  <!-- 问答列表 -->
-  <view class="qa-section" wx:if="{{contactInfo.qaList && contactInfo.qaList.length > 0}}">
-    <view class="section-title">常见问题</view>
-    <view class="qa-list">
-      <view class="qa-item" wx:for="{{contactInfo.qaList}}" wx:key="index">
-        <view class="question">
-          <text class="q-icon">Q</text>
-          <text class="q-text">{{item.question}}</text>
-        </view>
-        <view class="answer">
-          <text class="a-icon">A</text>
-          <text class="a-text">{{item.answer}}</text>
-        </view>
+  <!-- 品牌信息区域 -->
+  <view class="brand-section">
+    <!-- 品牌Logo -->
+    <view class="brand-logo" wx:if="{{photographerInfo.logo}}">
+      <image class="logo-image" src="{{photographerInfo.logo}}" mode="aspectFit"></image>
+    </view>
+    
+    <!-- 品牌信息 -->
+    <view class="brand-info">
+      <view class="brand-name">{{photographerInfo.brandName || '摄影工作室'}}</view>
+      <view class="brand-slogan">{{photographerInfo.slogan || '记录每一个美好瞬间'}}</view>
+      <view class="brand-location" wx:if="{{photographerInfo.location}}">
+        <text class="location-icon">📍</text>
+        <text class="location-text">{{photographerInfo.location}}</text>
       </view>
     </view>
   </view>
 
-  <!-- 联系方式 -->
-  <view class="contacts-section" wx:if="{{contactInfo.contacts && contactInfo.contacts.length > 0}}">
-    <view class="section-title">联系方式</view>
-    <view class="contacts-list">
-      <view class="contact-item" wx:for="{{contactInfo.contacts}}" wx:key="index">
-        <view class="contact-icon">{{item.icon || '📞'}}</view>
-        <view class="contact-content">
-          <view class="contact-label">{{item.label}}</view>
-          <view class="contact-value">{{item.value}}</view>
-        </view>
-        <view class="contact-action" wx:if="{{item.type === 'phone'}}" bindtap="makePhoneCall" data-phone="{{item.value}}">
-          <text>拨打</text>
-        </view>
-        <view class="contact-action" wx:elif="{{item.type === 'wechat'}}" bindtap="copyText" data-text="{{item.value}}">
-          <text>复制</text>
-        </view>
+  <!-- 品牌介绍 -->
+  <view class="introduction-section" wx:if="{{photographerInfo.introduction}}">
+    <view class="introduction-content">
+      <text class="introduction-text">{{photographerInfo.introduction}}</text>
+    </view>
+  </view>
+
+  <!-- 联系方式入口 -->
+  <view class="contact-entries">
+    <view class="entry-item phone-entry" wx:if="{{photographerInfo.phone}}" bindtap="makePhoneCall" data-phone="{{photographerInfo.phone}}">
+      <view class="entry-icon">📞</view>
+      <view class="entry-content">
+        <view class="entry-label">电话联系</view>
+        <view class="entry-value">{{photographerInfo.phone}}</view>
       </view>
+      <view class="entry-arrow">›</view>
+    </view>
+
+    <view class="entry-item wechat-entry" wx:if="{{photographerInfo.wechat}}" bindtap="copyWechat" data-wechat="{{photographerInfo.wechat}}">
+      <view class="entry-icon">💬</view>
+      <view class="entry-content">
+        <view class="entry-label">微信联系</view>
+        <view class="entry-value">{{photographerInfo.wechat}}</view>
+      </view>
+      <view class="entry-arrow">›</view>
+    </view>
+
+    <view class="entry-item share-entry" bindtap="showShareMenu">
+      <view class="entry-icon">📤</view>
+      <view class="entry-content">
+        <view class="entry-label">分享推荐</view>
+        <view class="entry-value">分享给好友</view>
+      </view>
+      <view class="entry-arrow">›</view>
+    </view>
+
+    <view class="entry-item email-entry" wx:if="{{photographerInfo.email}}" bindtap="copyEmail" data-email="{{photographerInfo.email}}">
+      <view class="entry-icon">✉️</view>
+      <view class="entry-content">
+        <view class="entry-label">邮箱联系</view>
+        <view class="entry-value">{{photographerInfo.email}}</view>
+      </view>
+      <view class="entry-arrow">›</view>
     </view>
   </view>
 
   <!-- 工作时间 -->
-  <view class="info-section" wx:if="{{contactInfo.workingHours}}">
-    <view class="info-card">
-      <view class="info-icon">🕐</view>
-      <view class="info-content">
-        <view class="info-label">工作时间</view>
-        <view class="info-value">{{contactInfo.workingHours}}</view>
-      </view>
-    </view>
-  </view>
-
-  <!-- 地址 -->
-  <view class="info-section" wx:if="{{contactInfo.location}}">
-    <view class="info-card">
-      <view class="info-icon">📍</view>
-      <view class="info-content">
-        <view class="info-label">工作室地址</view>
-        <view class="info-value">{{contactInfo.location}}</view>
-      </view>
+  <view class="working-hours" wx:if="{{photographerInfo.workingHours}}">
+    <view class="hours-info">
+      <text class="hours-icon">🕐</text>
+      <text class="hours-text">{{photographerInfo.workingHours}}</text>
     </view>
   </view>
 
@@ -69,7 +82,7 @@
 
   <!-- 空状态 -->
   <view class="empty-container" wx:if="{{!loading && !hasData}}">
-    <view class="empty-icon">📧</view>
-    <view class="empty-text">暂无联系信息</view>
+    <view class="empty-icon">📷</view>
+    <view class="empty-text">暂无摄影师信息</view>
   </view>
 </view>

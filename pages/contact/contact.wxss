@@ -6,187 +6,215 @@
   padding-bottom: 160rpx; /* 为底部TabBar和安全区域留出空间 */
 }
 
-.section-title {
-  font-size: 38rpx;
+/* 品牌信息区域 */
+.brand-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40rpx 0;
+  margin-bottom: 32rpx;
+}
+
+.brand-logo {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 80rpx;
+  overflow: hidden;
+  margin-bottom: 24rpx;
+  border: 2rpx solid rgba(0, 0, 0, 0.1);
+}
+
+.logo-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.brand-info {
+  text-align: center;
+  max-width: 100%;
+}
+
+.brand-name {
+  font-size: 42rpx;
   font-weight: 600;
   color: #000000;
-  margin: 32rpx 0 24rpx;
-  padding: 0 10rpx;
+  margin-bottom: 12rpx;
   letter-spacing: 2rpx;
 }
 
-/* 问答列表 */
-.qa-section {
-  margin-bottom: 48rpx;
+.brand-slogan {
+  font-size: 28rpx;
+  color: #666666;
+  margin-bottom: 16rpx;
+  font-weight: 300;
+  line-height: 1.6;
 }
 
-.qa-list {
+.brand-location {
   display: flex;
-  flex-direction: column;
-  gap: 24rpx;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
+  color: #333333;
 }
 
-.qa-item {
-  background-color: #FFFFFF;
+.location-icon {
+  margin-right: 8rpx;
+  font-size: 24rpx;
+}
+
+.location-text {
+  font-weight: 400;
+}
+
+/* 品牌介绍 */
+.introduction-section {
+  margin-bottom: 40rpx;
+}
+
+.introduction-content {
+  background-color: rgba(0, 0, 0, 0.02);
   border-radius: 16rpx;
-  padding: 36rpx;
-  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+  padding: 32rpx;
   border: 1rpx solid rgba(0, 0, 0, 0.06);
 }
 
-.question {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 24rpx;
-}
-
-.q-icon {
-  display: inline-block;
-  width: 52rpx;
-  height: 52rpx;
-  line-height: 52rpx;
-  text-align: center;
-  background-color: #000000;
-  color: #FFFFFF;
-  border-radius: 50%;
-  font-size: 24rpx;
-  font-weight: 600;
-  flex-shrink: 0;
-  margin-right: 20rpx;
-}
-
-.q-text {
-  flex: 1;
-  font-size: 30rpx;
-  color: #000000;
-  font-weight: 500;
-  line-height: 52rpx;
+.introduction-text {
+  font-size: 28rpx;
+  color: #333333;
+  line-height: 1.8;
+  font-weight: 300;
   letter-spacing: 0.5rpx;
 }
 
-.answer {
-  display: flex;
-  align-items: flex-start;
-  padding-left: 72rpx;
-}
-
-.a-icon {
-  display: inline-block;
-  width: 52rpx;
-  height: 52rpx;
-  line-height: 52rpx;
-  text-align: center;
-  background-color: rgba(0,0,0,0.1);
-  color: #000000;
-  border-radius: 50%;
-  font-size: 24rpx;
-  font-weight: 600;
-  flex-shrink: 0;
-  margin-right: 20rpx;
-}
-
-.a-text {
-  flex: 1;
-  font-size: 28rpx;
-  color: #333333;
-  line-height: 1.7;
-  font-weight: 300;
-}
-
-/* 联系方式列表 */
-.contacts-section {
-  margin-bottom: 48rpx;
-}
-
-.contacts-list {
+/* 联系方式入口 */
+.contact-entries {
   display: flex;
   flex-direction: column;
-  gap: 24rpx;
+  gap: 2rpx;
+  margin-bottom: 32rpx;
 }
 
-.contact-item {
+.entry-item {
   display: flex;
   align-items: center;
   background-color: #FFFFFF;
-  border-radius: 16rpx;
-  padding: 36rpx;
-  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+  padding: 32rpx 24rpx;
   border: 1rpx solid rgba(0, 0, 0, 0.06);
   transition: all 0.3s ease;
 }
 
-.contact-item:active {
-  transform: translateY(-2rpx);
-  box-shadow: 0 6rpx 24rpx rgba(0, 0, 0, 0.08);
+.entry-item:active {
+  background-color: rgba(0, 0, 0, 0.02);
+  transform: translateY(-1rpx);
 }
 
-.contact-icon {
-  font-size: 52rpx;
-  margin-right: 28rpx;
+.entry-icon {
+  font-size: 44rpx;
+  margin-right: 24rpx;
+  width: 44rpx;
+  text-align: center;
 }
 
-.contact-content {
+.entry-content {
   flex: 1;
 }
 
-.contact-label {
-  font-size: 24rpx;
-  color: #666666;
-  margin-bottom: 10rpx;
-  font-weight: 300;
-}
-
-.contact-value {
-  font-size: 30rpx;
+.entry-label {
+  font-size: 32rpx;
   color: #000000;
   font-weight: 500;
+  margin-bottom: 8rpx;
   letter-spacing: 0.5rpx;
 }
 
-.contact-action {
-  padding: 14rpx 32rpx;
-  background-color: #000000;
-  color: #FFFFFF;
-  border-radius: 50rpx;
-  font-size: 24rpx;
-  font-weight: 400;
-  letter-spacing: 1rpx;
-}
-
-/* 信息卡片 */
-.info-section {
-  margin-bottom: 24rpx;
-}
-
-.info-card {
-  display: flex;
-  align-items: center;
-  background-color: #FFFFFF;
-  border-radius: 16rpx;
-  padding: 36rpx;
-  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
-  border: 1rpx solid rgba(0, 0, 0, 0.06);
-}
-
-.info-icon {
-  font-size: 52rpx;
-  margin-right: 28rpx;
-}
-
-.info-content {
-  flex: 1;
-}
-
-.info-label {
-  font-size: 24rpx;
+.entry-value {
+  font-size: 26rpx;
   color: #666666;
-  margin-bottom: 10rpx;
   font-weight: 300;
 }
 
-.info-value {
-  font-size: 30rpx;
-  color: #000000;
-  line-height: 1.7;
+.entry-arrow {
+  font-size: 32rpx;
+  color: #CCCCCC;
+  font-weight: 300;
+}
+
+/* 工作时间 */
+.working-hours {
+  margin-bottom: 24rpx;
+}
+
+.hours-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-radius: 16rpx;
+  padding: 24rpx;
+  border: 1rpx solid rgba(0, 0, 0, 0.06);
+}
+
+.hours-icon {
+  font-size: 32rpx;
+  margin-right: 16rpx;
+}
+
+.hours-text {
+  font-size: 28rpx;
+  color: #333333;
   font-weight: 400;
+  line-height: 1.6;
+}
+
+/* 状态样式 */
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx 0;
+  color: #666666;
+  font-size: 28rpx;
+}
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx 0;
+  color: #666666;
+  font-size: 28rpx;
+}
+
+.error-container button {
+  margin-top: 24rpx;
+  padding: 16rpx 32rpx;
+  background-color: #000000;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8rpx;
+  font-size: 26rpx;
+}
+
+.empty-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 0;
+  color: #999999;
+}
+
+.empty-icon {
+  font-size: 80rpx;
+  margin-bottom: 24rpx;
+  opacity: 0.6;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  font-weight: 300;
+  letter-spacing: 1rpx;
 }

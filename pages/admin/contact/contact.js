@@ -4,10 +4,15 @@ const util = require('../../../utils/util.js')
 Page({
   data: {
     formData: {
-      qaList: [],
-      contacts: [],
-      workingHours: '',
-      location: ''
+      logo: '',
+      brandName: '',
+      slogan: '',
+      location: '',
+      introduction: '',
+      phone: '',
+      wechat: '',
+      email: '',
+      workingHours: ''
     }
   },
 
@@ -27,69 +32,66 @@ Page({
   async loadContact() {
     try {
       util.showLoading('加载中...')
-      const r = await util.callFunction('adminContact', { action: 'get' })
+      const r = await util.callFunction('adminPhotographer', { action: 'get' })
       if (r.ok && r.data) {
         this.setData({ formData: r.data })
       }
     } catch (err) {
-      console.error('加载联系信息失败:', err)
+      console.error('加载摄影师信息失败:', err)
       util.showError('加载失败')
     } finally {
       util.hideLoading()
     }
   },
 
-  addQA() {
-    const qaList = this.data.formData.qaList
-    qaList.push({
-      question: '',
-      answer: '',
-      order: qaList.length
-    })
-    this.setData({ 'formData.qaList': qaList })
-  },
-
-  deleteQA(e) {
-    const index = e.currentTarget.dataset.index
-    const qaList = this.data.formData.qaList
-    qaList.splice(index, 1)
-    this.setData({ 'formData.qaList': qaList })
-  },
-
-  onQAChange(e) {
-    const index = e.currentTarget.dataset.index
-    const field = e.currentTarget.dataset.field
-    const value = e.detail.value
-    this.setData({
-      [`formData.qaList[${index}].${field}`]: value
+  // 上传品牌Logo
+  uploadLogo() {
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['compressed'],
+      sourceType: ['album', 'camera'],
+      success: (res) => {
+        const tempFilePath = res.tempFilePaths[0]
+        this.uploadFile(tempFilePath, 'logo')
+      }
     })
   },
 
-  addContact() {
-    const contacts = this.data.formData.contacts
-    contacts.push({
-      type: '',
-      label: '',
-      value: '',
-      icon: '',
-      order: contacts.length
-    })
-    this.setData({ 'formData.contacts': contacts })
+  // 上传文件到云存储
+  async uploadFile(filePath, fieldName) {
+    try {
+      util.showLoading('上传中...')
+      const cloudPath = `photographer/${fieldName}_${Date.now()}.jpg`
+      const uploadRes = await wx.cloud.uploadFile({
+        cloudPath,
+        filePath
+      })
+      
+      const fileID = uploadRes.fileID
+      this.setData({
+        [`formData.${fieldName}`]: fileID
+      })
+      util.showSuccess('上传成功')
+    } catch (err) {
+      console.error('上传失败:', err)
+      util.showError('上传失败')
+    } finally {
+      util.hideLoading()
+    }
   },
 
-  deleteContact(e) {
-    const index = e.currentTarget.dataset.index
-    const contacts = this.data.formData.contacts
-    contacts.splice(index, 1)
-    this.setData({ 'formData.contacts': contacts })
-  },
-
-  onContactChange(e) {
-    const index = e.currentTarget.dataset.index
-    const field = e.currentTarget.dataset.field
-    const value = e.detail.value
-    this.setData({
-      [`formData.contacts[${index}].${field}`]: value
+  // 删除Logo
+  deleteLogo() {
+    wx.showModal({
+      title: '确认删除',
+      content: '确定要删除品牌Logo吗？',
+      success: (res) => {
+        if (res.confirm) {
+          this.setData({
+            'formData.logo': ''
+          })
+        }
+      }
     })
   },
 
@@ -104,10 +106,10 @@ Page({
   async saveContact() {
     try {
       util.showLoading('保存中...')
-      const r = await util.callFunction('adminContact', { action: 'update', data: this.data.formData })
+      const r = await util.callFunction('adminPhotographer', { action: 'update', data: this.data.formData })
       if (r.ok) {
         util.showSuccess('保存成功')
-        util.clearCache('contactInfo')
+        util.clearCache('photographerInfo')
       } else {
         throw new Error(r.message || '保存失败')
       }

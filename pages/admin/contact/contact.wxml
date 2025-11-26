@@ -1,57 +1,67 @@
 <view class="edit-page">
+  <!-- 品牌信息 -->
   <view class="section">
-    <view class="section-header">
-      <view class="section-title">问答列表</view>
-      <button class="add-btn-small" bindtap="addQA">+</button>
-    </view>
+    <view class="section-title">品牌信息</view>
     
-    <view class="qa-list" wx:if="{{formData.qaList.length > 0}}">
-      <view class="qa-card" wx:for="{{formData.qaList}}" wx:key="index">
-        <view class="form-item">
-          <input class="form-input" value="{{item.question}}" bindinput="onQAChange" data-index="{{index}}" data-field="question" placeholder="问题"/>
+    <view class="form-item">
+      <view class="form-label">品牌Logo</view>
+      <view class="logo-upload">
+        <image wx:if="{{formData.logo}}" src="{{formData.logo}}" class="logo-preview" mode="aspectFit"></image>
+        <view wx:else class="logo-placeholder" bindtap="uploadLogo">
+          <text class="upload-icon">📷</text>
+          <text class="upload-text">上传Logo</text>
         </view>
-        <view class="form-item">
-          <textarea class="form-textarea" value="{{item.answer}}" bindinput="onQAChange" data-index="{{index}}" data-field="answer" placeholder="回答"/>
+        <view wx:if="{{formData.logo}}" class="logo-actions">
+          <button class="btn-small change-btn" bindtap="uploadLogo">更换</button>
+          <button class="btn-small delete-btn" bindtap="deleteLogo">删除</button>
         </view>
-        <button class="delete-btn" bindtap="deleteQA" data-index="{{index}}">删除</button>
       </view>
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">品牌名称</view>
+      <input class="form-input" value="{{formData.brandName}}" bindinput="onInputChange" data-field="brandName" placeholder="请输入品牌名称"/>
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">品牌Slogan</view>
+      <input class="form-input" value="{{formData.slogan}}" bindinput="onInputChange" data-field="slogan" placeholder="请输入品牌标语"/>
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">所在地点</view>
+      <input class="form-input" value="{{formData.location}}" bindinput="onInputChange" data-field="location" placeholder="请输入工作室地点"/>
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">品牌介绍</view>
+      <textarea class="form-textarea" value="{{formData.introduction}}" bindinput="onInputChange" data-field="introduction" placeholder="请输入品牌介绍描述" maxlength="500"/>
+      <view class="char-count">{{formData.introduction.length || 0}}/500</view>
     </view>
   </view>
 
+  <!-- 联系方式 -->
   <view class="section">
-    <view class="section-header">
-      <view class="section-title">联系方式</view>
-      <button class="add-btn-small" bindtap="addContact">+</button>
-    </view>
+    <view class="section-title">联系方式</view>
     
-    <view class="contact-list" wx:if="{{formData.contacts.length > 0}}">
-      <view class="contact-card" wx:for="{{formData.contacts}}" wx:key="index">
-        <view class="form-item">
-          <input class="form-input" value="{{item.label}}" bindinput="onContactChange" data-index="{{index}}" data-field="label" placeholder="标签(如:微信)"/>
-        </view>
-        <view class="form-item">
-          <input class="form-input" value="{{item.value}}" bindinput="onContactChange" data-index="{{index}}" data-field="value" placeholder="值(如:123456)"/>
-        </view>
-        <view class="form-item">
-          <input class="form-input" value="{{item.type}}" bindinput="onContactChange" data-index="{{index}}" data-field="type" placeholder="类型(phone/wechat/email)"/>
-        </view>
-        <view class="form-item">
-          <input class="form-input" value="{{item.icon}}" bindinput="onContactChange" data-index="{{index}}" data-field="icon" placeholder="图标(emoji)"/>
-        </view>
-        <button class="delete-btn" bindtap="deleteContact" data-index="{{index}}">删除</button>
-      </view>
+    <view class="form-item">
+      <view class="form-label">电话</view>
+      <input class="form-input" value="{{formData.phone}}" bindinput="onInputChange" data-field="phone" placeholder="请输入联系电话"/>
     </view>
-  </view>
 
-  <view class="section">
+    <view class="form-item">
+      <view class="form-label">微信</view>
+      <input class="form-input" value="{{formData.wechat}}" bindinput="onInputChange" data-field="wechat" placeholder="请输入微信号"/>
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">邮箱</view>
+      <input class="form-input" value="{{formData.email}}" bindinput="onInputChange" data-field="email" placeholder="请输入邮箱地址"/>
+    </view>
+
     <view class="form-item">
       <view class="form-label">工作时间</view>
       <input class="form-input" value="{{formData.workingHours}}" bindinput="onInputChange" data-field="workingHours" placeholder="例如: 周一至周五 9:00-18:00"/>
-    </view>
-
-    <view class="form-item">
-      <view class="form-label">工作室地址</view>
-      <textarea class="form-textarea" value="{{formData.location}}" bindinput="onInputChange" data-field="location" placeholder="请输入地址"/>
     </view>
   </view>
 
