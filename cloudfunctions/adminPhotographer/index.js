@@ -33,13 +33,25 @@ exports.main = async (event, context) => {
 
     switch (action) {
       case 'get':
-        // 获取摄影师信息
         result = await db.collection('photographer')
           .limit(1)
           .get()
+        
+        let photographerInfo = result.data[0] || null
+        if (photographerInfo && photographerInfo.logo) {
+          try {
+            const urlResult = await cloud.getTempFileURL({
+              fileList: [photographerInfo.logo]
+            })
+            photographerInfo.logo = urlResult.fileList[0].tempFileURL
+          } catch (err) {
+            console.error('获取logo临时链接失败:', err)
+          }
+        }
+        
         return {
           success: true,
-          data: result.data[0] || null
+          data: photographerInfo
         }
 
       case 'update':
@@ -48,7 +60,6 @@ exports.main = async (event, context) => {
           .limit(1)
           .get()
         
-        // 过滤掉 _id 和其他系统字段
         const { _id, _openid, ...cleanData } = data
         
         const updateData = {

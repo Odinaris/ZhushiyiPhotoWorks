@@ -27,30 +27,34 @@ Page({
   async loadContactInfo() {
     try {
       util.showLoading('加载中...')
-
-      const photographerInfo = await util.getWithCache('photographerInfo', async () => {
-        const r = await util.callFunction('getPhotographerInfo')
-        if (!r.ok) throw new Error(r.message || '加载失败')
-        return r.data || {}
-      }, 600000)
-
-      if (photographerInfo) {
-        const hasData = photographerInfo.brandName || 
-                       photographerInfo.slogan || 
-                       photographerInfo.location || 
-                       photographerInfo.introduction ||
-                       photographerInfo.phone ||
-                       photographerInfo.wechat ||
-                       photographerInfo.email ||
-                       (photographerInfo.styles && photographerInfo.styles.length > 0)
-
-        this.setData({
-          photographerInfo,
-          hasData,
-          loading: false,
-          loadError: false
-        })
+      const r = await util.callFunction('getPhotographerInfo')
+      if (!r.ok) throw new Error(r.message || '加载失败')
+      const photographerInfo = r.data || {}
+      
+      // 统一处理styles为数组格式
+      if (photographerInfo.styles) {
+        if (typeof photographerInfo.styles === 'string') {
+          photographerInfo.styles = photographerInfo.styles.split(',').map(s => s.trim()).filter(s => s)
+        } else if (Array.isArray(photographerInfo.styles)) {
+          photographerInfo.styles = photographerInfo.styles.map(s => String(s).trim()).filter(s => s)
+        }
       }
+      
+      const hasData = photographerInfo.brandName || 
+                     photographerInfo.slogan || 
+                     photographerInfo.location || 
+                     photographerInfo.introduction ||
+                     photographerInfo.phone ||
+                     photographerInfo.wechat ||
+                     photographerInfo.email ||
+                     (photographerInfo.styles && photographerInfo.styles.length > 0)
+
+      this.setData({
+        photographerInfo,
+        hasData,
+        loading: false,
+        loadError: false
+      })
     } catch (err) {
       console.error('加载摄影师信息失败:', err)
       util.showError('加载失败')
@@ -92,13 +96,7 @@ Page({
     })
   },
 
-  // 显示分享菜单
-  showShareMenu() {
-    // 小程序会自动调用 onShareAppMessage
-    wx.showShareMenu({
-      withShareTicket: true
-    })
-  },
+
 
   // 下拉刷新
   onPullDownRefresh() {
@@ -111,12 +109,40 @@ Page({
     this.loadContactInfo()
   },
 
+  onLogoLoad() {
+    console.log('Logo加载成功')
+  },
+
+  onLogoError(e) {
+    console.error('Logo加载失败:', e)
+    this.setData({
+      'photographerInfo.logo': ''
+    })
+  },
+
   // 分享
-  onShareAppMessage() {
+  onShareAppMessage(res) {
+    const photographerInfo = this.data.photographerInfo
     return {
-      title: this.data.photographerInfo.brandName || '摄影作品',
+      title: photographerInfo.brandName || '摄影作品',
       path: '/pages/contact/contact',
-      imageUrl: this.data.photographerInfo.logo || ''
+      imageUrl: photographerInfo.logo || '',
+      success: function() {
+        console.log('分享成功')
+      },
+      fail: function(err) {
+        console.log('分享失败', err)
+      }
+    }
+  },
+
+  // 分享到朋友圈
+  onShareTimeline() {
+    const photographerInfo = this.data.photographerInfo
+    return {
+      title: photographerInfo.brandName || '摄影作品',
+      query: '',
+      imageUrl: photographerInfo.logo || ''
     }
   }
 })

@@ -1,67 +1,91 @@
-.edit-page {
-  padding: 24rpx;
-  background-color: #FFFFFF;
-  min-height: 100vh;
+@import "../banners/banners.wxss";
+
+/* 品牌信息管理页面特定样式 */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32rpx;
+  padding-bottom: 24rpx;
+  border-bottom: 2rpx solid rgba(0, 0, 0, 0.06);
+}
+
+.header-title {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: #000000;
+  letter-spacing: 2rpx;
 }
 
 .section {
   margin-bottom: 48rpx;
+  background-color: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 40rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+  border: 1rpx solid rgba(0, 0, 0, 0.06);
 }
 
 .section-title {
-  font-size: 36rpx;
+  font-size: 34rpx;
   font-weight: 600;
   color: #000000;
   margin-bottom: 32rpx;
-  letter-spacing: 2rpx;
+  letter-spacing: 1rpx;
 }
 
 .form-item {
-  margin-bottom: 32rpx;
+  margin-bottom: 36rpx;
+}
+
+.form-item:last-child {
+  margin-bottom: 0;
 }
 
 .form-label {
   font-size: 28rpx;
-  color: #000000;
+  color: #1A1A1A;
+  margin-bottom: 20rpx;
   font-weight: 500;
-  margin-bottom: 16rpx;
-  letter-spacing: 1rpx;
+  letter-spacing: 0.5rpx;
 }
 
 .form-input {
   width: 100%;
-  padding: 24rpx;
-  border: 2rpx solid rgba(0, 0, 0, 0.08);
+  padding: 28rpx 24rpx;
+  border: 2rpx solid rgba(0, 0, 0, 0.1);
   border-radius: 12rpx;
-  font-size: 30rpx;
-  color: #000000;
-  background-color: #FFFFFF;
-  box-sizing: border-box;
+  font-size: 28rpx;
+  background-color: #FAFAFA;
   transition: all 0.3s ease;
+  min-height: 88rpx;
+  box-sizing: border-box;
+  color: #000000;
 }
 
 .form-input:focus {
-  border-color: #000000;
-  background-color: rgba(0, 0, 0, 0.02);
+  border-color: #1A1A1A;
+  background-color: #FFFFFF;
 }
 
 .form-textarea {
   width: 100%;
   min-height: 240rpx;
-  padding: 24rpx;
-  border: 2rpx solid rgba(0, 0, 0, 0.08);
+  padding: 28rpx 24rpx;
+  border: 2rpx solid rgba(0, 0, 0, 0.1);
   border-radius: 12rpx;
-  font-size: 30rpx;
-  color: #000000;
-  background-color: #FFFFFF;
-  box-sizing: border-box;
+  font-size: 28rpx;
+  background-color: #FAFAFA;
   transition: all 0.3s ease;
+  box-sizing: border-box;
+  color: #000000;
   line-height: 1.6;
 }
 
 .form-textarea:focus {
-  border-color: #000000;
-  background-color: rgba(0, 0, 0, 0.02);
+  border-color: #1A1A1A;
+  background-color: #FFFFFF;
 }
 
 .char-count {
@@ -95,7 +119,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.02);
+  background-color: #FAFAFA;
   transition: all 0.3s ease;
 }
 
@@ -117,6 +141,7 @@
 .logo-actions {
   display: flex;
   gap: 16rpx;
+  margin-top: 16rpx;
 }
 
 .btn-small {
@@ -141,6 +166,83 @@
   opacity: 0.8;
 }
 
+/* 拍摄风格输入 */
+.styles-input-container {
+  border: 2rpx solid rgba(0, 0, 0, 0.1);
+  border-radius: 12rpx;
+  background-color: #FAFAFA;
+  padding: 16rpx;
+}
+
+.styles-list {
+  margin-bottom: 16rpx;
+}
+
+.style-input-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12rpx;
+  gap: 12rpx;
+}
+
+.style-input {
+  flex: 1;
+  padding: 20rpx 16rpx;
+  border: 1rpx solid rgba(0, 0, 0, 0.08);
+  border-radius: 8rpx;
+  font-size: 26rpx;
+  background-color: #FFFFFF;
+  min-height: 60rpx;
+  box-sizing: border-box;
+}
+
+.style-input:focus {
+  border-color: #000000;
+}
+
+.style-remove {
+  width: 48rpx;
+  height: 48rpx;
+  background-color: #FF3B30;
+  color: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.style-remove:active {
+  background-color: #D32F2F;
+}
+
+.add-style-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx;
+  border: 2rpx dashed rgba(0, 0, 0, 0.2);
+  border-radius: 8rpx;
+  background-color: transparent;
+  color: #666666;
+  font-size: 26rpx;
+  transition: all 0.3s ease;
+  gap: 8rpx;
+}
+
+.add-style-btn:active {
+  border-color: #000000;
+  color: #000000;
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.add-icon {
+  font-size: 32rpx;
+  line-height: 1;
+}
+
 /* 按钮样式 */
 .form-actions {
   position: fixed;
@@ -148,16 +250,26 @@
   left: 0;
   right: 0;
   padding: 24rpx 36rpx;
+  padding-bottom: 40rpx; /* 增加底部间距 */
   background-color: #FFFFFF;
   border-top: 1rpx solid rgba(0, 0, 0, 0.08);
   z-index: 100;
+}
+
+/* 页面底部留白，避免被固定按钮遮挡 */
+.edit-page {
+  min-height: 100vh;
+  background-color: #FFFFFF;
+  color: #000000;
+  padding: 24rpx;
+  padding-bottom: 140rpx; /* 为固定按钮留出空间 */
 }
 
 .action-btn {
   width: 100%;
   padding: 28rpx;
   border-radius: 12rpx;
-  font-size: 32rpx;
+  font-size: 30rpx;
   font-weight: 500;
   border: none;
   color: #FFFFFF;

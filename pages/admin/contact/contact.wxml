@@ -4,7 +4,6 @@
     <view class="section-title">品牌信息</view>
     
     <view class="form-item">
-      <view class="form-label">品牌Logo</view>
       <view class="logo-upload">
         <image wx:if="{{formData.logo}}" src="{{formData.logo}}" class="logo-preview" mode="aspectFit"></image>
         <view wx:else class="logo-placeholder" bindtap="uploadLogo">
@@ -41,7 +40,18 @@
 
     <view class="form-item">
       <view class="form-label">拍摄风格</view>
-      <input class="form-input" value="{{stylesStr}}" bindinput="onStylesChange" placeholder="多个风格用逗号分隔，例如: 人像,风光,纪实"/>
+      <view class="styles-input-container">
+        <view class="styles-list" wx:if="{{formData.styles && formData.styles.length > 0}}">
+          <view class="style-input-item" wx:for="{{formData.styles}}" wx:key="index">
+            <input class="style-input" value="{{item}}" bindinput="onStyleItemChange" data-index="{{index}}" placeholder="输入风格名称"/>
+            <view class="style-remove" bindtap="removeStyle" data-index="{{index}}">×</view>
+          </view>
+        </view>
+        <view class="add-style-btn" bindtap="addStyle">
+          <text class="add-icon">+</text>
+          <text>添加风格</text>
+        </view>
+      </view>
     </view>
   </view>
 

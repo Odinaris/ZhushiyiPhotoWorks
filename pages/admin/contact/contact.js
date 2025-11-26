@@ -111,6 +111,36 @@ Page({
     })
   },
 
+  // 单个风格变化
+  onStyleItemChange(e) {
+    const index = e.currentTarget.dataset.index
+    const value = e.detail.value
+    const styles = [...this.data.formData.styles]
+    styles[index] = value.trim()
+    this.setData({
+      'formData.styles': styles
+    })
+  },
+
+  // 添加风格
+  addStyle() {
+    const styles = [...this.data.formData.styles]
+    styles.push('')
+    this.setData({
+      'formData.styles': styles
+    })
+  },
+
+  // 删除风格
+  removeStyle(e) {
+    const index = e.currentTarget.dataset.index
+    const styles = [...this.data.formData.styles]
+    styles.splice(index, 1)
+    this.setData({
+      'formData.styles': styles
+    })
+  },
+
   onInputChange(e) {
     const field = e.currentTarget.dataset.field
     const value = e.detail.value
@@ -125,7 +155,7 @@ Page({
       const r = await util.callFunction('adminPhotographer', { action: 'update', data: this.data.formData })
       if (r.ok) {
         util.showSuccess('保存成功')
-        util.clearCache('photographerInfo')
+        wx.removeStorageSync('photographerInfo_cache')
       } else {
         throw new Error(r.message || '保存失败')
       }

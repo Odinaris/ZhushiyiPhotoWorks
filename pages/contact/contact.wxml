@@ -3,7 +3,13 @@
   <view class="brand-section">
     <!-- 品牌Logo -->
     <view class="brand-logo" wx:if="{{photographerInfo.logo}}">
-      <image class="logo-image" src="{{photographerInfo.logo}}" mode="aspectFit"></image>
+      <image 
+        class="logo-image" 
+        src="{{photographerInfo.logo}}" 
+        mode="aspectFit"
+        binderror="onLogoError"
+        bindload="onLogoLoad"
+      ></image>
     </view>
     
     <!-- 品牌信息 -->
@@ -36,40 +42,20 @@
 
   <!-- 联系方式入口 -->
   <view class="contact-entries">
-    <view class="entry-item phone-entry" wx:if="{{photographerInfo.phone}}" bindtap="makePhoneCall" data-phone="{{photographerInfo.phone}}">
-      <view class="entry-icon">📞</view>
-      <view class="entry-content">
-        <view class="entry-label">电话联系</view>
-        <view class="entry-value">{{photographerInfo.phone}}</view>
-      </view>
-      <view class="entry-arrow">›</view>
+    <view class="contact-btn" wx:if="{{photographerInfo.phone}}" bindtap="makePhoneCall" data-phone="{{photographerInfo.phone}}">
+      <view class="contact-icon">📞</view>
     </view>
 
-    <view class="entry-item wechat-entry" wx:if="{{photographerInfo.wechat}}" bindtap="copyWechat" data-wechat="{{photographerInfo.wechat}}">
-      <view class="entry-icon">💬</view>
-      <view class="entry-content">
-        <view class="entry-label">微信联系</view>
-        <view class="entry-value">{{photographerInfo.wechat}}</view>
-      </view>
-      <view class="entry-arrow">›</view>
+    <view class="contact-btn" wx:if="{{photographerInfo.wechat}}" bindtap="copyWechat" data-wechat="{{photographerInfo.wechat}}">
+      <view class="contact-icon">💬</view>
     </view>
 
-    <view class="entry-item share-entry" bindtap="showShareMenu">
-      <view class="entry-icon">📤</view>
-      <view class="entry-content">
-        <view class="entry-label">分享推荐</view>
-        <view class="entry-value">分享给好友</view>
-      </view>
-      <view class="entry-arrow">›</view>
-    </view>
+    <button class="contact-btn share-btn" open-type="share">
+      <view class="contact-icon">📤</view>
+    </button>
 
-    <view class="entry-item email-entry" wx:if="{{photographerInfo.email}}" bindtap="copyEmail" data-email="{{photographerInfo.email}}">
-      <view class="entry-icon">✉️</view>
-      <view class="entry-content">
-        <view class="entry-label">邮箱联系</view>
-        <view class="entry-value">{{photographerInfo.email}}</view>
-      </view>
-      <view class="entry-arrow">›</view>
+    <view class="contact-btn" wx:if="{{photographerInfo.email}}" bindtap="copyEmail" data-email="{{photographerInfo.email}}">
+      <view class="contact-icon">✉️</view>
     </view>
   </view>
 

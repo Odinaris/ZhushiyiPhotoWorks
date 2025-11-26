@@ -53,20 +53,11 @@
       <view class="menu-arrow">›</view>
     </view>
 
-    <view class="menu-item" bindtap="navigateTo" data-url="/pages/admin/profile/profile">
+    <view class="menu-item" bindtap="navigateTo" data-url="/pages/admin/contact/contact">
       <view class="menu-icon">👤</view>
       <view class="menu-content">
-        <view class="menu-title">品牌信息</view>
-        <view class="menu-desc">编辑品牌和个人信息</view>
-      </view>
-      <view class="menu-arrow">›</view>
-    </view>
-
-    <view class="menu-item" bindtap="navigateTo" data-url="/pages/admin/contact/contact">
-      <view class="menu-icon">📞</view>
-      <view class="menu-content">
-        <view class="menu-title">联系方式管理</view>
-        <view class="menu-desc">管理联系信息和Q&A</view>
+        <view class="menu-title">品牌信息管理</view>
+        <view class="menu-desc">编辑品牌信息、联系方式和拍摄风格</view>
       </view>
       <view class="menu-arrow">›</view>
     </view>

@@ -2,8 +2,8 @@
   min-height: 100vh;
   background-color: #FFFFFF;
   color: #000000;
-  padding: 24rpx;
-  padding-bottom: 160rpx; /* 为底部TabBar和安全区域留出空间 */
+  padding: 0;
+  padding-bottom: 160rpx;
 }
 
 /* 品牌信息区域 */
@@ -11,73 +11,140 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40rpx 0;
-  margin-bottom: 32rpx;
+  padding: 60rpx 40rpx 40rpx;
+  position: relative;
+}
+
+.brand-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80rpx;
+  height: 2rpx;
+  background: linear-gradient(90deg, transparent, #000000, transparent);
+  opacity: 0.1;
 }
 
 .brand-logo {
-  width: 160rpx;
-  height: 160rpx;
-  border-radius: 80rpx;
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 100rpx;
   overflow: hidden;
-  margin-bottom: 24rpx;
-  border: 2rpx solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 32rpx;
+  border: 4rpx solid #FFFFFF;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.12);
+  position: relative;
+}
+
+.brand-logo::before {
+  content: '';
+  position: absolute;
+  top: -4rpx;
+  left: -4rpx;
+  right: -4rpx;
+  bottom: -4rpx;
+  border-radius: 104rpx;
+  background: linear-gradient(45deg, #000000, #333333);
+  z-index: -1;
 }
 
 .logo-image {
   width: 100%;
   height: 100%;
   display: block;
+  border-radius: 96rpx;
 }
 
 .brand-info {
   text-align: center;
   max-width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 .brand-name {
-  font-size: 42rpx;
-  font-weight: 600;
+  font-size: 36rpx;
+  font-weight: 500;
   color: #000000;
-  margin-bottom: 12rpx;
+  margin-bottom: 16rpx;
   letter-spacing: 2rpx;
 }
 
 .brand-slogan {
-  font-size: 28rpx;
+  font-size: 26rpx;
   color: #666666;
-  margin-bottom: 16rpx;
+  margin-bottom: 24rpx;
   font-weight: 300;
   line-height: 1.6;
+  letter-spacing: 1rpx;
+  position: relative;
+}
+
+.brand-slogan::before,
+.brand-slogan::after {
+  content: '"';
+  color: #CCCCCC;
+  font-size: 32rpx;
+  position: relative;
+  top: 4rpx;
+}
+
+.brand-slogan::after {
+  content: '"';
 }
 
 .brand-location {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 26rpx;
+  font-size: 28rpx;
   color: #333333;
+  background-color: rgba(0, 0, 0, 0.04);
+  padding: 12rpx 24rpx;
+  border-radius: 20rpx;
+  margin-top: 16rpx;
 }
 
 .location-icon {
-  margin-right: 8rpx;
-  font-size: 24rpx;
+  margin-right: 12rpx;
+  font-size: 28rpx;
 }
 
 .location-text {
-  font-weight: 400;
+  font-weight: 500;
+  letter-spacing: 0.5rpx;
 }
 
 /* 品牌介绍 */
 .introduction-section {
-  margin-bottom: 40rpx;
+  margin: 40rpx 32rpx;
+  position: relative;
+  display: flex;
+  justify-content: center;
 }
 
 .introduction-content {
-  background-color: rgba(0, 0, 0, 0.02);
-  border-radius: 16rpx;
-  padding: 32rpx;
-  border: 1rpx solid rgba(0, 0, 0, 0.06);
+  background-color: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 40rpx;
+  border: 1rpx solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.introduction-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4rpx;
+  background: linear-gradient(90deg, #000000, #666666, #000000);
+  opacity: 0.1;
 }
 
 .introduction-text {
@@ -86,123 +153,192 @@
   line-height: 1.8;
   font-weight: 300;
   letter-spacing: 0.5rpx;
+  position: relative;
+  z-index: 1;
 }
 
-/* 联系方式入口 */
-.contact-entries {
-  display: flex;
-  flex-direction: column;
-  gap: 2rpx;
-  margin-bottom: 32rpx;
-}
-
-.entry-item {
-  display: flex;
-  align-items: center;
-  background-color: #FFFFFF;
-  padding: 32rpx 24rpx;
-  border: 1rpx solid rgba(0, 0, 0, 0.06);
-  transition: all 0.3s ease;
-}
-
-.entry-item:active {
-  background-color: rgba(0, 0, 0, 0.02);
-  transform: translateY(-1rpx);
-}
-
-.entry-icon {
-  font-size: 44rpx;
-  margin-right: 24rpx;
-  width: 44rpx;
-  text-align: center;
-}
-
-.entry-content {
-  flex: 1;
-}
-
-.entry-label {
-  font-size: 32rpx;
-  color: #000000;
+.introduction-text:first-letter {
   font-weight: 500;
-  margin-bottom: 8rpx;
-  letter-spacing: 0.5rpx;
+  font-size: 30rpx;
+  color: #000000;
 }
 
-.entry-value {
-  font-size: 26rpx;
-  color: #666666;
-  font-weight: 300;
-}
-
-.entry-arrow {
-  font-size: 32rpx;
-  color: #CCCCCC;
-  font-weight: 300;
-}
-
-/* 工作时间 */
 /* 拍摄风格 */
 .styles-section {
-  margin-bottom: 40rpx;
+  margin: 40rpx 32rpx;
 }
 
 .styles-content {
-  background-color: rgba(0, 0, 0, 0.02);
-  border-radius: 16rpx;
-  padding: 32rpx;
-  border: 1rpx solid rgba(0, 0, 0, 0.06);
+  background-color: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 40rpx;
+  border: 1rpx solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
+  text-align: center;
 }
 
 .styles-label {
-  font-size: 30rpx;
+  font-size: 28rpx;
   color: #000000;
   font-weight: 500;
-  margin-bottom: 20rpx;
+  margin-bottom: 24rpx;
   letter-spacing: 1rpx;
   display: block;
+  text-align: center;
 }
 
 .styles-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 12rpx;
+  margin-top: 20rpx;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
 }
 
 .style-tag {
-  background-color: #000000;
+  background: linear-gradient(135deg, #000000, #1a1a1a);
   color: #FFFFFF;
-  padding: 12rpx 24rpx;
-  border-radius: 20rpx;
-  font-size: 26rpx;
+  padding: 10rpx 20rpx;
+  border-radius: 16rpx;
+  font-size: 24rpx;
   font-weight: 300;
   letter-spacing: 0.5rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.12);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
+.style-tag::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.style-tag:active::before {
+  left: 100%;
+}
+
+/* 联系方式入口 */
+.contact-entries {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40rpx;
+  margin: 40rpx 32rpx;
+  flex-wrap: wrap;
+}
+
+.contact-btn {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 60rpx;
+  background-color: #FFFFFF;
+  border: 2rpx solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-btn:active {
+  transform: scale(0.95);
+  background-color: #FAFAFA;
+  border-color: #000000;
+}
+
+.contact-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 60rpx;
+  background: linear-gradient(45deg, transparent, rgba(0, 0, 0, 0.03), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.contact-btn:active::before {
+  transform: translateX(100%);
+}
+
+.share-btn {
+  width: 120rpx;
+  height: 120rpx;
+  padding: 0;
+  margin: 0;
+  border-radius: 60rpx;
+  background-color: #FFFFFF;
+  border: 2rpx solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.08);
+}
+
+.share-btn::after {
+  border: none;
+}
+
+.contact-icon {
+  font-size: 56rpx;
+  line-height: 1;
+  z-index: 1;
+  position: relative;
+}
+
+/* 工作时间 */
 .working-hours {
-  margin-bottom: 24rpx;
+  margin: 40rpx 32rpx 60rpx;
 }
 
 .hours-info {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.03);
-  border-radius: 16rpx;
-  padding: 24rpx;
-  border: 1rpx solid rgba(0, 0, 0, 0.06);
+  background-color: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  border: 1rpx solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
 }
 
 .hours-icon {
-  font-size: 32rpx;
-  margin-right: 16rpx;
+  font-size: 36rpx;
+  margin-right: 20rpx;
+  position: relative;
+}
+
+.hours-icon::after {
+  content: '';
+  position: absolute;
+  top: -4rpx;
+  left: -4rpx;
+  right: -4rpx;
+  bottom: -4rpx;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.04);
+  z-index: -1;
 }
 
 .hours-text {
-  font-size: 28rpx;
+  font-size: 30rpx;
   color: #333333;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.6;
+  letter-spacing: 0.5rpx;
 }
 
 /* 状态样式 */
@@ -231,7 +367,7 @@
   background-color: #000000;
   color: #FFFFFF;
   border: none;
-  border-radius: 8rpx;
+  border-radius: 12rpx;
   font-size: 26rpx;
 }
 
