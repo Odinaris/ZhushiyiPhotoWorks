@@ -24,6 +24,16 @@
     </view>
   </view>
 
+  <!-- 拍摄风格 -->
+  <view class="styles-section" wx:if="{{photographerInfo.styles && photographerInfo.styles.length > 0}}">
+    <view class="styles-content">
+      <text class="styles-label">拍摄风格</text>
+      <view class="styles-tags">
+        <text class="style-tag" wx:for="{{photographerInfo.styles}}" wx:key="index">{{item}}</text>
+      </view>
+    </view>
+  </view>
+
   <!-- 联系方式入口 -->
   <view class="contact-entries">
     <view class="entry-item phone-entry" wx:if="{{photographerInfo.phone}}" bindtap="makePhoneCall" data-phone="{{photographerInfo.phone}}">

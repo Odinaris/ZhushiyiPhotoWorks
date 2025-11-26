@@ -41,7 +41,8 @@ Page({
                        photographerInfo.introduction ||
                        photographerInfo.phone ||
                        photographerInfo.wechat ||
-                       photographerInfo.email
+                       photographerInfo.email ||
+                       (photographerInfo.styles && photographerInfo.styles.length > 0)
 
         this.setData({
           photographerInfo,

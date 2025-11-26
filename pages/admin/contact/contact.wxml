@@ -38,6 +38,11 @@
       <textarea class="form-textarea" value="{{formData.introduction}}" bindinput="onInputChange" data-field="introduction" placeholder="请输入品牌介绍描述" maxlength="500"/>
       <view class="char-count">{{formData.introduction.length || 0}}/500</view>
     </view>
+
+    <view class="form-item">
+      <view class="form-label">拍摄风格</view>
+      <input class="form-input" value="{{stylesStr}}" bindinput="onStylesChange" placeholder="多个风格用逗号分隔，例如: 人像,风光,纪实"/>
+    </view>
   </view>
 
   <!-- 联系方式 -->

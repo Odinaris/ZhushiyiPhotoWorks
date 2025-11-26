@@ -47,7 +47,7 @@
 
 .form-textarea {
   width: 100%;
-  min-height: 200rpx;
+  min-height: 240rpx;
   padding: 24rpx;
   border: 2rpx solid rgba(0, 0, 0, 0.08);
   border-radius: 12rpx;

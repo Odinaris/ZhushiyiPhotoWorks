@@ -9,11 +9,13 @@ Page({
       slogan: '',
       location: '',
       introduction: '',
+      styles: [],
       phone: '',
       wechat: '',
       email: '',
       workingHours: ''
-    }
+    },
+    stylesStr: ''
   },
 
   async onLoad() {
@@ -34,7 +36,11 @@ Page({
       util.showLoading('加载中...')
       const r = await util.callFunction('adminPhotographer', { action: 'get' })
       if (r.ok && r.data) {
-        this.setData({ formData: r.data })
+        const data = r.data
+        this.setData({ 
+          formData: data,
+          stylesStr: data.styles ? data.styles.join(',') : ''
+        })
       }
     } catch (err) {
       console.error('加载摄影师信息失败:', err)
@@ -92,6 +98,16 @@ Page({
           })
         }
       }
+    })
+  },
+
+  // 拍摄风格变化
+  onStylesChange(e) {
+    const value = e.detail.value
+    const styles = value.split(',').map(s => s.trim()).filter(s => s)
+    this.setData({
+      stylesStr: value,
+      'formData.styles': styles
     })
   },
 

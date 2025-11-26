@@ -10,8 +10,7 @@
     "pages/admin/categories/categories",
     "pages/admin/albums/albums",
     "pages/admin/album-edit/album-edit",
-    "pages/admin/contact/contact",
-    "pages/admin/profile/profile"
+    "pages/admin/contact/contact"
   ],
   "window": {
     "navigationBarTextStyle": "black",
