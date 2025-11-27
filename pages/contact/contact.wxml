@@ -1,7 +1,6 @@
 <view class="contact-container">
   <!-- 品牌信息区域 -->
   <view class="brand-section">
-    <!-- 品牌Logo -->
     <view class="brand-logo" wx:if="{{photographerInfo.logo}}">
       <image 
         class="logo-image" 
@@ -12,28 +11,27 @@
       ></image>
     </view>
     
-    <!-- 品牌信息 -->
     <view class="brand-info">
       <view class="brand-name">{{photographerInfo.brandName || '摄影工作室'}}</view>
       <view class="brand-slogan">{{photographerInfo.slogan || '记录每一个美好瞬间'}}</view>
       <view class="brand-location" wx:if="{{photographerInfo.location}}">
-        <text class="location-icon">📍</text>
+        <image class="location-icon" src="/images/ic_location.png"></image>
         <text class="location-text">{{photographerInfo.location}}</text>
       </view>
     </view>
   </view>
 
   <!-- 品牌介绍 -->
-  <view class="introduction-section" wx:if="{{photographerInfo.introduction}}">
+  <!-- <view class="introduction-section" wx:if="{{photographerInfo.introduction}}">
     <view class="introduction-content">
       <text class="introduction-text">{{photographerInfo.introduction}}</text>
     </view>
-  </view>
+  </view> -->
 
   <!-- 拍摄风格 -->
   <view class="styles-section" wx:if="{{photographerInfo.styles && photographerInfo.styles.length > 0}}">
     <view class="styles-content">
-      <text class="styles-label">拍摄风格</text>
+      <!-- <text class="styles-label">拍摄风格</text> -->
       <view class="styles-tags">
         <text class="style-tag" wx:for="{{photographerInfo.styles}}" wx:key="index">{{item}}</text>
       </view>
@@ -41,23 +39,21 @@
   </view>
 
   <!-- 联系方式入口 -->
+  <text class="styles-label">联系我</text>
+
   <view class="contact-entries">
+
     <view class="contact-btn" wx:if="{{photographerInfo.phone}}" bindtap="makePhoneCall" data-phone="{{photographerInfo.phone}}">
-      <view class="contact-icon">📞</view>
+      <image class="contact-icon" src="/images/ic_phone.png"></image>
     </view>
 
     <view class="contact-btn" wx:if="{{photographerInfo.wechat}}" bindtap="copyWechat" data-wechat="{{photographerInfo.wechat}}">
-      <view class="contact-icon">💬</view>
+      <image class="contact-icon" src="/images/ic_wechat.png"></image>
     </view>
-
-    <button class="contact-btn share-btn" open-type="share">
-      <view class="contact-icon">📤</view>
-    </button>
-
-    <view class="contact-btn" wx:if="{{photographerInfo.email}}" bindtap="copyEmail" data-email="{{photographerInfo.email}}">
-      <view class="contact-icon">✉️</view>
-    </view>
+   
   </view>
+
+
 
   <!-- 工作时间 -->
   <view class="working-hours" wx:if="{{photographerInfo.workingHours}}">

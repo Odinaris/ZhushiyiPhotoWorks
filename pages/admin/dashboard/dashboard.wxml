@@ -57,7 +57,7 @@
       <view class="menu-icon">👤</view>
       <view class="menu-content">
         <view class="menu-title">品牌信息管理</view>
-        <view class="menu-desc">编辑品牌信息、联系方式和拍摄风格</view>
+        <view class="menu-desc">编辑品牌信息</view>
       </view>
       <view class="menu-arrow">›</view>
     </view>

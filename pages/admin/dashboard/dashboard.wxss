@@ -1,7 +1,7 @@
 .dashboard-container {
   min-height: 100vh;
   background: #FFFFFF;
-  padding: 48rpx 24rpx;
+  padding: 24rpx 24rpx;
   padding-bottom: 160rpx; /* 为底部TabBar和安全区域留出空间 */
 }
 
