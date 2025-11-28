@@ -1,5 +1,11 @@
 <view class="albums-container">
-  <!-- 顶部分类Tab栏 -->
+  <!-- Loading Overlay -->
+  <view class="loading-overlay {{isLoading ? 'show' : ''}}" wx:if="{{isLoading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">{{loadingText}}</text>
+  </view>
+
+  <!-- Category Tabs -->
   <view class="category-tabs">
     <scroll-view 
       class="tabs-scroll" 
@@ -31,18 +37,18 @@
       </view>
     </scroll-view>
     
-    <!-- 视图切换按钮 -->
+    <!-- View Toggle -->
     <view class="view-toggle">
       <button 
         class="view-mode-btn"
         bindtap="onViewModeChange"
       >
-        <text class="view-icon">{{viewMode === 'single' ? '☷' : '☰'}}</text>
+        <text class="view-icon">{{viewMode === 'single' ? '□' : '☰'}}</text>
       </button>
     </view>
   </view>
 
-  <!-- 作品集内容区域 -->
+  <!-- Content Swiper -->
   <swiper 
     class="content-swiper"
     current="{{currentIndex}}"
@@ -59,10 +65,10 @@
       >
         <view class="content-header">
           <text class="content-title">{{item.name}}</text>
-          <text class="content-count">共 {{item.totalCount || 0}} 个作品集</text>
+          <text class="content-count">{{item.totalCount || 0}} 个作品集</text>
         </view>
 
-        <!-- 作品集列表 - 支持单栏/双栏模式 -->
+        <!-- Album List - Single/Double Column -->
         <view class="albums-list {{viewMode}}" data-view-mode="{{viewMode}}" wx:if="{{item.albums.length > 0}}">
           <view 
             class="album-card"
@@ -72,30 +78,34 @@
             bindtap="goToAlbumDetail"
             data-id="{{album._id}}"
           >
-            <image class="album-cover" src="{{album.coverImage}}" mode="aspectFill" lazy-load></image>
-            <view class="album-overlay">
-              <view class="album-title">{{album.title}}</view>
-              <view class="album-desc">{{album.description}}</view>
-              <view class="album-footer">
-                <text class="album-category">{{album.categoryName}}</text>
-                <text class="album-count">{{album.images.length}}张</text>
+            <view class="album-image-container">
+              <image class="album-cover" src="{{album.coverImage}}" mode="aspectFill" lazy-load></image>
+              <view class="album-overlay">
+                <view class="album-overlay-content">
+                  <view class="album-title">{{album.title}}</view>
+                  <view class="album-desc">{{album.description}}</view>
+                  <view class="album-footer">
+                    <view class="album-category">{{album.categoryName}}</view>
+                    <view class="album-count">{{album.images.length}} 张</view>
+                  </view>
+                </view>
               </view>
             </view>
           </view>
         </view>
 
         <view class="empty-container" wx:elif="{{!loading}}">
-          <view class="empty-icon">📷</view>
+          <view class="empty-icon">□</view>
           <view class="empty-text">该分类暂无作品</view>
         </view>
         
-        <!-- 加载动画 -->
+        <!-- Loading Animation -->
         <view class="loading-container" wx:else>
           <view class="loading-spinner"></view>
           <text class="loading-text">加载中...</text>
         </view>
 
-        <!-- 加载更多状态 -->
+        <!-- Load More Status -->
         <view class="load-more" wx:if="{{item.hasMore && item.page > 1}}">
           <text>加载更多...</text>
         </view>
@@ -106,9 +116,10 @@
     </swiper-item>
   </swiper>
 
-  <!-- 错误状态 -->
+  <!-- Error State -->
   <view class="error-container" wx:if="{{!loading && loadError}}">
-    <text>加载失败</text>
-    <button bindtap="onRetry">重试</button>
+    <view class="empty-icon">⚠</view>
+    <text class="error-text">加载失败</text>
+    <button class="btn-secondary" bindtap="onRetry">重试</button>
   </view>
 </view>

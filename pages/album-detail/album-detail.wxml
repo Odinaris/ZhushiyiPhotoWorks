@@ -1,56 +1,81 @@
 <view class="detail-container">
-  <!-- 头部信息 -->
+  <!-- Loading Overlay -->
+  <view class="loading-overlay {{isLoading ? 'show' : ''}}" wx:if="{{isLoading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">{{loadingText}}</text>
+  </view>
+
+  <!-- Header Section -->
   <view class="detail-header">
     <view class="header-content">
       <view class="header-left">
         <view class="album-title">{{album.title}}</view>
-        <view class="album-info">
-          <text class="info-item">{{album.categoryName}}</text>
-          <text class="info-divider">·</text>
-          <text class="info-item">{{album.images.length}}张照片</text>
-          <text class="info-divider">·</text>
-          <text class="info-item">{{album.viewCount || 0}}次浏览</text>
+        <view class="album-meta">
+          <text class="meta-item">{{album.categoryName}}</text>
+          <text class="meta-divider">·</text>
+          <text class="meta-item">{{album.images.length}} 张照片</text>
+          <text class="meta-divider">·</text>
+          <text class="meta-item">{{album.viewCount || 0}} 次浏览</text>
         </view>
         <view class="album-description" wx:if="{{album.description}}">{{album.description}}</view>
       </view>
-      <!-- 视图切换按钮 -->
+      <!-- View Toggle -->
       <view class="view-toggle">
         <button class="view-mode-btn" bindtap="toggleViewMode">
-          <text class="view-icon">{{viewMode === 'grid' ? '⊞' : '☰'}}</text>
+          <text class="view-icon">{{viewMode === 'grid' ? '▦' : '☰'}}</text>
         </button>
       </view>
     </view>
   </view>
 
-  <!-- 图片展示区域 -->
+  <!-- Images Container -->
   <view class="images-container">
-    <!-- 瀑布流模式 - 双栏 -->
+    <!-- Grid Mode - Two Column Waterfall -->
     <view class="images-grid grid" wx:if="{{viewMode === 'grid'}}">
-      <view class="waterfall-column" wx:for="{{2}}" wx:key="index" wx:for-item="colIndex">
+      <!-- Left Column -->
+      <view class="waterfall-column">
         <view 
           class="image-item"
-          wx:for="{{album.images}}"
+          wx:for="{{processedImages.leftColumn}}"
           wx:key="index"
-          wx:for-index="imgIndex"
-          wx:if="{{imgIndex % 2 === colIndex}}"
           bindtap="previewImage"
-          data-index="{{imgIndex}}"
+          data-index="{{item.index}}"
         >
-          <image 
-            class="item-image" 
-            src="{{item.url}}" 
-            mode="widthFix" 
-            lazy-load
-            bindload="onImageLoad"
-            data-index="{{imgIndex}}"
-            style="height: {{imageHeights[imgIndex] || 300}}rpx"
-          ></image>
-          <view class="image-desc" wx:if="{{item.description}}">{{item.description}}</view>
+          <view class="image-wrapper">
+            <image 
+              class="item-image" 
+              src="{{item.url}}" 
+              mode="widthFix" 
+              lazy-load
+            ></image>
+          </view>
+          <view class="image-caption" wx:if="{{item.description}}">{{item.description}}</view>
+        </view>
+      </view>
+      
+      <!-- Right Column -->
+      <view class="waterfall-column">
+        <view 
+          class="image-item"
+          wx:for="{{processedImages.rightColumn}}"
+          wx:key="index"
+          bindtap="previewImage"
+          data-index="{{item.index}}"
+        >
+          <view class="image-wrapper">
+            <image 
+              class="item-image" 
+              src="{{item.url}}" 
+              mode="widthFix" 
+              lazy-load
+            ></image>
+          </view>
+          <view class="image-caption" wx:if="{{item.description}}">{{item.description}}</view>
         </view>
       </view>
     </view>
     
-    <!-- 单栏模式 -->
+    <!-- List Mode -->
     <view class="images-grid list" wx:else>
       <view 
         class="image-item"
@@ -59,40 +84,43 @@
         bindtap="previewImage"
         data-index="{{index}}"
       >
-        <image 
-          class="item-image" 
-          src="{{item.url}}" 
-          mode="widthFix" 
-          lazy-load
-          bindload="onImageLoad"
-          data-index="{{index}}"
-          style="height: {{imageHeights[index] || 300}}rpx"
-        ></image>
-        <view class="image-desc" wx:if="{{item.description}}">{{item.description}}</view>
+        <view class="image-wrapper">
+          <image 
+            class="item-image" 
+            src="{{item.url}}" 
+            mode="widthFix" 
+            lazy-load
+          ></image>
+        </view>
+        <view class="image-caption" wx:if="{{item.description}}">{{item.description}}</view>
       </view>
     </view>
   </view>
 
-  <!-- 分享按钮 -->
+  <!-- Share Section -->
   <view class="share-section">
     <button class="share-btn" open-type="share">
-      <text class="share-icon">📤</text>
-      <text>分享给好友</text>
+      <text class="share-icon">◈</text>
+      <text>分享作品集</text>
     </button>
   </view>
 
-  <!-- 加载状态 -->
+  <!-- Loading State -->
   <view class="loading-container" wx:if="{{loading}}">
-    <text>加载中...</text>
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
   </view>
+  
+  <!-- Error State -->
   <view class="error-container" wx:if="{{!loading && loadError}}">
-    <text>加载失败</text>
-    <button bindtap="onRetry">重试</button>
+    <view class="empty-icon">⚠</view>
+    <text class="error-text">加载失败</text>
+    <button class="btn-secondary" bindtap="onRetry">重试</button>
   </view>
 
-  <!-- 空状态 -->
+  <!-- Empty State -->
   <view class="empty-container" wx:if="{{!loading && !album._id}}">
-    <view class="empty-icon">📷</view>
+    <view class="empty-icon">□</view>
     <view class="empty-text">作品集不存在</view>
   </view>
 </view>

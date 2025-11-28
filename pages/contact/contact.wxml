@@ -1,4 +1,10 @@
 <view class="contact-container">
+  <!-- Loading Overlay -->
+  <view class="loading-overlay {{isLoading ? 'show' : ''}}" wx:if="{{isLoading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">{{loadingText}}</text>
+  </view>
+
   <!-- 品牌信息区域 -->
   <view class="brand-section">
     <view class="brand-logo" wx:if="{{photographerInfo.logo}}">

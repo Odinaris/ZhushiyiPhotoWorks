@@ -5,7 +5,9 @@ Page({
     photographerInfo: {},
     loading: true,
     hasData: false,
-    loadError: false
+    loadError: false,
+    lastUpdateTime: 0, // 记录上次更新时间
+    cacheTimeout: 5 * 60 * 1000 // 5分钟缓存超时
   },
 
   onLoad() {
@@ -19,12 +21,25 @@ Page({
       // 强制刷新 TabBar 的管理员状态
       this.getTabBar().updateAdminStatus()
     }
-    // 返回时刷新联系信息（利用缓存避免多余开销）
-    this.loadContactInfo()
+    
+    // 只有首次加载或数据为空时才加载信息
+    if (!this.data.photographerInfo || !this.data.hasData) {
+      this.loadContactInfo()
+    }
   },
 
   // 加载摄影师信息
-  async loadContactInfo() {
+  async loadContactInfo(forceRefresh = false) {
+    // 检查是否需要刷新（避免频繁加载）
+    const now = Date.now()
+    if (!forceRefresh && 
+        this.data.photographerInfo && 
+        this.data.hasData && 
+        this.data.lastUpdateTime && 
+        (now - this.data.lastUpdateTime) < this.data.cacheTimeout) {
+      return // 使用缓存数据，不重新加载
+    }
+
     try {
       util.showLoading('加载中...')
       const r = await util.callFunction('getPhotographerInfo')
@@ -53,7 +68,8 @@ Page({
         photographerInfo,
         hasData,
         loading: false,
-        loadError: false
+        loadError: false,
+        lastUpdateTime: Date.now()
       })
     } catch (err) {
       console.error('加载摄影师信息失败:', err)
@@ -100,7 +116,7 @@ Page({
 
   // 下拉刷新
   onPullDownRefresh() {
-    this.loadContactInfo().then(() => {
+    this.loadContactInfo(true).then(() => {
       wx.stopPullDownRefresh()
     })
   },

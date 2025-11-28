@@ -1,4 +1,10 @@
 <view class="edit-page">
+  <!-- Loading Overlay -->
+  <view class="loading-overlay {{isLoading ? 'show' : ''}}" wx:if="{{isLoading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">{{loadingText}}</text>
+  </view>
+
   <!-- 品牌信息 -->
   <view class="section">
     <view class="section-title">品牌信息</view>
@@ -7,7 +13,7 @@
       <view class="logo-upload">
         <image wx:if="{{formData.logo}}" src="{{formData.logo}}" class="logo-preview" mode="aspectFit"></image>
         <view wx:else class="logo-placeholder" bindtap="uploadLogo">
-          <text class="upload-icon">📷</text>
+          <text class="upload-icon">□</text>
           <text class="upload-text">上传Logo</text>
         </view>
         <view wx:if="{{formData.logo}}" class="logo-actions">

@@ -9,7 +9,9 @@ Page({
     loading: true,
     loadError: false,
     viewMode: 'grid', // 'grid' 瀑布流模式, 'list' 单栏模式
-    imageHeights: {} // 存储每张图片的高度
+    processedImages: [], // 预处理后的图片数据
+    leftColumnHeight: 0, // 左列高度
+    rightColumnHeight: 0 // 右列高度
   },
 
   onLoad(options) {
@@ -32,8 +34,13 @@ Page({
 
       const r = await util.callFunction('getAlbumDetail', { albumId: this.data.albumId })
       if (r.ok) {
+        const album = r.data || { images: [] }
+        // 预处理瀑布流布局
+        const processedImages = this.processWaterfallLayout(album.images || [])
+        
         this.setData({
-          album: r.data || { images: [] },
+          album: album,
+          processedImages: processedImages,
           loading: false,
           loadError: false
         })
@@ -47,6 +54,35 @@ Page({
     } finally {
       util.hideLoading()
     }
+  },
+
+  // 处理瀑布流布局
+  processWaterfallLayout(images) {
+    const leftColumn = []
+    const rightColumn = []
+    let leftHeight = 0
+    let rightHeight = 0
+    const columnWidth = (wx.getSystemInfoSync().windowWidth - 12) / 2
+
+    images.forEach((image, index) => {
+      // 估算图片高度 (假设图片宽度等于容器宽度)
+      const estimatedHeight = image.estimatedHeight || 300 // 默认高度
+      
+      if (leftHeight <= rightHeight) {
+        leftColumn.push({ ...image, column: 'left', index })
+        leftHeight += estimatedHeight + 4 // 加上间距
+      } else {
+        rightColumn.push({ ...image, column: 'right', index })
+        rightHeight += estimatedHeight + 4
+      }
+    })
+
+    this.setData({
+      leftColumnHeight: leftHeight,
+      rightColumnHeight: rightHeight
+    })
+
+    return { leftColumn, rightColumn }
   },
 
   // 更新浏览次数
@@ -75,27 +111,9 @@ Page({
     })
   },
 
-  // 图片加载完成事件
-  onImageLoad(e) {
-    const { index } = e.currentTarget.dataset
-    const { width, height } = e.detail
-    
-    // 根据模式计算容器宽度
-    const screenWidth = wx.getSystemInfoSync().windowWidth
-    const padding = 4 // 左右各2rpx
-    const containerWidth = this.data.viewMode === 'grid' ? 
-      (screenWidth - padding - 2) / 2 : // 瀑布流模式：双栏，减去2rpx间距
-      (screenWidth - padding) // 单栏模式：全宽
-    
-    // 计算图片高度
-    const imageHeight = (height / width) * containerWidth
-    const heights = this.data.imageHeights
-    heights[index] = imageHeight
-    
-    this.setData({
-      imageHeights: heights
-    })
-  },
+
+
+
 
   // 预览图片
   previewImage(e) {

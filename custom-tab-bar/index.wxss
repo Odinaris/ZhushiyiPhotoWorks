@@ -1,15 +1,18 @@
+/* Custom Tab Bar - Premium Minimalist Design */
 .tab-bar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 100rpx;
-  background: #FFFFFF;
+  height: 120rpx;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20rpx);
+  -webkit-backdrop-filter: blur(20rpx);
   display: flex;
   padding-bottom: env(safe-area-inset-bottom);
-  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.06);
+  box-shadow: 0 -4rpx 24rpx rgba(0, 0, 0, 0.04);
   z-index: 9999;
-  border-top: 1rpx solid rgba(0, 0, 0, 0.08);
+  border-top: 1rpx solid rgba(0, 0, 0, 0.06);
 }
 
 .tab-bar-item {
@@ -19,23 +22,69 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 8rpx;
+  padding: 16rpx 0;
+  position: relative;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tab-bar-item::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60rpx;
+  height: 60rpx;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 20rpx;
+  transform: translate(-50%, -50%) scale(0);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+}
+
+.tab-bar-item.active::before {
+  transform: translate(-50%, -50%) scale(1);
+  background: rgba(0, 0, 0, 0.08);
 }
 
 .tab-icon {
-  width: 48rpx;
-  height: 48rpx;
-  margin-bottom: 6rpx;
-  filter: brightness(1.2);
+  width: 44rpx;
+  height: 44rpx;
+  margin-bottom: 8rpx;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0.6;
+}
+
+.tab-bar-item.active .tab-icon {
+  opacity: 1;
+  transform: scale(1.1);
 }
 
 .tab-text {
-  font-size: 20rpx;
-  color: #999999;
+  font-size: 18rpx;
+  color: #A3A3A3;
   font-weight: 400;
+  letter-spacing: 0.5rpx;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .tab-bar-item.active .tab-text {
   color: #000000;
   font-weight: 500;
+  letter-spacing: 0.25rpx;
+}
+
+/* Subtle hover effect for touch feedback */
+.tab-bar-item:active .tab-icon {
+  transform: scale(0.95);
+  opacity: 0.4;
+}
+
+.tab-bar-item:active .tab-text {
+  color: #737373;
+}
+
+/* Enhanced active state */
+.tab-bar-item.active:active .tab-icon {
+  transform: scale(1.05);
+  opacity: 0.8;
 }

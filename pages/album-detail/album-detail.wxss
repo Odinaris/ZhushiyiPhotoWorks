@@ -1,89 +1,92 @@
+/* Album Detail Page - Premium Minimalist Design */
 .detail-container {
   min-height: 100vh;
-  background-color: #FFFFFF;
-  color: #000000;
-  padding-bottom: 140rpx;
+  background: var(--primary-white);
+  color: var(--gray-900);
+  padding-bottom: 160rpx;
 }
 
-/* 头部信息 */
+/* Header Section */
 .detail-header {
-  background-color: #FFFFFF;
-  padding: 48rpx 36rpx;
-  margin-bottom: 24rpx;
-  border-bottom: 1rpx solid rgba(0, 0, 0, 0.06);
+  background: var(--primary-white);
+  padding: 48rpx 32rpx;
+  border-bottom: 1rpx solid var(--gray-100);
+  box-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.04);
 }
 
 .header-content {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  gap: 16rpx;
 }
 
 .header-left {
   flex: 1;
   min-width: 0;
+  margin-right: 16rpx;
 }
 
 .album-title {
-  font-size: 42rpx;
-  font-weight: 600;
-  color: #000000;
-  margin-bottom: 24rpx;
-  line-height: 1.5;
-  letter-spacing: 1rpx;
-}
-
-.album-info {
-  display: flex;
-  align-items: center;
-  font-size: 24rpx;
-  color: #666666;
-  margin-bottom: 24rpx;
+  font-size: 40rpx;
   font-weight: 300;
-}
-
-.info-item {
-  color: #333333;
-}
-
-.info-divider {
-  margin: 0 16rpx;
-  color: #999999;
-}
-
-.album-description {
-  font-size: 28rpx;
-  color: #333333;
-  line-height: 1.8;
-  margin-top: 24rpx;
-  padding-top: 24rpx;
-  border-top: 1rpx solid rgba(0, 0, 0, 0.06);
-  font-weight: 300;
+  color: var(--gray-900);
+  margin-bottom: 16rpx;
+  line-height: 1.4;
   letter-spacing: 0.5rpx;
 }
 
-/* 视图切换按钮 */
-.view-toggle {
+.album-meta {
   display: flex;
   align-items: center;
-  margin-left: 20rpx;
+  font-size: 20rpx;
+  color: var(--gray-500);
+  margin-bottom: 24rpx;
+  font-weight: 300;
+  letter-spacing: 0.25rpx;
+}
+
+.meta-item {
+  color: var(--gray-700);
+}
+
+.meta-divider {
+  margin: 0 12rpx;
+  color: var(--gray-300);
+}
+
+.album-description {
+  font-size: 22rpx;
+  color: var(--gray-700);
+  line-height: 1.7;
+  margin-top: 32rpx;
+  padding-top: 32rpx;
+  border-top: 1rpx solid var(--gray-100);
+  font-weight: 300;
+  letter-spacing: 0.25rpx;
+}
+
+/* View Toggle Button */
+.view-toggle {
+  display: flex;
+  align-items: flex-start;
   flex-shrink: 0;
 }
 
 .view-mode-btn {
-  width: 40rpx;
-  height: 40rpx;
-  min-width: 40rpx;
-  max-width: 40rpx;
-  background: rgba(0, 0, 0, 0.05);
-  border: 1rpx solid rgba(0, 0, 0, 0.08);
-  border-radius: 6rpx;
+  width: 36rpx;
+  height: 36rpx;
+  min-width: 36rpx;
+  max-width: 36rpx;
+  background: var(--gray-50);
+  border: 1rpx solid var(--gray-200);
+  border-radius: 8rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
   margin: 0;
-  transition: all 0.3s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   box-sizing: border-box;
   flex-shrink: 0;
 }
@@ -93,125 +96,177 @@
 }
 
 .view-mode-btn:active {
-  background: rgba(0, 0, 0, 0.1);
+  background: var(--gray-100);
+  border-color: var(--gray-300);
+  transform: scale(0.95);
 }
 
 .view-icon {
-  font-size: 20rpx;
-  color: #666666;
-  font-weight: 600;
+  font-size: 18rpx;
+  color: var(--gray-600);
+  font-weight: 500;
   line-height: 1;
-  width: 20rpx;
-  height: 20rpx;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* 图片展示区域 */
+/* Images Container */
 .images-container {
-  padding: 0 2rpx;
+  padding: 0;
 }
 
-/* 图片网格 - 瀑布流模式 */
+/* Images Grid - Waterfall Mode */
 .images-grid.grid {
   display: flex;
   gap: 2rpx;
   width: 100%;
+  padding: 2rpx; /* 四周一致的间距 */
 }
 
-/* 瀑布流列 */
+/* Waterfall Column */
 .waterfall-column {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 2rpx;
+  gap: 2rpx; /* 与grid整体间距保持一致 */
 }
 
-/* 图片网格 - 单栏模式 */
+/* Images Grid - List Mode */
 .images-grid.list {
   display: flex;
   flex-direction: column;
-  gap: 2rpx;
+  gap: 4rpx;
   width: 100%;
+  padding: 2rpx 0; /* 仅保留上下间距 */
 }
 
-/* 图片项 - 移除圆角 */
+/* List mode image containers */
+.images-grid.list .image-wrapper {
+  background: var(--gray-50);
+  min-height: 300rpx;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+/* List mode specific image styles */
+.images-grid.list .item-image {
+  width: 100%;
+  border-radius: 0;
+}
+
+/* Image Item */
 .image-item {
   width: 100%;
-  background-color: #FFFFFF;
+  background: var(--primary-white);
   overflow: hidden;
-  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
-  border: 1rpx solid rgba(0, 0, 0, 0.06);
-  transition: all 0.3s ease;
+  box-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.04);
+  border: none;
+  transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-sizing: border-box;
+  border-radius: 0;
 }
 
 .image-item:active {
-  transform: translateY(-4rpx);
-  box-shadow: 0 8rpx 28rpx rgba(0, 0, 0, 0.12);
+  transform: translateY(-6rpx);
+  box-shadow: 0 12rpx 32rpx rgba(0, 0, 0, 0.08);
 }
 
-/* 图片样式 - 保持宽高比 */
+.image-wrapper {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 0;
+  background: var(--gray-50);
+}
+
+/* Image Styles */
 .item-image {
   width: 100%;
   display: block;
-  filter: contrast(1.05);
-  transition: all 0.3s ease;
-  aspect-ratio: auto; /* 让图片保持原始宽高比 */
-  object-fit: contain; /* 确保图片完整显示 */
+  filter: brightness(0.98) contrast(1.05);
+  transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  object-fit: cover;
 }
 
-/* 图片描述 - 统一样式 */
-.image-desc {
-  padding: 16rpx;
-  font-size: 24rpx;
-  color: #333333;
+.image-item:active .item-image {
+  transform: translateY(-2rpx);
+  filter: brightness(0.95) contrast(1.08);
+}
+
+@keyframes imageFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes imageShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Image Caption */
+.image-caption {
+  padding: 20rpx;
+  font-size: 20rpx;
+  color: var(--gray-700);
   line-height: 1.6;
   font-weight: 300;
-  background-color: rgba(0, 0, 0, 0.02);
-  border-top: 1rpx solid rgba(0, 0, 0, 0.06);
+  background: var(--gray-50);
+  border-top: 1rpx solid var(--gray-100);
+  letter-spacing: 0.25rpx;
 }
 
-/* 单栏模式下的描述稍大 */
-.images-grid.list .image-desc {
-  padding: 20rpx;
-  font-size: 26rpx;
-  line-height: 1.8;
+/* List Mode - Larger Caption */
+.images-grid.list .image-caption {
+  padding: 24rpx;
+  font-size: 22rpx;
+  line-height: 1.7;
 }
 
-/* 分享区域 */
+/* Share Section */
 .share-section {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #FFFFFF;
-  padding: 24rpx 36rpx;
-  box-shadow: 0 -6rpx 24rpx rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20rpx);
+  -webkit-backdrop-filter: blur(20rpx);
+  padding: 32rpx;
+  box-shadow: 0 -8rpx 32rpx rgba(0, 0, 0, 0.08);
   z-index: 100;
-  border-top: 1rpx solid rgba(0, 0, 0, 0.06);
+  border-top: 1rpx solid var(--gray-100);
 }
 
 .share-btn {
   width: 100%;
-  background-color: #000000;
-  color: #FFFFFF;
+  background: var(--primary-black);
+  color: var(--primary-white);
   border-radius: 50rpx;
-  padding: 28rpx;
+  padding: 32rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20rpx;
-  font-size: 30rpx;
+  gap: 16rpx;
+  font-size: 24rpx;
   border: none;
   font-weight: 500;
-  letter-spacing: 2rpx;
-  transition: all 0.3s ease;
+  letter-spacing: 1rpx;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.12);
 }
 
 .share-btn:active {
-  background-color: #333333;
+  background: var(--gray-800);
+  transform: translateY(2rpx);
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.16);
 }
 
 .share-btn::after {
@@ -219,5 +274,54 @@
 }
 
 .share-icon {
-  font-size: 36rpx;
+  font-size: 20rpx;
+}
+
+
+
+/* Error State */
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 0;
+  gap: 32rpx;
+}
+
+.error-text {
+  font-size: 22rpx;
+  color: var(--gray-600);
+  font-weight: 400;
+  letter-spacing: 0.5rpx;
+}
+
+.error-container .btn-secondary {
+  min-width: 120rpx;
+  padding: 24rpx 48rpx;
+}
+
+/* Empty State */
+.empty-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 160rpx 0;
+  gap: 24rpx;
+}
+
+.empty-icon {
+  width: 64rpx;
+  height: 64rpx;
+  opacity: 0.3;
+  font-size: 64rpx;
+  color: var(--gray-400);
+}
+
+.empty-text {
+  font-size: 22rpx;
+  font-weight: 300;
+  letter-spacing: 0.5rpx;
+  color: var(--gray-500);
 }

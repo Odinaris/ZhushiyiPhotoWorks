@@ -1,4 +1,10 @@
 <view class="edit-page">
+  <!-- Loading Overlay -->
+  <view class="loading-overlay {{isLoading ? 'show' : ''}}" wx:if="{{isLoading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">{{loadingText}}</text>
+  </view>
+
   <view class="form-section">
     <view class="form-item">
       <view class="form-label">作品集标题</view>

@@ -1,99 +1,129 @@
+/* Admin Banners Page - Premium Minimalist Design */
 .admin-page {
   min-height: 100vh;
-  background-color: #FFFFFF;
-  color: #000000;
-  padding: 24rpx;
+  background: var(--primary-white);
+  color: var(--gray-900);
+  padding: 32rpx;
 }
 
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 32rpx;
-  padding-bottom: 24rpx;
-  border-bottom: 2rpx solid rgba(0, 0, 0, 0.06);
+  margin-bottom: 48rpx;
+  padding-bottom: 32rpx;
+  border-bottom: 1rpx solid var(--gray-100);
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.02);
 }
 
 .header-title {
-  font-size: 40rpx;
-  font-weight: 600;
-  color: #000000;
-  letter-spacing: 2rpx;
+  font-size: 36rpx;
+  font-weight: 300;
+  color: var(--gray-900);
+  letter-spacing: 1rpx;
 }
 
 .add-btn {
-  background-color: #000000;
-  color: #FFFFFF;
-  border-radius: 50rpx;
-  padding: 20rpx 40rpx;
-  font-size: 26rpx;
+  background: var(--primary-black);
+  color: var(--primary-white);
+  border-radius: 24rpx;
+  padding: 24rpx 48rpx;
+  font-size: 22rpx;
   border: none;
   font-weight: 500;
-  letter-spacing: 1rpx;
-  transition: all 0.3s ease;
+  letter-spacing: 0.5rpx;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.12);
 }
 
 .add-btn:active {
-  background-color: #F5F5F5;
+  background: var(--gray-800);
+  transform: translateY(2rpx);
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.16);
 }
 
 .add-btn::after {
   border: none;
 }
 
-/* 列表 */
+/* Banner List */
 .banner-list {
   display: flex;
   flex-direction: column;
-  gap: 24rpx;
+  gap: 32rpx;
 }
 
 .banner-item {
-  background-color: #FFFFFF;
-  border-radius: 16rpx;
+  background: var(--primary-white);
+  border-radius: 24rpx;
   overflow: hidden;
-  box-shadow: 0 4rpx 20rpx rgba(255, 255, 255, 0.05);
-  border: 4rpx solid rgb(0, 0, 0, 0.1);
+  box-shadow: 0 4rpx 24rpx rgba(0, 0, 0, 0.04);
+  border: 1rpx solid var(--gray-100);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.banner-item:active {
+  transform: translateY(-4rpx);
+  box-shadow: 0 12rpx 32rpx rgba(0, 0, 0, 0.08);
 }
 
 .banner-image {
   width: 100%;
   height: 320rpx;
+  object-fit: cover;
+  filter: brightness(0.98) contrast(1.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.banner-item:active .banner-image {
+  transform: scale(1.02);
+  filter: brightness(0.95) contrast(1.08);
 }
 
 .banner-info {
   display: flex;
   justify-content: space-between;
-  padding: 24rpx;
-  border-bottom: 1rpx solid rgba(255, 255, 255, 0.06);
+  align-items: center;
+  padding: 24rpx 32rpx;
+  border-bottom: 1rpx solid var(--gray-100);
 }
 
 .banner-order {
-  font-size: 28rpx;
-  color: #000000;
-  font-weight: 700;
+  font-size: 20rpx;
+  color: var(--gray-700);
+  font-weight: 500;
+  letter-spacing: 0.5rpx;
 }
 
 .banner-status {
-  font-size: 24rpx;
-  color: #000000;
-  font-weight: 400;
+  font-size: 20rpx;
+  font-weight: 500;
+  letter-spacing: 0.5rpx;
+}
+
+.banner-status.active {
+  color: var(--primary-black);
+}
+
+.banner-status.inactive {
+  color: var(--gray-400);
 }
 
 .banner-actions {
   display: flex;
-  gap: 20rpx;
-  padding: 24rpx;
+  gap: 16rpx;
+  padding: 24rpx 32rpx;
 }
 
 .action-btn {
   flex: 1;
   padding: 20rpx;
-  border-radius: 10rpx;
-  font-size: 26rpx;
+  border-radius: 16rpx;
+  font-size: 20rpx;
   border: none;
-  font-weight: 500;
-  transition: all 0.3s ease;
+  font-weight: 400;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: 0.5rpx;
 }
 
 .action-btn::after {
@@ -101,38 +131,42 @@
 }
 
 .action-btn.edit {
-  background-color: #ffffff;
-  color: #000000;
-  border: 2rpx solid rgb(0, 0, 0, 0.2);
+  background: var(--gray-50);
+  color: var(--gray-800);
+  border: 1rpx solid var(--gray-200);
 }
 
 .action-btn.edit:active {
-  background-color: #333;
+  background: var(--gray-100);
+  transform: scale(0.98);
 }
 
 .action-btn.delete {
-  background-color: #ffffff;
-  color: #ff0000;
-  border: 2rpx solid rgb(0, 0, 0, 0.2);
+  background: var(--primary-white);
+  color: var(--gray-600);
+  border: 1rpx solid var(--gray-200);
 }
 
 .action-btn.delete:active {
-  background-color: #F5F5F5;
+  background: rgba(255, 0, 0, 0.05);
+  border-color: rgba(255, 0, 0, 0.2);
+  transform: scale(0.98);
 }
 
-/* 模态框 - 优雅设计 */
+/* Modal - Premium Design */
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.6);
   display: none;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  backdrop-filter: blur(10rpx);
+  backdrop-filter: blur(20rpx);
+  -webkit-backdrop-filter: blur(20rpx);
 }
 
 .modal.show {
@@ -140,72 +174,76 @@
 }
 
 .modal-content {
-  width: 80%;
-  max-height: 80vh;
-  background-color: #FFFFFF;
-  color: #000000;
+  width: 85%;
+  max-height: 85vh;
+  background: var(--primary-white);
+  color: var(--gray-900);
   border-radius: 24rpx;
   padding: 48rpx;
   overflow-y: auto;
-  box-shadow: 0 20rpx 60rpx rgba(255, 255, 255, 0.12);
+  box-shadow: 0 24rpx 80rpx rgba(0, 0, 0, 0.16);
+  border: 1rpx solid var(--gray-200);
 }
 
 .modal-title {
-  font-size: 40rpx;
-  font-weight: 600;
-  color: #1A1A1A;
-  margin-bottom: 40rpx;
+  font-size: 32rpx;
+  font-weight: 300;
+  color: var(--gray-900);
+  margin-bottom: 48rpx;
   text-align: center;
-  letter-spacing: 2rpx;
+  letter-spacing: 1rpx;
 }
 
 .form-item {
-  margin-bottom: 36rpx;
+  margin-bottom: 40rpx;
 }
 
 .form-label {
-  font-size: 28rpx;
-  color: #1A1A1A;
-  margin-bottom: 20rpx;
+  font-size: 22rpx;
+  color: var(--gray-900);
+  margin-bottom: 16rpx;
   font-weight: 500;
   letter-spacing: 0.5rpx;
 }
 
 .form-input {
   width: 100%;
-  padding: 28rpx 24rpx;
-  border: 2rpx solid rgba(0, 0, 0, 0.1);
-  border-radius: 12rpx;
-  font-size: 28rpx;
-  background-color: #FAFAFA;
-  transition: all 0.3s ease;
-  min-height: 88rpx;
+  padding: 24rpx 20rpx;
+  border: 1rpx solid var(--gray-200);
+  border-radius: 16rpx;
+  font-size: 22rpx;
+  background: var(--gray-50);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 80rpx;
   box-sizing: border-box;
+  color: var(--gray-900);
 }
 
 .form-input:focus {
-  border-color: #1A1A1A;
-  background-color: #FFFFFF;
+  border-color: var(--primary-black);
+  background: var(--primary-white);
 }
 
 .image-upload {
   width: 100%;
-  height: 320rpx;
-  border: 2rpx dashed rgba(0, 0, 0, 0.15);
-  border-radius: 12rpx;
+  height: 280rpx;
+  border: 2rpx dashed var(--gray-300);
+  border-radius: 16rpx;
   overflow: hidden;
-  background-color: #FAFAFA;
-  transition: all 0.3s ease;
+  background: var(--gray-50);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .image-upload:active {
-  border-color: #1A1A1A;
+  border-color: var(--primary-black);
+  background: var(--gray-100);
 }
 
 .upload-preview {
   width: 100%;
   height: 100%;
-  filter: contrast(1.05);
+  object-fit: cover;
+  filter: brightness(0.98) contrast(1.05);
 }
 
 .upload-placeholder {
@@ -215,35 +253,36 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #999;
+  color: var(--gray-500);
 }
 
 .upload-icon {
-  font-size: 64rpx;
-  margin-bottom: 16rpx;
-  opacity: 0.6;
+  font-size: 48rpx;
+  margin-bottom: 12rpx;
+  opacity: 0.5;
 }
 
 .upload-text {
-  font-size: 24rpx;
+  font-size: 20rpx;
   font-weight: 300;
+  letter-spacing: 0.5rpx;
 }
 
 .modal-actions {
   display: flex;
-  gap: 24rpx;
+  gap: 20rpx;
   margin-top: 48rpx;
 }
 
 .modal-btn {
   flex: 1;
-  padding: 28rpx;
-  border-radius: 12rpx;
-  font-size: 30rpx;
+  padding: 24rpx;
+  border-radius: 16rpx;
+  font-size: 22rpx;
   border: none;
   font-weight: 500;
-  letter-spacing: 1rpx;
-  transition: all 0.3s ease;
+  letter-spacing: 0.5rpx;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .modal-btn::after {
@@ -251,19 +290,47 @@
 }
 
 .modal-btn.cancel {
-  background-color: #F5F5F5;
-  color: #666;
+  background: var(--gray-100);
+  color: var(--gray-700);
+  border: 1rpx solid var(--gray-200);
 }
 
 .modal-btn.cancel:active {
-  background-color: #E8E8E8;
+  background: var(--gray-200);
+  transform: translateY(2rpx);
 }
 
 .modal-btn.confirm {
-  background-color: #07c160;
-  color: #ffffff;
+  background: var(--primary-black);
+  color: var(--primary-white);
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.12);
 }
 
 .modal-btn.confirm:active {
-  background-color: #333;
+  background: var(--gray-800);
+  transform: translateY(2rpx);
+}
+
+.empty-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 160rpx 0;
+  gap: 24rpx;
+}
+
+.empty-icon {
+  width: 64rpx;
+  height: 64rpx;
+  opacity: 0.3;
+  font-size: 64rpx;
+  color: var(--gray-400);
+}
+
+.empty-text {
+  font-size: 22rpx;
+  font-weight: 300;
+  letter-spacing: 0.5rpx;
+  color: var(--gray-500);
 }

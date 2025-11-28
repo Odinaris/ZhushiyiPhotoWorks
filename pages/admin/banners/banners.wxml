@@ -1,15 +1,23 @@
 <view class="admin-page">
+  <!-- Loading Overlay -->
+  <view class="loading-overlay {{isLoading ? 'show' : ''}}" wx:if="{{isLoading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">{{loadingText}}</text>
+  </view>
+
   <view class="page-header">
     <view class="header-title">轮播图管理</view>
-    <button class="add-btn" bindtap="addBanner">+ 添加</button>
+    <button class="add-btn" bindtap="addBanner">+ 添加轮播图</button>
   </view>
 
   <view class="banner-list" wx:if="{{banners.length > 0}}">
     <view class="banner-item" wx:for="{{banners}}" wx:key="_id">
-      <image class="banner-image" src="{{item.imageUrl}}" mode="aspectFill"></image>
+      <view class="banner-image-container">
+        <image class="banner-image" src="{{item.imageUrl}}" mode="aspectFill"></image>
+      </view>
       <view class="banner-info">
         <view class="banner-order">序号: {{item.order}}</view>
-        <view class="banner-status">{{item.isActive ? '已启用' : '已禁用'}}</view>
+        <view class="banner-status {{item.isActive ? 'active' : 'inactive'}}">{{item.isActive ? '已启用' : '已禁用'}}</view>
       </view>
       <view class="banner-actions">
         <button class="action-btn edit" bindtap="editBanner" data-item="{{item}}">编辑</button>
@@ -19,7 +27,7 @@
   </view>
 
   <view class="empty-container" wx:else>
-    <view class="empty-icon">🖼️</view>
+    <view class="empty-icon">□</view>
     <view class="empty-text">暂无轮播图</view>
   </view>
 </view>

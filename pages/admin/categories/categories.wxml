@@ -1,14 +1,20 @@
 <view class="admin-page">
-  <view class="page-header">
-    <view class="header-title">分类管理</view>
-    <button class="add-btn" bindtap="addCategory">+ 添加</button>
+  <!-- Loading Overlay -->
+  <view class="loading-overlay {{isLoading ? 'show' : ''}}" wx:if="{{isLoading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">{{loadingText}}</text>
   </view>
 
-  <view class="list" wx:if="{{categories.length > 0}}">
-    <view class="list-item" wx:for="{{categories}}" wx:key="_id">
-      <view class="item-info">
-        <view class="item-name">{{item.name}}</view>
-        <view class="item-meta">
+  <view class="page-header">
+    <view class="header-title">分类管理</view>
+    <button class="add-btn" bindtap="addCategory">+ 添加分类</button>
+  </view>
+
+  <view class="category-grid" wx:if="{{categories.length > 0}}">
+    <view class="category-card" wx:for="{{categories}}" wx:key="_id">
+      <view class="category-info">
+        <view class="category-name">{{item.name}}</view>
+        <view class="category-meta">
           <text>序号: {{item.order}}</text>
           <text class="divider">·</text>
           <text>作品数: {{item.albumCount || 0}}</text>
@@ -16,15 +22,15 @@
           <text class="{{item.isActive ? 'active' : 'inactive'}}">{{item.isActive ? '已启用' : '已禁用'}}</text>
         </view>
       </view>
-      <view class="item-actions">
-        <button class="action-btn edit" bindtap="editCategory" data-item="{{item}}">编辑</button>
-        <button class="action-btn delete" bindtap="deleteCategory" data-id="{{item._id}}">删除</button>
+      <view class="category-actions">
+        <view class="action-icon edit" bindtap="editCategory" data-item="{{item}}">□</view>
+        <view class="action-icon delete" bindtap="deleteCategory" data-id="{{item._id}}">×</view>
       </view>
     </view>
   </view>
 
   <view class="empty-container" wx:else>
-    <view class="empty-icon">🏷️</view>
+    <view class="empty-icon">□</view>
     <view class="empty-text">暂无分类</view>
   </view>
 </view>

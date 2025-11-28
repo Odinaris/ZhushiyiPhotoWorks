@@ -19,17 +19,36 @@ const formatNumber = n => {
   return n[1] ? n : `0${n}`
 }
 
-// 显示加载提示
+// 显示加载提示 - 使用自定义loading overlay
 const showLoading = (title = '加载中...') => {
-  wx.showLoading({
-    title,
-    mask: true
-  })
+  // 确保页面已准备好
+  const pages = getCurrentPages()
+  if (pages.length === 0) return
+  
+  const currentPage = pages[pages.length - 1]
+  
+  // 创建loading overlay
+  const loadingData = {
+    isLoading: true,
+    loadingText: title
+  }
+  
+  currentPage.setData(loadingData)
 }
 
 // 隐藏加载提示
 const hideLoading = () => {
-  wx.hideLoading()
+  // 获取当前页面
+  const pages = getCurrentPages()
+  if (pages.length === 0) return
+  
+  const currentPage = pages[pages.length - 1]
+  
+  // 移除loading overlay
+  currentPage.setData({
+    isLoading: false,
+    loadingText: ''
+  })
 }
 
 // 显示成功提示
