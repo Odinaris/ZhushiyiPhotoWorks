@@ -112,9 +112,9 @@ page {
 /* Section Headers */
 .section-title {
   font-size: 36rpx;
-  font-weight: 300;
+  font-weight: 500;
   color: var(--gray-900);
-  margin: 64rpx 0 32rpx;
+  margin: 64rpx 0 0rpx;
   padding: 0 24rpx;
   letter-spacing: 1rpx;
   text-align: center;

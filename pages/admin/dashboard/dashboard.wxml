@@ -1,3 +1,4 @@
+<image class="header-img" src="/images/ic_your_life.jpg" mode="widthFix"></image>
 <view class="dashboard-container">
   <!-- Loading Overlay -->
   <view class="loading-overlay {{isLoading ? 'show' : ''}}" wx:if="{{isLoading}}">
@@ -6,58 +7,34 @@
   </view>
 
   <view class="dashboard-header">
-    <view class="header-title">管理后台</view>
-    <view class="header-subtitle">欢迎回来</view>
+    <view class="header-title">You can make it.</view>
+    <view class="header-subtitle">I believe.</view>
   </view>
 
   <!-- 管理菜单 -->
   <view class="menu-grid">
     <view class="menu-card" bindtap="navigateTo" data-url="/pages/admin/banners/banners">
-      <view class="menu-icon">◈</view>
+      <image class="menu-icon" src="/images/ic_admin_banner.png"></image>
       <view class="menu-title">轮播图管理</view>
-      <view class="menu-count">{{stats.bannerCount || 0}} 项</view>
+      <!-- <view class="menu-count">{{stats.bannerCount || 0}} 项</view> -->
     </view>
 
     <view class="menu-card" bindtap="navigateTo" data-url="/pages/admin/categories/categories">
-      <view class="menu-icon">◉</view>
+      <image class="menu-icon" src="/images/ic_admin_categories.png"></image>
       <view class="menu-title">分类管理</view>
-      <view class="menu-count">{{stats.categoryCount || 0}} 个</view>
+      <!-- <view class="menu-count">{{stats.categoryCount || 0}} 个</view> -->
     </view>
 
     <view class="menu-card" bindtap="navigateTo" data-url="/pages/admin/albums/albums">
-      <view class="menu-icon">□</view>
+      <image class="menu-icon" src="/images/ic_admin_albums.png"></image>
       <view class="menu-title">作品集管理</view>
-      <view class="menu-count">{{stats.albumCount || 0}} 个</view>
+      <!-- <view class="menu-count">{{stats.albumCount || 0}} 个</view> -->
     </view>
 
     <view class="menu-card" bindtap="navigateTo" data-url="/pages/admin/contact/contact">
-      <view class="menu-icon">○</view>
+      <image class="menu-icon" src="/images/ic_admin_brand.png"></image>
       <view class="menu-title">品牌信息管理</view>
     </view>
   </view>
-
-  <!-- 管理菜单 -->
-  <view class="menu-grid">
-    <view class="menu-card" bindtap="navigateTo" data-url="/pages/admin/banners/banners">
-      <view class="menu-icon">◈</view>
-      <view class="menu-title">轮播图管理</view>
-    </view>
-
-    <view class="menu-card" bindtap="navigateTo" data-url="/pages/admin/categories/categories">
-      <view class="menu-icon">◉</view>
-      <view class="menu-title">分类管理</view>
-    </view>
-
-    <view class="menu-card" bindtap="navigateTo" data-url="/pages/admin/albums/albums">
-      <view class="menu-icon">□</view>
-      <view class="menu-title">作品集管理</view>
-    </view>
-
-    <view class="menu-card" bindtap="navigateTo" data-url="/pages/admin/contact/contact">
-      <view class="menu-icon">○</view>
-      <view class="menu-title">品牌信息管理</view>
-    </view>
-  </view>
-
 
 </view>

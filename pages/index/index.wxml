@@ -11,7 +11,7 @@
       class="hero-swiper" 
       indicator-dots="{{true}}"
       autoplay="{{true}}"
-      interval="{{5000}}"
+      interval="{{4000}}"
       duration="{{800}}"
       circular="{{true}}"
       indicator-color="rgba(255, 255, 255, 0.3)"
@@ -57,6 +57,7 @@
     <view class="section-header">
       <view class="section-title">精选作品</view>
       <view class="section-subtitle">Featured Works</view>
+      <!-- <view class="section-subtitle">Featured Works</view> -->
     </view>
 
     <view class="album-grid" wx:if="{{featuredAlbums.length > 0}}">

@@ -21,10 +21,10 @@
           <text class="divider">·</text>
           <text class="{{item.isActive ? 'active' : 'inactive'}}">{{item.isActive ? '已启用' : '已禁用'}}</text>
         </view>
-      </view>
-      <view class="category-actions">
-        <view class="action-icon edit" bindtap="editCategory" data-item="{{item}}">□</view>
-        <view class="action-icon delete" bindtap="deleteCategory" data-id="{{item._id}}">×</view>
+        <view class="category-actions">
+          <view class="action-icon edit" bindtap="editCategory" data-item="{{item}}">编辑</view>
+          <view class="action-icon delete" bindtap="deleteCategory" data-id="{{item._id}}">删除</view>
+        </view>
       </view>
     </view>
   </view>
@@ -38,20 +38,22 @@
 <view class="modal {{showModal ? 'show' : ''}}" catchtap="closeModal">
   <view class="modal-content" catchtap="stopPropagation">
     <view class="modal-title">{{modalTitle}}</view>
-    
+
     <view class="form-item">
       <view class="form-label">分类名称</view>
-      <input class="form-input" value="{{formData.name}}" bindinput="onInputChange" data-field="name" placeholder="请输入分类名称"/>
+      <input class="form-input" value="{{formData.name}}" bindinput="onInputChange" data-field="name"
+        placeholder="请输入分类名称" />
     </view>
 
     <view class="form-item">
       <view class="form-label">排序</view>
-      <input class="form-input" type="number" value="{{formData.order}}" bindinput="onInputChange" data-field="order" placeholder="请输入排序序号"/>
+      <input class="form-input" type="number" value="{{formData.order}}" bindinput="onInputChange" data-field="order"
+        placeholder="请输入排序序号" />
     </view>
 
     <view class="form-item">
       <view class="form-label">状态</view>
-      <switch checked="{{formData.isActive}}" bindchange="onSwitchChange" data-field="isActive"/>
+      <switch checked="{{formData.isActive}}" bindchange="onSwitchChange" data-field="isActive" />
     </view>
 
     <view class="modal-actions">

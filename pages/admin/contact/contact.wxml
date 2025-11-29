@@ -17,8 +17,8 @@
           <text class="upload-text">上传Logo</text>
         </view>
         <view wx:if="{{formData.logo}}" class="logo-actions">
-          <button class="btn-small change-btn" bindtap="uploadLogo">更换</button>
-          <button class="btn-small delete-btn" bindtap="deleteLogo">删除</button>
+          <view class="btn-small change-btn" bindtap="uploadLogo">更换</view>
+          <view class="btn-small delete-btn" bindtap="deleteLogo">删除</view>
         </view>
       </view>
     </view>

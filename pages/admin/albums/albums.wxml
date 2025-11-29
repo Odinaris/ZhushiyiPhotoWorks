@@ -12,27 +12,13 @@
 
   <!-- Category Tabs -->
   <view class="category-tabs" wx:if="{{categories.length > 0}}">
-    <scroll-view 
-      class="tabs-scroll" 
-      scroll-x="{{true}}" 
-      show-scrollbar="{{false}}"
-      enable-flex="{{true}}"
-    >
+    <scroll-view class="tabs-scroll" scroll-x="{{true}}" show-scrollbar="{{false}}" enable-flex="{{true}}">
       <view class="tabs-list">
-        <view 
-          class="tab-item {{currentCategoryId === '' ? 'active' : ''}}"
-          bindtap="selectCategory"
-          data-id=""
-        >
+        <view class="tab-item {{currentCategoryId === '' ? 'active' : ''}}" bindtap="selectCategory" data-id="">
           全部
         </view>
-        <view 
-          class="tab-item {{currentCategoryId === item._id ? 'active' : ''}}"
-          wx:for="{{categories}}"
-          wx:key="_id"
-          bindtap="selectCategory"
-          data-id="{{item._id}}"
-        >
+        <view class="tab-item {{currentCategoryId === item._id ? 'active' : ''}}" wx:for="{{categories}}" wx:key="_id"
+          bindtap="selectCategory" data-id="{{item._id}}">
           {{item.name}}
         </view>
       </view>
@@ -48,18 +34,21 @@
         <view class="album-title">{{item.title}}</view>
         <view class="album-meta">
           <text class="meta-category">{{item.categoryName}}</text>
-          <text class="meta-divider">·</text>
+          <text class="meta-divider">|</text>
           <text class="meta-count">{{item.images.length}} 张</text>
           <text class="meta-divider">·</text>
+        </view>
+        <view class="album-meta">
           <text class="meta-status {{item.isActive ? 'active' : 'inactive'}}">{{item.isActive ? '已启用' : '已禁用'}}</text>
           <text class="meta-divider">·</text>
           <text class="meta-featured {{item.isFeatured ? 'featured' : ''}}">{{item.isFeatured ? '精选' : '普通'}}</text>
         </view>
+        <view class="album-actions">
+          <view class="action-icon edit" bindtap="editAlbum" data-id="{{item._id}}">编辑</view>
+          <view class="action-icon delete" bindtap="deleteAlbum" data-id="{{item._id}}">删除</view>
+        </view>
       </view>
-      <view class="album-actions">
-        <view class="action-icon edit" bindtap="editAlbum" data-id="{{item._id}}">□</view>
-        <view class="action-icon delete" bindtap="deleteAlbum" data-id="{{item._id}}">×</view>
-      </view>
+
     </view>
   </view>
 

@@ -145,7 +145,7 @@ scroll-view ::-webkit-scrollbar {
 }
 
 .album-title {
-  font-size: 24rpx;
+  font-size: 28rpx;
   font-weight: 600;
   color: #000000;
   margin-bottom: 12rpx;
@@ -156,7 +156,7 @@ scroll-view ::-webkit-scrollbar {
 }
 
 .album-meta {
-  font-size: 18rpx;
+  font-size: 20rpx;
   color: var(--gray-600);
   font-weight: 300;
   letter-spacing: 0.25rpx;
@@ -181,7 +181,7 @@ scroll-view ::-webkit-scrollbar {
 
 .meta-status.active {
   color: var(--gray-900);
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .meta-status.inactive {
@@ -190,25 +190,25 @@ scroll-view ::-webkit-scrollbar {
 
 .meta-featured.featured {
   color: var(--primary-black);
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .album-actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 12rpx;
-  padding: 16rpx 20rpx;
-  background: var(--gray-50);
+  padding: 16rpx 0rpx 0rpx 0rpx;
 }
 
 .action-icon {
-  width: 32rpx;
-  height: 32rpx;
+  width: 50%;
+  height: fit-content;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  font-size: 16rpx;
+  padding: 8rpx 20rpx;
+  border-radius: 24rpx;
+  font-size: 20rpx;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

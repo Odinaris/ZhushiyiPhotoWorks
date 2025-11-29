@@ -108,7 +108,7 @@
   object-fit: cover;
   border: 1rpx solid var(--gray-200);
   filter: brightness(0.98) contrast(1.05);
-  margin-bottom: 80rpx;
+  margin-bottom: 40rpx;
 }
 
 .logo-placeholder {
@@ -146,19 +146,18 @@
 
 .logo-actions {
   display: flex;
-  gap: 12rpx;
+  gap: 36rpx;
   position: relative;
 }
 
 .btn-small {
-  padding: 12rpx 20rpx;
-  border-radius: 12rpx;
-  font-size: 18rpx;
+  padding: 12rpx 36rpx;
+  border-radius: 36rpx;
+  font-size: 22rpx;
   border: none;
   font-weight: 400;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   letter-spacing: 0.25rpx;
-  min-width: 80rpx;
 }
 
 .btn-small::after {
@@ -177,9 +176,9 @@
 }
 
 .delete-btn {
-  background: var(--primary-white);
   color: var(--gray-600);
-  border: 1rpx solid var(--gray-200);
+  background: rgba(255, 0, 0, 0.05);
+  border-color: rgba(255, 0, 0, 0.2);
 }
 
 .delete-btn:active {

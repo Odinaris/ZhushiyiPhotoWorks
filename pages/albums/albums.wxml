@@ -63,10 +63,10 @@
         show-scrollbar="false" 
         bindscrolltolower="onReachBottom"
       >
-        <view class="content-header">
+        <!-- <view class="content-header">
           <text class="content-title">{{item.name}}</text>
           <text class="content-count">{{item.totalCount || 0}} 个作品集</text>
-        </view>
+        </view> -->
 
         <!-- Album List - Single/Double Column -->
         <view class="albums-list {{viewMode}}" data-view-mode="{{viewMode}}" wx:if="{{item.albums.length > 0}}">

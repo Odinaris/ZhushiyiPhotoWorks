@@ -78,7 +78,8 @@ scroll-view ::-webkit-scrollbar {
   background: var(--gray-100);
 }
 
-.tab-item.active::after {
+/* tab选中后的样式 */
+/* .tab-item.active::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -88,7 +89,7 @@ scroll-view ::-webkit-scrollbar {
   height: 3rpx;
   background: var(--primary-black);
   border-radius: 2rpx;
-}
+} */
 
 .tab-text {
   font-size: 24rpx;
