@@ -18,7 +18,7 @@
 }
 
 .header-title {
-  font-size: 48rpx;
+  font-size: 36rpx;
   font-weight: 900;
   margin-top: 16rpx;
   margin-bottom: 8rpx;
