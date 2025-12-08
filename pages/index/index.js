@@ -64,8 +64,13 @@ Page({
       console.log('首页数据加载完成:', {
         bannersCount: (banners || []).length,
         categoriesCount: (categoriesResult || []).length,
-        featuredAlbumsCount: (featuredAlbums || []).length
+        featuredAlbumsCount: (featuredAlbums || []).length,
+        featuredAlbums: featuredAlbums || []
       })
+      
+      // 调试：检查数据结构
+      console.log('homeDataResult详细内容:', homeDataResult)
+      console.log('featuredAlbums详细内容:', featuredAlbums)
     } catch (err) {
       console.error('加载首页数据失败:', err)
       util.showError('加载失败，请重试')

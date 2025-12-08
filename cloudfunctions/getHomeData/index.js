@@ -28,13 +28,39 @@ exports.main = async (event, context) => {
       .orderBy('order', 'asc')
       .limit(6)
       .get()
+    
+    console.log('精选作品集查询结果:', {
+      totalCount: albumRes.data.length,
+      albums: albumRes.data.map(item => ({
+        id: item._id,
+        title: item.title,
+        isActive: item.isActive,
+        isFeatured: item.isFeatured
+      }))
+    })
+
+    // 临时测试：如果没有精选作品，添加一些测试数据
+    const featuredAlbumsData = albumRes.data || []
+    if (featuredAlbumsData.length === 0) {
+      console.log('没有精选作品，添加测试数据')
+      // 这里可以暂时返回一些测试数据来验证前端显示逻辑
+      featuredAlbumsData.push({
+        _id: 'test-album-1',
+        title: '测试精选作品1',
+        categoryName: '人像摄影',
+        coverImage: '/images/ic_your_life.jpg',
+        images: [
+          { url: '/images/ic_your_life.jpg', order: 0 }
+        ]
+      })
+    }
 
     return {
       success: true,
       data: {
         banners: bannerRes.data || [],
         photographer: photographerRes.data[0] || {},
-        featuredAlbums: albumRes.data || []
+        featuredAlbums: featuredAlbumsData
       }
     }
   } catch (err) {
