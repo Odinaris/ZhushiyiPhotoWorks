@@ -26,7 +26,7 @@ exports.main = async (event, context) => {
         isFeatured: true
       })
       .orderBy('order', 'asc')
-      .limit(6)
+      .limit(10)
       .get()
     
     console.log('精选作品集查询结果:', {
