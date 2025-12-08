@@ -48,9 +48,9 @@ exports.main = async (event, context) => {
         _id: 'test-album-1',
         title: '测试精选作品1',
         categoryName: '人像摄影',
-        coverImage: '/images/ic_your_life.jpg',
+        coverImage: 'https://636c-cloud1-3g610zw50df8fd55-1259564738.tcb.qcloud.la/life/%7Fic_your_life.jpg?sign=353a3d40845bc882d3cd54d914092c62&t=1765208603',
         images: [
-          { url: '/images/ic_your_life.jpg', order: 0 }
+          { url: 'https://636c-cloud1-3g610zw50df8fd55-1259564738.tcb.qcloud.la/life/%7Fic_your_life.jpg?sign=353a3d40845bc882d3cd54d914092c62&t=1765208603', order: 0 }
         ]
       })
     }

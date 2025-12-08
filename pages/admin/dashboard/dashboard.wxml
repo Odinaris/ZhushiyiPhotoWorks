@@ -1,4 +1,4 @@
-<image class="header-img" src="/images/ic_your_life.jpg" mode="widthFix"></image>
+<image class="header-img" src="https://636c-cloud1-3g610zw50df8fd55-1259564738.tcb.qcloud.la/life/%7Fic_your_life.jpg?sign=353a3d40845bc882d3cd54d914092c62&t=1765208603" mode="widthFix"></image>
 <view class="dashboard-container">
   <!-- Loading Overlay -->
   <view class="loading-overlay {{isLoading ? 'show' : ''}}" wx:if="{{isLoading}}">
