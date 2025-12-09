@@ -23,14 +23,81 @@ Page({
       this.getTabBar().updateAdminStatus()
     }
     
-    // 返回时刷新首页数据（利用缓存避免多余开销）
-    this.loadData()
+    // 只有在数据为空或缓存过期时才重新加载
+    if (this.data.loading || this.data.loadError || this.data.featuredAlbums.length === 0) {
+      this.loadData()
+    } else {
+      // 检查缓存是否需要更新
+      this.checkAndUpdateData()
+    }
+  },
+
+  // 检查并更新数据（静默更新，不显示 loading）
+  async checkAndUpdateData() {
+    try {
+      // 检查首页数据缓存
+      const homeDataCached = util.getCache('homeData')
+      const categoriesCached = util.getCache('categories')
+      
+      // 如果缓存都存在且未过期，则不更新
+      if (homeDataCached !== null && categoriesCached !== null) {
+        return
+      }
+      
+      // 静默更新过期的缓存
+      const updatePromises = []
+      
+      if (homeDataCached === null) {
+        updatePromises.push(
+          util.getWithCache('homeData', async () => {
+            const r = await util.callFunction('getHomeData')
+            if (!r.ok) throw new Error(r.message || '加载首页数据失败')
+            return r.data
+          }, 600000)
+        )
+      }
+      
+      if (categoriesCached === null) {
+        updatePromises.push(
+          util.getWithCache('categories', async () => {
+            const r = await util.callFunction('getCategories')
+            if (!r.ok) throw new Error(r.message || '加载分类失败')
+            return r.data
+          }, 60000)
+        )
+      }
+      
+      const results = await Promise.all(updatePromises)
+      
+      // 静默更新页面数据（如果需要的话）
+      if (homeDataCached === null && results[0]) {
+        const { banners, photographer, featuredAlbums } = results[0]
+        this.setData({
+          banners: banners || this.data.banners,
+          photographer: photographer || this.data.photographer,
+          featuredAlbums: featuredAlbums || this.data.featuredAlbums
+        })
+      }
+      
+      if (categoriesCached === null && results[1]) {
+        this.setData({
+          categories: results[1]
+        })
+      }
+      
+    } catch (err) {
+      console.warn('静默更新数据失败:', err)
+      // 静默失败，不影响用户体验
+    }
   },
 
   // 加载首页数据
   async loadData() {
     try {
-      util.showLoading('加载中...')
+      // 只在页面初始加载或错误重试时显示 loading
+      if (this.data.loading || this.data.loadError) {
+        util.showLoading('加载中...')
+      }
       
       // 并行加载首页数据和分类数据
       const [homeDataResult, categoriesResult] = await Promise.all([
@@ -158,7 +225,14 @@ Page({
 
   // 下拉刷新
   onPullDownRefresh() {
+    // 清除缓存，强制重新加载数据
+    util.clearCache('homeData')
+    util.clearCache('categories')
+    
+    // 重新加载数据
     this.loadData().then(() => {
+      wx.stopPullDownRefresh()
+    }).catch(() => {
       wx.stopPullDownRefresh()
     })
   },
