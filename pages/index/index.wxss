@@ -41,9 +41,24 @@
   white-space: nowrap;
 }
 
+/* 隐藏所有滚动条 */
+::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+  background: transparent;
+}
+
+/* 微信小程序隐藏滚动条 */
+scroll-view ::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
 .categories-list {
   display: flex;
-  gap: 48rpx;
+  gap: 36rpx;
   padding: 0 16rpx;
 }
 
